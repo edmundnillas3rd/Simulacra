@@ -1,0 +1,16 @@
+# Build Directories
+/build/
+/bin/
+/out/
+
+# VSCode Directories
+/.vscode/
+
+# Conan Files
+CMakeUserPresets.json
+
+# Files
+*.exe
+*.lib
+*.dll
+*.pdb
