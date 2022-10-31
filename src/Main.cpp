@@ -1,6 +1,7 @@
-#include <iostream>
+#include "Simulacra.h"
 
-int main()
+int main(int argc, char** argv)
 {
+    RunApplication();
     return 0;
 }
