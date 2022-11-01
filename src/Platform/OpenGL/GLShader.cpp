@@ -62,7 +62,7 @@ uint32_t LoadShader(const std::string& vertexPath, const std::string& fragmentPa
     return ID;
 }
 
-void UseShader(uint32_t& id)
+void UseShader(uint32_t id)
 {
     glUseProgram(id);
 }
