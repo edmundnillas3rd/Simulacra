@@ -13,6 +13,7 @@ set(SOURCE_FILES
     "${SRC_DIR}/Platform/OpenGL/GLBuffer.cpp"
     "${SRC_DIR}/Platform/OpenGL/GLBufferLayout.cpp"
     "${SRC_DIR}/Platform/OpenGL/GLShader.cpp"
+    "${SRC_DIR}/Platform/OpenGL/GLTexture.cpp"
 )
 
 set(HEADER_FILES
@@ -24,11 +25,13 @@ set(HEADER_FILES
     "${SRC_DIR}/Platform/OpenGL/GLBuffer.h"
     "${SRC_DIR}/Platform/OpenGL/GLBufferLayout.h"
     "${SRC_DIR}/Platform/OpenGL/GLShader.h"
-
+    "${SRC_DIR}/Platform/OpenGL/GLTexture.h"
 )
 
+add_subdirectory("${CMAKE_SOURCE_DIR}/vendor/glad")
+add_subdirectory("${CMAKE_SOURCE_DIR}/vendor/stb")
+
 find_package(SDL2 CONFIG REQUIRED)
-find_package(glad CONFIG REQUIRED)
 
 add_executable(${PROJECT_NAME}
                "${SOURCE_FILES}"
@@ -40,12 +43,13 @@ set_target_properties(${PROJECT_NAME}
                         RUNTIME_OUTPUT_DIRECTORY "${BIN_DIR}/$<CONFIG>"
 )
 
-target_include_directories(${PROJECT_NAME} PUBLIC "${SRC_DIR}")
+target_include_directories(${PROJECT_NAME} PUBLIC "${SRC_DIR}" "${GLAD_INCLUDE_DIRS}")
 
 set(LIBRARIES
     SDL2::SDL2
     SDL2::SDL2main
-    glad::glad
+    glad
+    stb
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LIBRARIES})
