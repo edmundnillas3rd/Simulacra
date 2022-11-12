@@ -13,6 +13,7 @@ uint32_t CreateBuffer()
 void SetBuffer(void* data, GLsizeiptr size)
 {
     glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+    glCheckError();
 }
 
 void BindBuffer(GLuint VBO)

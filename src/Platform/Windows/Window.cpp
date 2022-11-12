@@ -7,6 +7,10 @@
 #include <SDL_opengl.h>
 
 #include "Platform/OpenGL/OpenGL.h"
+#include "Platform/OpenGL/GLBuffer.h"
+#include "Platform/OpenGL/GLBufferLayout.h"
+#include "Platform/OpenGL/GLTexture.h"
+#include "Platform/OpenGL/GLShader.h"
 
 static SDL_Window* window = nullptr;
 

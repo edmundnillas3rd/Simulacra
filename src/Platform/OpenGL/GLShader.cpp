@@ -1,12 +1,12 @@
 #include "GLShader.h"
 
-#include <glad/glad.h>
-
 #include <iostream>
 #include <fstream>
 #include <sstream>
 
-static void checkCompileErrors(unsigned int shader, std::string type);
+#include "GLDebug.h"
+
+static void CheckCompileErrors(unsigned int shader, std::string type);
 
 uint32_t LoadShader(const std::string& vertexPath, const std::string& fragmentPath, const std::string& geometryPath)
 {
@@ -43,18 +43,18 @@ uint32_t LoadShader(const std::string& vertexPath, const std::string& fragmentPa
     vertex = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex, 1, &vertexSource, nullptr);
     glCompileShader(vertex);
-    checkCompileErrors(vertex, "VERTEX");
+    CheckCompileErrors(vertex, "VERTEX");
 
     fragment = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragment, 1, &fragmentSource, nullptr);
     glCompileShader(fragment);
-    checkCompileErrors(fragment, "FRAGMENT");
+    CheckCompileErrors(fragment, "FRAGMENT");
     
     ID = glCreateProgram();
     glAttachShader(ID, vertex);
     glAttachShader(ID, fragment);
     glLinkProgram(ID);
-    checkCompileErrors(ID, "PROGRAM");
+    CheckCompileErrors(ID, "PROGRAM");
 
     glDeleteShader(vertex);
     glDeleteShader(fragment);
@@ -62,12 +62,19 @@ uint32_t LoadShader(const std::string& vertexPath, const std::string& fragmentPa
     return ID;
 }
 
-void UseShader(uint32_t id)
+void UseShader(GLuint id)
 {
     glUseProgram(id);
+    glCheckError();
 }
 
-static void checkCompileErrors(unsigned int shader, std::string type)
+void SetUniformInt(GLuint program, const GLchar* name, GLint value)
+{
+    glUniform1i(glGetUniformLocation(program, name), value);
+    glCheckError();
+}
+
+static void CheckCompileErrors(unsigned int shader, std::string type)
 {
     int success;
     char infoLog[1024];
