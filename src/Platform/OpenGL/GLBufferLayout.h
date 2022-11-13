@@ -6,10 +6,10 @@
 
 struct BufferLayout
 {
-    uint32_t VAO;
+    GLuint VAO;
 };
 
-uint32_t CreateBufferLayout();
+GLuint CreateBufferLayout();
 void BindBufferLayout(GLuint VAO);
 void SetBufferLayout(GLuint index, GLint size, GLsizei stride, void* pointer);
 void BindVAO(GLuint VAO);

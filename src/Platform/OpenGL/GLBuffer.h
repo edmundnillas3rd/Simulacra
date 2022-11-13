@@ -6,9 +6,9 @@
 
 struct Buffer
 {
-    uint32_t VBO;
+    GLuint VBO;
 };
 
-uint32_t CreateBuffer();
-void SetBuffer(void* data, GLsizeiptr size);
+GLuint CreateBuffer();
+void SetBuffer(void* data, GLsizeiptr GLuintsize);
 void BindBuffer(GLuint VBO);

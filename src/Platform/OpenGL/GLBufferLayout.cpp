@@ -2,9 +2,9 @@
 
 #include "GLDebug.h"
 
-uint32_t CreateBufferLayout()
+GLuint CreateBufferLayout()
 {
-    uint32_t VAO;
+    GLuint VAO;
 
     glGenVertexArrays(1, &VAO);
     glCheckError();

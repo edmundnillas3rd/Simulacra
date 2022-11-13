@@ -2,9 +2,9 @@
 
 #include "GLDebug.h"
 
-uint32_t CreateBuffer()
+GLuint CreateBuffer()
 {
-    uint32_t VBO;
+    GLuint VBO;
     glGenBuffers(1, &VBO);
     glCheckError();
     return VBO;

@@ -6,9 +6,9 @@
 
 struct Shader
 {
-    uint32_t ID;
+    GLuint ID;
 };
 
-uint32_t LoadShader(const std::string& vertexPath, const std::string& fragmentPath, const std::string& geometryPath = "");
+GLuint LoadShader(const std::string& vertexPath, const std::string& fragmentPath, const std::string& geometryPath = "");
 void UseShader(GLuint id);
 void SetUniformInt(GLuint program, const GLchar* name, GLint value);

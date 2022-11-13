@@ -8,9 +8,9 @@
 
 static void CheckCompileErrors(unsigned int shader, std::string type);
 
-uint32_t LoadShader(const std::string& vertexPath, const std::string& fragmentPath, const std::string& geometryPath)
+GLuint LoadShader(const std::string& vertexPath, const std::string& fragmentPath, const std::string& geometryPath)
 {
-    uint32_t ID = 0;
+    GLuint ID = 0;
 
     std::ifstream vertexShaderFile, fragmentShaderFile, geometryShaderFile;
     std::stringstream vertexStream, fragmentStream, geometryStream;
@@ -39,7 +39,7 @@ uint32_t LoadShader(const std::string& vertexPath, const std::string& fragmentPa
     const char* vertexSource = vertexCode.c_str();
     const char* fragmentSource = fragmentCode.c_str();
 
-    uint32_t vertex, fragment;
+    GLuint vertex, fragment;
     vertex = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex, 1, &vertexSource, nullptr);
     glCompileShader(vertex);

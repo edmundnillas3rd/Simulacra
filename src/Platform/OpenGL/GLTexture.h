@@ -9,10 +9,10 @@
 
 struct Texture
 {
-    uint32_t ID;
+    GLuint ID;
 };
 
-uint32_t CreateTexture();
+GLuint CreateTexture();
 void LoadTexture(const std::string& path);
 void BindTexture(GLuint texture);
 void SetTextureParams(GLenum pname, GLint param);

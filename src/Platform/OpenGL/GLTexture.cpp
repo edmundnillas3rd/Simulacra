@@ -4,7 +4,7 @@
 
 #include "GLDebug.h"
 
-uint32_t CreateTexture()
+GLuint CreateTexture()
 {
     GLuint texture = 0;
     glGenTextures(1, &texture);
