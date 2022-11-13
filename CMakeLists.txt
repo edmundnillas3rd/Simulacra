@@ -43,7 +43,7 @@ set_target_properties(${PROJECT_NAME}
                         RUNTIME_OUTPUT_DIRECTORY "${BIN_DIR}/$<CONFIG>"
 )
 
-target_include_directories(${PROJECT_NAME} PUBLIC "${SRC_DIR}" "${GLAD_INCLUDE_DIRS}")
+target_include_directories(${PROJECT_NAME} PUBLIC "${SRC_DIR}")
 
 set(LIBRARIES
     SDL2::SDL2
