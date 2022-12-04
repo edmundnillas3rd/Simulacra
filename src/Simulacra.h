@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "Core/Application.h"
+#include "Platform/OpenGL/GLDebug.h"
 #include "Platform/OpenGL/GLBuffer.h"
 #include "Platform/OpenGL/GLBufferLayout.h"
 #include "Platform/OpenGL/GLShader.h"
