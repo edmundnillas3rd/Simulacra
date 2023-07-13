@@ -4,13 +4,19 @@ class Application : public Simulacra
 {
 public:
     Application()
-        : vertices {
+    {
+        std::cout << "Application Object Created" << std::endl;
+
+        float vertices[] =  {
              0.0f,  0.5f, 1.0f, 0.5f, 1.0f,
              0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
             -0.5f, -0.5f, 1.0f, 1.0f, 0.0f
-        }
-    {
-        std::cout << "Application Object Created" << std::endl;
+        };
+
+        unsigned int indices[] = {
+            0, 1, 3,
+            1, 2, 3
+        };
 
         shader.ID = LoadShader("assets/shaders/vertex.vs", "assets/shaders/fragment.fs");
 
@@ -62,7 +68,6 @@ public:
     }
 
 private:
-    float vertices[15];
     Buffer buffer;
     BufferLayout bufferLayout;
     Texture texture;
