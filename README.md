@@ -11,7 +11,7 @@ Personally used for game development, visualizing data, and algorithms.
 ```
 $ mkdir build
 $ cd build
-$ conan install .. --profile <debug_profile> --build=missing
+$ conan install .. --ouptput-folder=build --profile=<debug_profile> --build=missing
 ```
 
 
