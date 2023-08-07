@@ -2,16 +2,15 @@
 
 namespace Simulacra 
 {
+    struct SDLProps
+    {
+        SDL_Window* window = nullptr;
+        SDL_Renderer* renderer = nullptr;
+    };
+
     static SDLProps s_SDLProps;
     bool InitializeSDL(const std::string& title, const uint32_t width, const uint32_t height)
     {
-
-        s_SDLProps.title = title;
-        s_SDLProps.x = SDL_WINDOWPOS_UNDEFINED;
-        s_SDLProps.y = SDL_WINDOWPOS_UNDEFINED;
-        s_SDLProps.width = width;
-        s_SDLProps.height = height;
-
         uint32_t sdlFlags = 0;
         sdlFlags |= SDL_INIT_VIDEO;
         sdlFlags |= SDL_INIT_AUDIO;
@@ -25,11 +24,11 @@ namespace Simulacra
         windowFlags |= SDL_WINDOW_SHOWN;
         windowFlags |= SDL_WINDOW_RESIZABLE;
         s_SDLProps.window = SDL_CreateWindow(
-            s_SDLProps.title.c_str(),
-            s_SDLProps.x,
-            s_SDLProps.y,
-            s_SDLProps.width,
-            s_SDLProps.height,
+            title.c_str(),
+            SDL_WINDOWPOS_UNDEFINED,
+            SDL_WINDOWPOS_UNDEFINED,
+            width,
+            height,
             windowFlags
         );
 
