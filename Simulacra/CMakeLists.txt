@@ -9,9 +9,8 @@ set(SOURCE_FILES
     "${SRC_DIR}/Application.cpp"
     "${SRC_DIR}/Window.cpp"
     "${SRC_DIR}/Platform/SDL2/SDL2.cpp"
+    "${API_DIR}/spch.cpp"
 )
-
-# set(HEADER_FILES)
 
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/glad")
 # add_subdirectory("${CMAKE_SOURCE_DIR}/vendor/stb")
@@ -46,3 +45,9 @@ set(LIBRARIES
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LIBRARIES})
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+
+target_precompile_headers(
+    ${PROJECT_NAME}
+    PUBLIC
+    "$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/spch.h>"
+)

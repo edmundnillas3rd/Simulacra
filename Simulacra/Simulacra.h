@@ -1,11 +1,3 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <functional>
-#include <vector>
-#include <memory>
-#include <algorithm>
-
 // Simulacra Header files
 #include "src/Application.h"
 
