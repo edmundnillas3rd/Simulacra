@@ -3,8 +3,15 @@
 namespace Simulacra 
 {
     static SDLProps s_SDLProps;
-    bool InitializeSDL()
+    bool InitializeSDL(const std::string& title, const uint32_t width, const uint32_t height)
     {
+
+        s_SDLProps.title = title;
+        s_SDLProps.x = SDL_WINDOWPOS_UNDEFINED;
+        s_SDLProps.y = SDL_WINDOWPOS_UNDEFINED;
+        s_SDLProps.width = width;
+        s_SDLProps.height = height;
+
         uint32_t sdlFlags = 0;
         sdlFlags |= SDL_INIT_VIDEO;
         sdlFlags |= SDL_INIT_AUDIO;
@@ -46,10 +53,12 @@ namespace Simulacra
 
     void ClearSDLWindowBuffer()
     {
-
+        SDL_RenderClear(s_SDLProps.renderer);
+        SDL_SetRenderDrawColor(s_SDLProps.renderer, 125, 100, 75, SDL_ALPHA_OPAQUE);
+        SDL_RenderPresent(s_SDLProps.renderer);
     }
 
-    void PollSDLEvents()
+    void PollSDLEvents(const std::function<void(Event)>& fn)
     {
         SDL_Event event;
         while (SDL_PollEvent(&event))
@@ -57,8 +66,10 @@ namespace Simulacra
             switch (event.type)
             {
             case SDL_QUIT:
+                fn(Event::SIMULACRA_EXIT);
                 break;
             case SDL_WINDOWEVENT:
+                fn(Event::SIMULACRA_WINDOW_EVENT);
                 break;
             }
         }
