@@ -6,6 +6,7 @@
 #include "Event.h"
 #include "Window.h"
 #include "Log.h"
+#include "Layer.h"
 
 namespace Simulacra
 {
@@ -16,6 +17,9 @@ namespace Simulacra
         uint32_t width;
         uint32_t height;
         bool running;
+        Event event;
+        
+        std::vector<std::unique_ptr<Layer>> layerStack;
     };
 
 
@@ -26,6 +30,9 @@ namespace Simulacra
     static void PollEvents();
 
     auto callbackFn = [](Event event) -> void {
+
+        s_State.event = event;
+
         switch (event)
         {
         case Event::SIMULACRA_EXIT:
@@ -50,14 +57,43 @@ namespace Simulacra
         }
 
         StartApplication();
+
+        for (const auto& layer : s_State.layerStack)
+        {
+            layer->OnStart();
+        }
+
         while (s_State.running)
         {
             PollEvents();
+
+            for (const auto& layer : s_State.layerStack)
+            {
+                layer->OnEvent(s_State.event);
+            }
+
             if (!s_State.running) break;
 
             ClearWindowBuffer(s_State.window);
+
+            for (const auto& layer : s_State.layerStack)
+            {
+                layer->OnUpdate();
+                layer->OnRender();
+            }
         }
+
         ShutdownApplication();
+    }
+
+    void PushLayer(Layer* layer)
+    {
+        s_State.layerStack.emplace_back(layer);
+    }
+
+    void PopLayer()
+    {
+        s_State.layerStack.pop_back();
     }
 
     static void StartApplication()
