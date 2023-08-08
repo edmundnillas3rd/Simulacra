@@ -2,6 +2,8 @@
 
 #include <glad/glad.h>
 
+#include "Log.h"
+
 namespace Simulacra 
 {
     struct SDLProps
@@ -56,6 +58,16 @@ namespace Simulacra
 
         gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress);
 
+        SIM_LOG_INFO(
+            "\n"
+            "Vendor: {}\n"
+            "Renderer: {}\n"
+            "Version: {}\n",
+            reinterpret_cast<const char*>(glGetString(GL_VENDOR)),
+            reinterpret_cast<const char*>(glGetString(GL_RENDERER)),
+            reinterpret_cast<const char*>(glGetString(GL_VERSION))
+        );
+        
         uint32_t rendererFlags = 0;
         rendererFlags |= SDL_RENDERER_ACCELERATED;
         rendererFlags |= SDL_RENDERER_PRESENTVSYNC;
