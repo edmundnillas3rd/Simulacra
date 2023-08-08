@@ -5,7 +5,8 @@ set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 set(BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 
 set(SOURCE_FILES
-    "${SRC_DIR}/Main.cpp"
+    "${SRC_DIR}/Sandbox.cpp"
+    "${SRC_DIR}/Sandbox2D.cpp"
 )
 
 add_executable(
@@ -21,3 +22,4 @@ set_target_properties(
 
 target_link_libraries(${PROJECT_NAME} PUBLIC Simulacra)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+target_include_directories(${PROJECT_NAME} PUBLIC ${SRC_DIR})
