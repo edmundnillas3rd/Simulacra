@@ -7,26 +7,11 @@ namespace Simulacra
     struct ApplicationArgs
     {
         std::string name;
+        std::function<void()> submit;
     };
-    
 
-    class Application
-    {
-    public:
-        Application(ApplicationArgs args)
-            : m_Args(args)
-        {
+    using Application = ApplicationArgs;
 
-        }
-        
-        virtual ~Application() = default;
-
-        ApplicationArgs GetApplicationArgs() { return m_Args; }
-
-    private:
-        ApplicationArgs m_Args;
-    };
-    
     void RunApplication(const char* title);
 
     void PushLayer(Layer* layer);
