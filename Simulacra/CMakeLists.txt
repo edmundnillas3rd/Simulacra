@@ -10,6 +10,7 @@ set(SOURCE_FILES
     "${SRC_DIR}/Log.cpp"
     "${SRC_DIR}/Window.cpp"
     "${SRC_DIR}/Platform/SDL2/SDL2.cpp"
+    "${SRC_DIR}/Platform/OpenGL/Shader.cpp"
     "${API_DIR}/spch.cpp"
 )
 

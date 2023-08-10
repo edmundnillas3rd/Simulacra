@@ -12,6 +12,7 @@ namespace Simulacra
 {
     struct ApplicationState
     {
+        Application* instance;
         bool running;
         
         Window window;
@@ -41,16 +42,18 @@ namespace Simulacra
         }
     };
 
-    void RunApplication(const char* title)
+    void RunApplication(Application* app)
     {
-        s_State.window = CreateWindow(title, 1280, 768, callbackFn);
+        s_State.window = CreateWindow(app->name, 1280, 768, callbackFn);
 
         if (s_State.window.platform == Window::Platform::NONE)
         {
             return;
         }
 
-        SIM_LOG_INFO("Application Name: {}", title);
+        s_State.instance = app;
+
+        SIM_LOG_INFO("Application Name: {}", app->name);
 
         StartApplication();
 
@@ -61,7 +64,6 @@ namespace Simulacra
             {
                 for (const auto& layer : s_State.layerStack)
                     layer->OnEvent(s_State.event);
-
             }
 
             if (!s_State.running) break;
@@ -101,6 +103,8 @@ namespace Simulacra
         {
             s_State.running = true;
         }
+
+        s_State.instance->submit();
     }
 
     static void PollEvents()

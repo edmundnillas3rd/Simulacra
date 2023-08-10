@@ -1,13 +1,22 @@
 #include "Sandbox2D.h"
 
+Sandbox2D::Sandbox2D()
+{
+    Simulacra::LoadShader({
+        "assets/shaders/default.glsl"
+    });
+}
+
+Sandbox2D::~Sandbox2D()
+{
+}
+
 void Sandbox2D::OnUpdate()
 {
-    std::cout << "Updating...\n";
 }
 
 void Sandbox2D::OnRender()
 {
-    std::cout << "Rendering...\n";
 }
 
 void Sandbox2D::OnEvent(Simulacra::Event event)

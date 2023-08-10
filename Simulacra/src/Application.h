@@ -12,7 +12,7 @@ namespace Simulacra
 
     using Application = ApplicationArgs;
 
-    void RunApplication(const char* title);
+    void RunApplication(Application* app);
 
     void PushLayer(Layer* layer);
     void PopLayer();

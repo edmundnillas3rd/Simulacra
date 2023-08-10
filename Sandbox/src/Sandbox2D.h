@@ -5,8 +5,8 @@
 class Sandbox2D : public Simulacra::Layer
 {
 public:
-    Sandbox2D() = default;
-    virtual ~Sandbox2D() = default;
+    Sandbox2D();
+    virtual ~Sandbox2D();
 
     void OnUpdate() override;
     void OnRender() override;
