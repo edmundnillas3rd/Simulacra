@@ -1,12 +1,11 @@
 #pragma once
 #include "Application.h"
 
-extern Simulacra::Layer* CreateApplication();
+extern Simulacra::Application* CreateApplication();
 
 int main(int argc, char* argv[])
 {
     auto app = CreateApplication();
-    Simulacra::RunApplication("Super Mario Bros", 1280, 366);
-    delete app;
+    Simulacra::RunApplication(app, app->GetApplicationArgs().name.c_str());
     return 0;
 }

@@ -12,11 +12,10 @@ namespace Simulacra
 {
     struct ApplicationState
     {
-        Window window;
-        std::string title;
-        uint32_t width;
-        uint32_t height;
+        Application* instance;
         bool running;
+        
+        Window window;
         Event event;
         
         std::vector<std::unique_ptr<Layer>> layerStack;
@@ -43,18 +42,17 @@ namespace Simulacra
         }
     };
 
-    void RunApplication(const char* title, uint32_t width, uint32_t height)
+    void RunApplication(Application* instance, const char* title)
     {
-        s_State.title = title;
-        s_State.width = width;
-        s_State.height = height;
-
-        s_State.window = CreateWindow(title, width, height, callbackFn);
+        s_State.instance = instance;
+        s_State.window = CreateWindow(title, 1280, 768, callbackFn);
 
         if (s_State.window.platform == Window::Platform::NONE)
         {
             return;
         }
+
+        SIM_LOG_INFO("Application Name: {}", title);
 
         StartApplication();
 
@@ -113,6 +111,7 @@ namespace Simulacra
 
     static void ShutdownApplication()
     {
+        delete s_State.instance;
         ShutdownWindow(s_State.window);
     }
 }

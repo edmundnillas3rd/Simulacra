@@ -3,10 +3,11 @@
 
 #include "Sandbox2D.h"
 
-class Sandbox : public Simulacra::Layer
+class Sandbox : public Simulacra::Application
 {
 public:
-    Sandbox()
+    Sandbox(Simulacra::ApplicationArgs args)
+        : Simulacra::Application(args)
     {
         Simulacra::PushLayer(new Sandbox2D());
     }
@@ -17,7 +18,9 @@ public:
     }
 };
 
-Simulacra::Layer* CreateApplication()
+Simulacra::Application* CreateApplication()
 {
-    return new Sandbox();
+    Simulacra::ApplicationArgs args;
+    args.name = "This is a new game title";
+    return new Sandbox(args);
 }
