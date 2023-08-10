@@ -9,10 +9,8 @@ namespace Simulacra
         Layer()             = default;
         virtual ~Layer()    = default;
 
-        virtual void OnStart() {};
         virtual void OnUpdate() {};
         virtual void OnEvent(Event event) {};
         virtual void OnRender() {};
-        virtual void OnEnd() {};
     };
 }

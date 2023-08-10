@@ -1,9 +1,5 @@
 #include "Sandbox2D.h"
 
-void Sandbox2D::OnStart()
-{
-}
-
 void Sandbox2D::OnUpdate()
 {
     std::cout << "Updating...\n";

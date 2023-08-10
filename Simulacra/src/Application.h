@@ -27,7 +27,7 @@ namespace Simulacra
         ApplicationArgs m_Args;
     };
     
-    void RunApplication(Application* instance, const char* title);
+    void RunApplication(const char* title);
 
     void PushLayer(Layer* layer);
     void PopLayer();

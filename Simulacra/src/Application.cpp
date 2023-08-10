@@ -12,7 +12,6 @@ namespace Simulacra
 {
     struct ApplicationState
     {
-        Application* instance;
         bool running;
         
         Window window;
@@ -42,9 +41,8 @@ namespace Simulacra
         }
     };
 
-    void RunApplication(Application* instance, const char* title)
+    void RunApplication(const char* title)
     {
-        s_State.instance = instance;
         s_State.window = CreateWindow(title, 1280, 768, callbackFn);
 
         if (s_State.window.platform == Window::Platform::NONE)
@@ -56,29 +54,30 @@ namespace Simulacra
 
         StartApplication();
 
-        for (const auto& layer : s_State.layerStack)
-        {
-            layer->OnStart();
-        }
-
         while (s_State.running)
         {
             PollEvents();
 
-            for (const auto& layer : s_State.layerStack)
             {
-                layer->OnEvent(s_State.event);
+                for (const auto& layer : s_State.layerStack)
+                    layer->OnEvent(s_State.event);
+
             }
 
             if (!s_State.running) break;
 
-            ClearWindowBuffer(s_State.window);
-
-            for (const auto& layer : s_State.layerStack)
             {
-                layer->OnUpdate();
-                layer->OnRender();
+                for (const auto& layer : s_State.layerStack)
+                    layer->OnUpdate();
             }
+
+
+            {
+                for (const auto& layer : s_State.layerStack)
+                    layer->OnRender();
+            }
+
+            ClearWindowBuffer(s_State.window);
         }
 
         ShutdownApplication();
@@ -111,7 +110,6 @@ namespace Simulacra
 
     static void ShutdownApplication()
     {
-        delete s_State.instance;
         ShutdownWindow(s_State.window);
     }
 }
