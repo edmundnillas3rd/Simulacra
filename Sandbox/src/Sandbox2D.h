@@ -11,4 +11,7 @@ public:
     void OnUpdate() override;
     void OnRender() override;
     void OnEvent(Simulacra::Event event) override;
+
+private:
+    Simulacra::Shader m_Shader;
 };

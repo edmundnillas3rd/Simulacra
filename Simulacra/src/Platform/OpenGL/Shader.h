@@ -1,6 +1,13 @@
 #pragma once
 
+#include <glad/glad.h>
+
 namespace Simulacra
 {
-    void LoadShader(std::vector<std::string> paths);
+    struct Shader
+    {
+        std::vector<GLuint> IDs;
+    };
+
+    Shader LoadShader(std::vector<std::string> paths);
 }

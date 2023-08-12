@@ -2,8 +2,8 @@
 
 Sandbox2D::Sandbox2D()
 {
-    Simulacra::LoadShader({
-        "assets/shaders/default.glsl"
+    m_Shader = Simulacra::LoadShader({
+        "assets/shaders/default.glsl",
     });
 }
 
