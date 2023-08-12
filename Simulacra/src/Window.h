@@ -28,7 +28,7 @@ namespace Simulacra
     };
 
     Window CreateWindow(const std::string& title, uint32_t width, uint32_t height, CallbackFn callback);
-    bool StartWindow(Window window);
+    bool StartWindow(const char* path, Window window);
     void PollWindowEvents(Window window);
     void ClearWindowBuffer(Window window);
     void ShutdownWindow(Window window);

@@ -1,6 +1,7 @@
 #include "Shader.h"
 
 #include "Log.h"
+#include "src/Platform/Windows/FileSystem.h"
 
 namespace Simulacra
 {
@@ -24,7 +25,9 @@ namespace Simulacra
             std::string shaderSource;
             std::ifstream shaderSourceFile;
 
-            shaderSourceFile.open(paths[pathIndex].c_str(), std::ios::in);
+            std::string shaderPath = filesystem.cwd + paths[pathIndex];
+
+            shaderSourceFile.open(shaderPath.c_str(), std::ios::in);
 
             if (!shaderSourceFile.is_open())
                 SIM_LOG_ERROR("Unable to locate shader file!");

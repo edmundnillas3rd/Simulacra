@@ -10,8 +10,9 @@ static void Sandbox()
 
 Simulacra::Application* CreateApplication()
 {
-    Simulacra::Application* args = new Simulacra::Application();
-    args->name = "This is a new game title";
-    args->submit = Sandbox;
-    return args;
+    Simulacra::Application* app = new Simulacra::Application();
+    app->name = "This is a new game title";
+    app->path = "../../Sandbox";
+    app->submit = Sandbox;
+    return app;
 }

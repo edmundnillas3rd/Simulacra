@@ -7,6 +7,7 @@ namespace Simulacra
     struct ApplicationArgs
     {
         std::string name;
+        std::string path;
         std::function<void()> submit;
     };
 

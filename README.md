@@ -4,9 +4,11 @@ A in-house rendering engine for the implementation of rendering algorithms speci
 
 Personally used for game development, visualizing data, and algorithms.
 
-![Demo](assets/images/demo-1.png)
+![Demo](Sandbox/assets/images/demo-1.png)
 
 # Installation
+
+<debug_profile> is the conan profile set to debug mode
 
 ```
 $ mkdir build

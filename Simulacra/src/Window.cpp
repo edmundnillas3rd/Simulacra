@@ -1,6 +1,7 @@
 #include "Window.h"
 
 #include "Platform/SDL2/SDL2.h"
+#include "Platform/Windows/FileSystem.h"
 
 namespace Simulacra
 {
@@ -24,12 +25,13 @@ namespace Simulacra
         return window;
     }
 
-    bool StartWindow(Window window)
+    bool StartWindow(const char* path, Window window)
     {
         bool success = false;
         switch (window.platform)
         {
         case Window::Platform::LINUX:
+            SetCWDPath(path);
             success = InitializeSDL(window.title.c_str(), window.width, window.height);
             break;
         default:

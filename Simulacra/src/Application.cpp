@@ -1,6 +1,5 @@
 #include "Application.h"
 
-#include <string>
 #include <SDL2/SDL.h>
 
 #include "Event.h"
@@ -97,7 +96,7 @@ namespace Simulacra
 
     static void StartApplication()
     {
-        bool success = StartWindow(s_State.window);
+        bool success = StartWindow(s_State.instance->path.c_str(), s_State.window);
 
         if (success)
         {
