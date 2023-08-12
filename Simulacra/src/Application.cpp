@@ -77,7 +77,6 @@ namespace Simulacra
                     layer->OnUpdate(deltaTime);
             }
 
-
             {
                 for (const auto& layer : s_State.layerStack)
                     layer->OnRender();
