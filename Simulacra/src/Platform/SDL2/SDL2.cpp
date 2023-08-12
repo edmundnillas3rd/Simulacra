@@ -89,9 +89,9 @@ namespace Simulacra
 
     void ClearSDLWindowBuffer()
     {
+        SDL_GL_SwapWindow(s_SDLProps.window);
         glClearColor(0.0f, 0.5f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        SDL_GL_SwapWindow(s_SDLProps.window);
     }
 
     void PollSDLEvents(const std::function<void(Event)>& fn)
