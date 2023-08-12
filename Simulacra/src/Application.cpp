@@ -56,8 +56,13 @@ namespace Simulacra
 
         StartApplication();
 
+        float previousFrame = 0.0f;
+
         while (s_State.running)
         {
+            float deltaTime = ((float)SDL_GetTicks64() / 1000.0f) - previousFrame;
+            previousFrame = (float)SDL_GetTicks64() / 1000.0f;
+
             PollEvents();
 
             {
@@ -69,7 +74,7 @@ namespace Simulacra
 
             {
                 for (const auto& layer : s_State.layerStack)
-                    layer->OnUpdate();
+                    layer->OnUpdate(deltaTime);
             }
 
 
