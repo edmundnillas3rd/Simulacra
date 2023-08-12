@@ -8,16 +8,22 @@ namespace Simulacra
     struct ShaderSource
     {
         std::string vertex;
+        std::string tessellation;
         std::string fragment;
     };
+
+    static bool tessellation = false;
+    static bool geometry = false;
 
     static ShaderSource SplitShaderFile(const std::string& shaderSource);
     static void GetCompileStatus(GLuint program, GLenum type);
     static void GetLinkingStatus(GLuint program);
 
-    Shader LoadShader(std::vector<std::string> paths)
+    Shader LoadShader(std::vector<std::string> paths, bool tess)
     {
         Shader shader;
+
+        tessellation = tess;
 
         const size_t PATH_SIZE = paths.size();
         std::string source[PATH_SIZE];
@@ -63,13 +69,36 @@ namespace Simulacra
 
             shader.IDs.push_back(glCreateProgram());
             glAttachShader(shader.IDs[pathIndex], vs);
+
+            // Tesselation
+            // TODO: tessellation compiling may change, as I
+            // have no idea if this is the right way of compiling tess control
+            // shaders
+            GLuint ts = 0;
+            if (tessellation)
+            {
+                const GLchar* tessellationShaderSource = src.tessellation.c_str();
+                glShaderSource(ts, 1, &tessellationShaderSource, nullptr);
+                glCompileShader(ts);
+
+                ts = glCreateShader(GL_TESS_CONTROL_SHADER); 
+                GetCompileStatus(ts, GL_TESS_CONTROL_SHADER);
+                glAttachShader(shader.IDs[pathIndex], ts);
+            }
+
             glAttachShader(shader.IDs[pathIndex], fs);
+
             glLinkProgram(shader.IDs[pathIndex]);
 
             GetLinkingStatus(shader.IDs[pathIndex]);
 
             glDeleteShader(vs);
+
+            if (tessellation)
+                glDeleteShader(ts);
+
             glDeleteShader(fs);
+
         }
 
         return shader;
@@ -79,13 +108,14 @@ namespace Simulacra
     {
         std::string shaderStr;
         std::stringstream ss(shaderSource);
-        std::stringstream shaderSS[2];
+        std::stringstream shaderSS[3];
 
         enum class ShaderType 
         {
             NONE = -1,
             VERTEX = 0,
-            FRAGMENT = 1
+            TESSELLATION = 1,
+            FRAGMENT = 2
         };
 
         ShaderType type = ShaderType::NONE;
@@ -98,6 +128,10 @@ namespace Simulacra
                 {
                     type = ShaderType::VERTEX;
                 }
+                else if (shaderStr.find("tessellation") != std::string::npos)
+                {
+                    type = ShaderType::TESSELLATION;
+                }
                 else if (shaderStr.find("fragment") != std::string::npos)
                 {
                     type = ShaderType::FRAGMENT;
@@ -109,12 +143,18 @@ namespace Simulacra
             }
         }
 
-        return { shaderSS[0].str(), shaderSS[1].str() };
+        return { shaderSS[0].str(), shaderSS[1].str(), shaderSS[2].str() };
     }
 
     static void GetCompileStatus(GLuint program, GLenum type)
     {
         std::string shader = type == GL_VERTEX_SHADER ? "VERTEX" : "FRAGMENT";
+
+        if (type == GL_TESS_CONTROL_SHADER)
+        {
+            shader = "TESSELATION";
+        }
+
         GLint success = -1;
         glGetShaderiv(program, GL_COMPILE_STATUS, &success);
         if (success)
@@ -130,7 +170,7 @@ namespace Simulacra
             glGetShaderInfoLog(program, logLength, nullptr, msg);
 
             std::string fmtMsg = msg;
-            SIM_LOG_ERROR("{} COMPILE ERROR: \n{}", shader,fmtMsg);
+            SIM_LOG_ERROR("{} COMPILE ERROR: \n{}", shader, fmtMsg);
         }
     }
 
