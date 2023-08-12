@@ -29,6 +29,7 @@ add_library(
 set_target_properties(
     ${PROJECT_NAME}
     PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${BIN_DIR}/$<CONFIG>"
     LIBRARY_OUTPUT_DIRECTORY "${BIN_DIR}/$<CONFIG>"
 )
 
