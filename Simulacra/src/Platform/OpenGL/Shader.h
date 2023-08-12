@@ -9,5 +9,5 @@ namespace Simulacra
         std::vector<GLuint> IDs;
     };
 
-    Shader LoadShader(std::vector<std::string> paths, bool tess = false);
+    Shader LoadShader(std::vector<std::string> paths, bool tessellation = false, bool geometry = false);
 }
