@@ -7,7 +7,7 @@ Sandbox2D::Sandbox2D()
     m_Shader = Simulacra::LoadShader({
         "assets/shaders/default.glsl",
         "assets/shaders/user-define.glsl"
-    }, true, true);
+    });
 
     glCreateVertexArrays(1, &m_VAO);
     glBindVertexArray(m_VAO);
@@ -38,12 +38,10 @@ void Sandbox2D::OnUpdate(float deltaTime)
 
     glClearBufferfv(GL_COLOR, 0, bg);
 
-    glUseProgram(m_Shader.IDs[0]);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glUseProgram(m_Shader.IDs[1]);
     glVertexAttrib4fv(0, attrib);
     glVertexAttrib4fv(1, attrib);
-    glPointSize(5.0f);
-    glDrawArrays(GL_PATCHES, 0, 3);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
 void Sandbox2D::OnRender()

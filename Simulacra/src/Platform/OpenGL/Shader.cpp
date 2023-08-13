@@ -14,11 +14,11 @@ namespace Simulacra
         std::string fragment;
     };
 
-    static ShaderSource SplitShaderFile(const std::string& shaderSource);
+    static ShaderSource ParseShaderFile(const std::string& shaderSource);
     static void GetCompileStatus(GLuint program, GLenum type);
     static void GetLinkingStatus(GLuint program);
 
-    Shader LoadShader(std::vector<std::string> paths, bool tessellation, bool geometry)
+    Shader LoadShader(std::vector<std::string> paths)
     {
         Shader shader;
 
@@ -46,7 +46,7 @@ namespace Simulacra
 
             shaderSourceFile.close();
 
-            ShaderSource src = SplitShaderFile(source[pathIndex]);
+            ShaderSource src = ParseShaderFile(source[pathIndex]);
 
             const GLchar* vertexShaderSource = src.vertex.c_str();
             const GLchar* fragmentShaderSource = src.fragment.c_str();
@@ -71,7 +71,7 @@ namespace Simulacra
             // Tessellation
             GLuint tsc = 0;
             GLuint tse = 0;
-            tessellation = tessellation && !src.tessellationCtrl.empty() && !src.tessellationEval.empty();
+            bool tessellation = !src.tessellationCtrl.empty() && !src.tessellationEval.empty();
             if (tessellation)
             {
                 const GLchar* tessellationCtrlShaderSource = src.tessellationCtrl.c_str();
@@ -93,7 +93,7 @@ namespace Simulacra
 
             // Geometry
             GLuint gs = 0;
-            geometry = geometry && !src.geometry.empty();
+            bool geometry = !src.geometry.empty();
             if (geometry)
             {
                 const GLchar* geometryShaderSource = src.geometry.c_str();
@@ -128,7 +128,7 @@ namespace Simulacra
         return shader;
     }
 
-    static ShaderSource SplitShaderFile(const std::string& shaderSource)
+    static ShaderSource ParseShaderFile(const std::string& shaderSource)
     {
         std::string shaderStr;
         std::stringstream ss(shaderSource);
