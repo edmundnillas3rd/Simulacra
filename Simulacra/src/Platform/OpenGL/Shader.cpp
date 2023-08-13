@@ -70,6 +70,7 @@ namespace Simulacra
             // Tessellation
             GLuint tsc = 0;
             GLuint tse = 0;
+            tessellation = tessellation && !src.tessellationCtrl.empty() && !src.tessellationEval.empty();
             if (tessellation)
             {
                 const GLchar* tessellationCtrlShaderSource = src.tessellationCtrl.c_str();
@@ -91,6 +92,7 @@ namespace Simulacra
 
             // Geometry
             GLuint gs = 0;
+            geometry = geometry && !src.geometry.empty();
             if (geometry)
             {
                 const GLchar* geometryShaderSource = src.geometry.c_str();
@@ -166,6 +168,10 @@ namespace Simulacra
                 else if (shaderStr.find("fragment") != std::string::npos)
                 {
                     type = ShaderType::FRAGMENT;
+                }
+                else
+                {
+                    type = ShaderType::NONE;
                 }
             }
             else

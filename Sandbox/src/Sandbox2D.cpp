@@ -6,6 +6,7 @@ Sandbox2D::Sandbox2D()
 {
     m_Shader = Simulacra::LoadShader({
         "assets/shaders/default.glsl",
+        "assets/shaders/user-define.glsl"
     }, true, true);
 
     glCreateVertexArrays(1, &m_VAO);
