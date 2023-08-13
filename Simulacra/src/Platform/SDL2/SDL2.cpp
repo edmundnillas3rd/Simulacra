@@ -106,6 +106,14 @@ namespace Simulacra
                 break;
             case SDL_WINDOWEVENT:
                 fn(Event::SIMULACRA_WINDOW_EVENT);
+                if (event.type == SDL_WINDOWEVENT_RESIZED)
+                {
+                    int w, h;
+                    SDL_GetWindowSize(s_SDLProps.window, &w, &h);
+                    glViewport(0, 0, w, h);
+                    fn(Event::SIMULACRA_WINDOW_RESIZE_EVENT);
+                }
+
                 break;
             }
         }
