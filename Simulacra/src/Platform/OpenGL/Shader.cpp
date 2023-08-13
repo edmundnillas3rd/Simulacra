@@ -10,6 +10,7 @@ namespace Simulacra
         std::string vertex;
         std::string tessellationCtrl;
         std::string tessellationEval;
+        std::string geometry;
         std::string fragment;
     };
 
@@ -66,6 +67,7 @@ namespace Simulacra
             shader.IDs.push_back(glCreateProgram());
             glAttachShader(shader.IDs[pathIndex], vs);
 
+            // Tessellation
             GLuint tsc = 0;
             GLuint tse = 0;
             if (tessellation)
@@ -87,10 +89,22 @@ namespace Simulacra
                 glAttachShader(shader.IDs[pathIndex], tse);
             }
 
+            // Geometry
+            GLuint gs = 0;
+            if (geometry)
+            {
+                const GLchar* geometryShaderSource = src.geometry.c_str();
+                gs = glCreateShader(GL_GEOMETRY_SHADER);
+                glShaderSource(gs, 1, &geometryShaderSource, nullptr);
+                glCompileShader(gs);
+
+                GetCompileStatus(gs, GL_GEOMETRY_SHADER);
+                glAttachShader(shader.IDs[pathIndex], gs);
+            }
+
             glAttachShader(shader.IDs[pathIndex], fs);
 
             glLinkProgram(shader.IDs[pathIndex]);
-
             GetLinkingStatus(shader.IDs[pathIndex]);
 
             glDeleteShader(vs);
@@ -100,6 +114,9 @@ namespace Simulacra
                 glDeleteShader(tsc);
                 glDeleteShader(tse);
             }
+
+            if (geometry)
+                glDeleteShader(gs);
 
             glDeleteShader(fs);
 
@@ -112,7 +129,7 @@ namespace Simulacra
     {
         std::string shaderStr;
         std::stringstream ss(shaderSource);
-        std::stringstream shaderSS[4];
+        std::stringstream shaderSS[5];
 
         enum class ShaderType 
         {
@@ -120,7 +137,8 @@ namespace Simulacra
             VERTEX = 0,
             TESSELLATION_CTRL = 1,
             TESSELLATION_EVAL = 2,
-            FRAGMENT = 3
+            GEOMETRY = 3,
+            FRAGMENT = 4
         };
 
         ShaderType type = ShaderType::NONE;
@@ -141,6 +159,10 @@ namespace Simulacra
                 {
                     type = ShaderType::TESSELLATION_EVAL;
                 }
+                else if (shaderStr.find("geometry") != std::string::npos)
+                {
+                    type = ShaderType::GEOMETRY;
+                }
                 else if (shaderStr.find("fragment") != std::string::npos)
                 {
                     type = ShaderType::FRAGMENT;
@@ -155,8 +177,9 @@ namespace Simulacra
         return { 
             shaderSS[0].str(), 
             shaderSS[1].str(), 
-            shaderSS[2].str(), 
-            shaderSS[3].str() 
+            shaderSS[2].str(),
+            shaderSS[3].str(),
+            shaderSS[4].str()
         };
     }
 
@@ -168,6 +191,10 @@ namespace Simulacra
         {
             std::string prefix = type == GL_TESS_CONTROL_SHADER ? "CONTROL" : "EVALUATION";
             shader = "TESSELATION " + prefix;
+        }
+        else if (type == GL_GEOMETRY_SHADER)
+        {
+            shader = "GEOMETRY";
         }
 
         GLint success = -1;
