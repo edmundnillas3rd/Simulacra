@@ -37,6 +37,7 @@ namespace Simulacra
             if (!shaderSourceFile.is_open())
                 SIM_LOG_ERROR("Unable to locate shader file!");
 
+            SIM_LOG_INFO("Reading shader file from {} ", paths[pathIndex]);
             while (getline(shaderSourceFile, shaderSource))
             {
                 source[pathIndex] += shaderSource;
