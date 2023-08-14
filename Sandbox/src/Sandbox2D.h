@@ -15,4 +15,5 @@ public:
 private:
     Simulacra::Shader m_Shader;
     GLuint m_VAO;
+    GLuint m_VBO;
 };

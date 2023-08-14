@@ -20,6 +20,7 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/glad")
 
 find_package(SDL2 CONFIG REQUIRED)
 find_package(spdlog REQUIRED)
+find_package(glm REQUIRED)
 
 add_library(
     ${PROJECT_NAME} STATIC
@@ -46,6 +47,7 @@ set(LIBRARIES
     SDL2::SDL2main
     glad
     spdlog::spdlog
+    glm::glm
     # stb
 )
 
