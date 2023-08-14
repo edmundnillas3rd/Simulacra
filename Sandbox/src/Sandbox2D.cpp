@@ -54,8 +54,8 @@ void Sandbox2D::OnUpdate(float deltaTime)
     glClearBufferfv(GL_COLOR, 0, bg);
 
     glUseProgram(m_Shader.IDs[1]);
-    // glVertexAttrib4fv(0, attrib);
-    // glVertexAttrib4fv(1, attrib);
+    glVertexAttrib4fv(0, attrib);
+    glVertexAttrib4fv(1, attrib);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
