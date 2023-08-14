@@ -7,6 +7,9 @@ set(BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 set(SOURCE_FILES
     "${SRC_DIR}/Sandbox.cpp"
     "${SRC_DIR}/Sandbox2D.cpp"
+    "${SRC_DIR}/pbrt/core/Geometry.cpp"
+    "${SRC_DIR}/pbrt/core/Transform.cpp"
+    "${SRC_DIR}/pbrt/core/Error.cpp"
 )
 
 add_executable(
