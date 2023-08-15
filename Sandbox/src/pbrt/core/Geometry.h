@@ -172,3 +172,19 @@ Vector3<T> Permute (const Vector3<T>& v, int x, int y, int z)
 {
     return Vector3<T>(v[x], v[y], v[z]);
 }
+
+// Coordinate System
+template <typename T>
+inline void CoordinateSystem(const Vector3<T>& v1, Vector3<T>* v2, Vector3<T>* v3)
+{
+    if (std::abs(v1.x) > std::abs(v1.y))
+    {
+        *v2 = Vector3<T>(-v1.z, 0, v1.x) / std::sqrt(v1.x*v1.x + v1.z*v1.z);
+    }
+    else
+    {
+        *v2 = Vector3<T>(0, v1.z, -v1.y) / std::sqrt(v1.y*v1.y + v1.z*v1.z);
+    }
+
+    *v3 = Cross(v1, *v2);
+}
