@@ -105,6 +105,66 @@ using Vector2i = Vector2<int>;
 using Vector3f = Vector3<float>;
 using Vector3i = Vector3<int>;
 
+template <typename T>
+class Point3
+{
+public:
+    Point3()
+    {
+        x = y = z = 0;
+    }
+
+    Point3(T x, T y, T z)
+        : x(x), y(y), z(z)
+    {
+        Assert(!HasNaNs());
+    }
+
+    template <typename U>
+    explicit Point3(const Point3<U>& p)
+        : x((T)p.x), y((T)p.y), z((T)p.z)
+    {
+        Assert(!HasNaNs());
+    }
+
+    template <typename U>
+    explicit operator Vector3<U>() const
+    {
+        return Vector3<U>(x, y, z);
+    }
+
+    bool HasNaNs() const 
+    {
+        return std::isnan(x) || std::isnan(y) || std::isnan(z);
+    }
+
+public:
+    T x, y, z;
+};
+
+template <typename T>
+class Point2
+{
+public:
+    T x, y;
+
+    explicit Point2(const Point3<T>& p)
+        : x(p.x), y(p.y)
+    {
+        Assert(!HasNaNs());
+    }
+
+    bool HasNaNs() const 
+    {
+        return std::isnan(x) || std::isnan(y);
+    }
+};
+
+using Point2f = Point2<float>;
+using Point2i = Point2<int>;
+using Point3f = Point3<float>;
+using Point3i = Point3<int>;
+
 // Geometry Inline Functions
 template <typename T> 
 inline Vector3<T> operator* (T s, const Vector3<T>& v)
