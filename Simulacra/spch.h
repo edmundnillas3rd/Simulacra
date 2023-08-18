@@ -13,3 +13,4 @@
 #include <memory>
 #include <algorithm>
 #include <cstdint>
+#include <cmath>
