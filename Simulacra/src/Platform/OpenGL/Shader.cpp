@@ -1,7 +1,7 @@
 #include "Shader.h"
 
-#include "Log.h"
-#include "src/Platform/Windows/FileSystem.h"
+#include "src/Core/Log.h"
+#include "src/Platform/Linux/FileSystem.h"
 
 namespace Simulacra
 {

@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 
-#include "Log.h"
+#include "src/Core/Log.h"
 #include "src/ImGui/ImGui.h"
 
 namespace Simulacra 

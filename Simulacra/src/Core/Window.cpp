@@ -4,7 +4,7 @@
 
 #elif __linux__
 #include "Platform/SDL2/SDL2.h"
-#include "Platform/Windows/FileSystem.h"
+#include "Platform/Linux/FileSystem.h"
 #endif
 
 namespace Simulacra

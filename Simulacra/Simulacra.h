@@ -1,9 +1,9 @@
 // Simulacra Header files
-#include "src/Application.h"
-#include "src/Layer.h"
-#include "src/Event.h"
-#include "src/Log.h"
-#include "src/Platform/Windows/FileSystem.h"
+#include "src/Core/Application.h"
+#include "src/Core/Layer.h"
+#include "src/Core/Event.h"
+#include "src/Core/Log.h"
+#include "src/Platform/Linux/FileSystem.h"
 
 // OpenGL Header files
 #include "src/Platform/OpenGL/Shader.h"

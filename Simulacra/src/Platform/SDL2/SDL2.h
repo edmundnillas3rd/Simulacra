@@ -4,7 +4,7 @@
 
 #include <SDL2/SDL.h>
 
-#include "src/Event.h"
+#include "src/Core/Event.h"
 
 namespace Simulacra
 {

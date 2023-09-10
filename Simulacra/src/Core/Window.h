@@ -3,7 +3,7 @@
 #include <string>
 #include <functional>
 
-#include "src/Event.h"
+#include "Event.h"
 
 namespace Simulacra
 {

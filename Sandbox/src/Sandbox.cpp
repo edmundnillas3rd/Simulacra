@@ -1,5 +1,5 @@
 #include <Simulacra.h>
-#include <src/EntryPoint.h>
+#include <src/Core/EntryPoint.h>
 
 #include "Sandbox2D.h"
 
