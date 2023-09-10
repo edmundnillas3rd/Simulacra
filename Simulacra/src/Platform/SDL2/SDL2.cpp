@@ -26,16 +26,12 @@ namespace Simulacra
         return s_SDLProps.window;
     }
 
-    bool InitializeSDL(const std::string& title, const uint32_t width, const uint32_t height)
+    void InitializeSDL(const std::string& title, const uint32_t width, const uint32_t height)
     {
         uint32_t sdlFlags = 0;
         sdlFlags |= SDL_INIT_VIDEO;
         sdlFlags |= SDL_INIT_AUDIO;
         sdlFlags |= SDL_INIT_TIMER;
-        if (SDL_Init(sdlFlags) < 0)
-        {
-            return false;
-        }
 
         SDL_GL_LoadLibrary(nullptr);
 
@@ -66,7 +62,7 @@ namespace Simulacra
 
         if (!s_SDLProps.window)
         {
-            return false;
+            return;
         }
 
         s_SDLProps.context = SDL_GL_CreateContext(s_SDLProps.window);
@@ -91,7 +87,7 @@ namespace Simulacra
 
         if (!s_SDLProps.renderer)
         {
-            return false;
+            return;
         }
 
         SDL_GL_SetSwapInterval(1);
@@ -102,7 +98,6 @@ namespace Simulacra
         SDL_GetWindowSize(s_SDLProps.window, &w, &h);
         glViewport(0, 0, w, h);
 
-        return true;
     }
 
     void ClearSDLWindowBuffer()

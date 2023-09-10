@@ -48,16 +48,13 @@ namespace Simulacra
     {
         s_State.window = CreateWindow(app->name, 1280, 768, callbackFn);
 
-        if (s_State.window.platform == Window::Platform::NONE)
-        {
-            return;
-        }
-
         s_State.instance = app;
 
         SIM_LOG_INFO("Application Name: {}", app->name);
 
-        StartApplication();
+        StartWindow(s_State.instance->path.c_str(), s_State.window);
+        s_State.instance->submit();
+        s_State.running = true;
 
         float previousFrame = 0.0f;
 
@@ -66,7 +63,7 @@ namespace Simulacra
             float deltaTime = ((float)SDL_GetTicks64() / 1000.0f) - previousFrame;
             previousFrame = (float)SDL_GetTicks64() / 1000.0f;
 
-            PollEvents();
+            PollWindowEvents(s_State.window);
 
             {
                 for (const auto& layer : s_State.layerStack)
@@ -90,11 +87,12 @@ namespace Simulacra
             }
             ImGuiEnd();
 
-            ClearWindowBuffer(s_State.window);
+            ClearWindowBuffer();
 
         }
 
-        ShutdownApplication();
+        ShutdownWindow();
+
     }
 
     void PushLayer(Layer* layer)
@@ -105,27 +103,5 @@ namespace Simulacra
     void PopLayer()
     {
         s_State.layerStack.pop_back();
-    }
-
-    static void StartApplication()
-    {
-        bool success = StartWindow(s_State.instance->path.c_str(), s_State.window);
-
-        if (success)
-        {
-            s_State.running = true;
-        }
-
-        s_State.instance->submit();
-    }
-
-    static void PollEvents()
-    {
-        PollWindowEvents(s_State.window);
-    }
-
-    static void ShutdownApplication()
-    {
-        ShutdownWindow(s_State.window);
     }
 }

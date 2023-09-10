@@ -13,6 +13,7 @@ set(SOURCE_FILES
     "${SRC_DIR}/Platform/Windows/FileSystem.cpp"
     "${SRC_DIR}/Platform/OpenGL/Shader.cpp"
     "${SRC_DIR}/ImGui/ImGui.cpp"
+    "${SRC_DIR}/Scene/Scene.cpp"
     "${API_DIR}/spch.cpp"
 )
 

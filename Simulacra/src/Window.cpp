@@ -1,21 +1,17 @@
 #include "Window.h"
 
+#if _WIN32
+
+#elif __linux__
 #include "Platform/SDL2/SDL2.h"
 #include "Platform/Windows/FileSystem.h"
+#endif
 
 namespace Simulacra
 {
     Window CreateWindow(const std::string& title, uint32_t width, uint32_t height, CallbackFn callback)
     {
         Window window;
-
-    #if _WIN32
-        window.platform = Window::Platform::WINDOWS;
-    #elif __linux__
-        window.platform = Window::Platform::LINUX;
-    #else
-        #error Platform not supported
-    #endif
 
         window.title = title;
         window.width = width;
@@ -25,56 +21,24 @@ namespace Simulacra
         return window;
     }
 
-    bool StartWindow(const char* path, Window window)
+    void StartWindow(const char* path, Window window)
     {
-        bool success = false;
-        switch (window.platform)
-        {
-        case Window::Platform::LINUX:
-            SetCWDPath(path);
-            success = InitializeSDL(window.title.c_str(), window.width, window.height);
-            break;
-        default:
-            success = false;
-            break;
-        }
-
-        return success;
+        SetCWDPath(path);
+        InitializeSDL(window.title.c_str(), window.width, window.height);
     }
 
     void PollWindowEvents(Window window)
     {
-        switch (window.platform)
-        {
-        case Window::Platform::LINUX:
-            PollSDLEvents(window.callback);
-            break;
-        default:
-            break;
-        }
+        PollSDLEvents(window.callback);
     }
 
-    void ClearWindowBuffer(Window window)
+    void ClearWindowBuffer()
     {
-        switch (window.platform)
-        {
-        case Window::Platform::LINUX:
-            ClearSDLWindowBuffer();
-            break;
-        default:
-            break;
-        }
+        ClearSDLWindowBuffer();
     }
 
-    void ShutdownWindow(Window window)
+    void ShutdownWindow()
     {
-        switch (window.platform)
-        {
-        case Window::Platform::LINUX:
-            ShutdownSDL();
-            break;
-        default:
-            break;
-        }
+        ShutdownSDL();
     }
 }
