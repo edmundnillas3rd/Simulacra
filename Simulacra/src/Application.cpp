@@ -1,11 +1,14 @@
 #include "Application.h"
 
 #include <SDL2/SDL.h>
+#include <imgui.h>
 
 #include "Event.h"
 #include "Window.h"
 #include "Log.h"
 #include "Layer.h"
+
+#include "src/ImGui/ImGui.h"
 
 namespace Simulacra
 {
@@ -77,12 +80,18 @@ namespace Simulacra
                     layer->OnUpdate(deltaTime);
             }
 
+            ImGuiBegin();
             {
+                bool showDemo = true;
+                ImGui::ShowDemoWindow(&showDemo);
+                
                 for (const auto& layer : s_State.layerStack)
                     layer->OnRender();
             }
+            ImGuiEnd();
 
             ClearWindowBuffer(s_State.window);
+
         }
 
         ShutdownApplication();

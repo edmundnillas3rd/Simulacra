@@ -3,6 +3,7 @@
 #include <glad/glad.h>
 
 #include "Log.h"
+#include "src/ImGui/ImGui.h"
 
 namespace Simulacra 
 {
@@ -14,6 +15,17 @@ namespace Simulacra
     };
 
     static SDLProps s_SDLProps;
+
+    SDL_GLContext GetContext()
+    {
+        return s_SDLProps.context;
+    }
+
+    SDL_Window* GetWindow()
+    {
+        return s_SDLProps.window;
+    }
+
     bool InitializeSDL(const std::string& title, const uint32_t width, const uint32_t height)
     {
         uint32_t sdlFlags = 0;
@@ -27,6 +39,9 @@ namespace Simulacra
 
         SDL_GL_LoadLibrary(nullptr);
 
+        SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+        SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+        SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
         SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
@@ -39,6 +54,7 @@ namespace Simulacra
         windowFlags |= SDL_WINDOW_SHOWN;
         windowFlags |= SDL_WINDOW_RESIZABLE;
         windowFlags |= SDL_WINDOW_OPENGL;
+        windowFlags |= SDL_WINDOW_ALLOW_HIGHDPI;
         s_SDLProps.window = SDL_CreateWindow(
             title.c_str(),
             SDL_WINDOWPOS_UNDEFINED,
@@ -80,6 +96,8 @@ namespace Simulacra
 
         SDL_GL_SetSwapInterval(1);
 
+        ImGuiOnAttach();
+
         int w, h;
         SDL_GetWindowSize(s_SDLProps.window, &w, &h);
         glViewport(0, 0, w, h);
@@ -99,6 +117,7 @@ namespace Simulacra
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
+            ImGuiEvent(event);
             switch (event.type)
             {
             case SDL_QUIT:
@@ -119,6 +138,8 @@ namespace Simulacra
 
     void ShutdownSDL()
     {
+        ImGuiOnDetach();
+
         SDL_GL_DeleteContext(s_SDLProps.context);
         SDL_DestroyRenderer(s_SDLProps.renderer);
         SDL_DestroyWindow(s_SDLProps.window);

@@ -11,6 +11,6 @@ add_library(
 )
 
 target_include_directories(
-        ${PROJECT_NAME} SYSTEM
-        PUBLIC ${GLAD_INCLUDE_DIR}
+    ${PROJECT_NAME} SYSTEM
+    PUBLIC ${GLAD_INCLUDE_DIR}
 )

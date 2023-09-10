@@ -12,16 +12,19 @@ set(SOURCE_FILES
     "${SRC_DIR}/Platform/SDL2/SDL2.cpp"
     "${SRC_DIR}/Platform/Windows/FileSystem.cpp"
     "${SRC_DIR}/Platform/OpenGL/Shader.cpp"
+    "${SRC_DIR}/ImGui/ImGui.cpp"
     "${API_DIR}/spch.cpp"
 )
 
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/glad")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/imguizmo")
+
 # add_subdirectory("${CMAKE_SOURCE_DIR}/vendor/stb")
 
 find_package(SDL2 CONFIG REQUIRED)
 find_package(spdlog REQUIRED)
 find_package(glm REQUIRED)
-find_package(imguizmo REQUIRED)
 
 add_library(
     ${PROJECT_NAME} STATIC
@@ -46,10 +49,11 @@ target_include_directories(
 set(LIBRARIES
     SDL2::SDL2
     SDL2::SDL2main
-    glad
     spdlog::spdlog
     glm::glm
-    imguizmo::imguizmo
+    glad
+    imgui
+    imguizmo
     # stb
 )
 
