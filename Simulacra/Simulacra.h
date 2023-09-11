@@ -7,3 +7,6 @@
 
 // OpenGL Header files
 #include "src/Platform/OpenGL/Shader.h"
+
+// ImGui Header files
+#include "imgui.h"

@@ -12,5 +12,6 @@ namespace Simulacra
         virtual void OnUpdate(float deltaTime) {};
         virtual void OnEvent(Event event) {};
         virtual void OnRender() {};
+        virtual void OnImGuiRender() {};
     };
 }

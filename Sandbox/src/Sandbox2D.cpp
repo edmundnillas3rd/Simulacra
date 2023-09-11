@@ -63,6 +63,38 @@ void Sandbox2D::OnRender()
 {
 }
 
+void Sandbox2D::OnImGuiRender()
+{
+    bool showDemo = false;
+    ImGui::ShowDemoWindow(&showDemo);
+
+    bool showMenu = true;
+    if (!ImGui::Begin("Editor", &showMenu))
+    {
+        ImGui::End();
+        return;
+    }
+
+    ImGui::Text("3D Editor");
+    ImGui::Spacing();
+
+    if (ImGui::Button("+ Add GameObject"))
+    {
+        ImGui::OpenPopup("gameobject_popup");
+    }
+
+    if (ImGui::BeginPopup("gameobject_popup"))
+    {
+        ImGui::SeparatorText("Add Game Objects");
+        ImGui::Button("Cube");
+        ImGui::Button("Sphere");
+        ImGui::Button("Plane");
+        ImGui::EndPopup();
+    }
+
+    ImGui::End();
+}
+
 void Sandbox2D::OnEvent(Simulacra::Event event)
 {
 }

@@ -79,13 +79,15 @@ namespace Simulacra
 
             ImGuiBegin();
             {
-                bool showDemo = true;
-                ImGui::ShowDemoWindow(&showDemo);
-                
+                for (const auto& layer : s_State.layerStack)
+                    layer->OnImGuiRender();
+            }
+            ImGuiEnd();
+
+            {
                 for (const auto& layer : s_State.layerStack)
                     layer->OnRender();
             }
-            ImGuiEnd();
 
             ClearWindowBuffer();
 
