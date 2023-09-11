@@ -59,10 +59,6 @@ void Sandbox2D::OnUpdate(float deltaTime)
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
-void Sandbox2D::OnRender()
-{
-}
-
 void Sandbox2D::OnImGuiRender()
 {
     bool showDemo = false;

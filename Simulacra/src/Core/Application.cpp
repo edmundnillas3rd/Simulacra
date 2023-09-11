@@ -84,11 +84,6 @@ namespace Simulacra
             }
             ImGuiEnd();
 
-            {
-                for (const auto& layer : s_State.layerStack)
-                    layer->OnRender();
-            }
-
             ClearWindowBuffer();
 
         }

@@ -9,7 +9,6 @@ public:
     virtual ~Sandbox2D();
 
     virtual void OnUpdate(float deltaTime) override;
-    virtual void OnRender() override;
     virtual void OnImGuiRender() override;
     virtual void OnEvent(Simulacra::Event event) override;
 private:
