@@ -61,17 +61,18 @@ void Sandbox2D::OnUpdate(float deltaTime)
 
 void Sandbox2D::OnImGuiRender()
 {
-    bool showDemo = false;
+    bool showDemo = true;
     ImGui::ShowDemoWindow(&showDemo);
 
-    bool showMenu = true;
-    if (!ImGui::Begin("Editor", &showMenu))
-    {
-        ImGui::End();
-        return;
-    }
+    // Game Objects Popup
+    ImGui::Begin("Editor");
 
-    ImGui::Text("3D Editor");
+    ImGui::SeparatorText("Scene");
+    // ImGui::Spacing();
+    float windowSizeOffsetY = ImGui::GetWindowSize().y * 0.5;
+    ImGui::Dummy(ImVec2(0.0f, windowSizeOffsetY));
+
+    ImGui::SeparatorText("3D Editor");
     ImGui::Spacing();
 
     if (ImGui::Button("+ Add GameObject"))
@@ -79,7 +80,7 @@ void Sandbox2D::OnImGuiRender()
         ImGui::OpenPopup("gameobject_popup");
     }
 
-    if (ImGui::BeginPopup("gameobject_popup"))
+    if (ImGui::BeginPopup("gameobject_popup", ImGuiWindowFlags_NoMove))
     {
         ImGui::SeparatorText("Add Game Objects");
         ImGui::Button("Cube");
