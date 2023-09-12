@@ -9,14 +9,23 @@
 
 namespace Simulacra
 {
+    static Window window;
     Window CreateWindow(const std::string& title, uint32_t width, uint32_t height, CallbackFn callback)
     {
-        Window window;
-
         window.title = title;
         window.width = width;
         window.height = height;
         window.callback = callback;
+
+        return window;
+    }
+
+    Window GetWindowSize()
+    {
+        SDLWindowProps props = GetWindowProps();
+
+        window.width = props.Width;
+        window.height = props.Height;
 
         return window;
     }

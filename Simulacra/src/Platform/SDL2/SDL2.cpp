@@ -26,6 +26,15 @@ namespace Simulacra
         return s_SDLProps.window;
     }
 
+    SDLWindowProps GetWindowProps()
+    {
+        SDLWindowProps window;
+
+        SDL_GetWindowSize(s_SDLProps.window, &window.Width, &window.Height);
+
+        return window;
+    }
+
     void InitializeSDL(const std::string& title, const uint32_t width, const uint32_t height)
     {
         uint32_t sdlFlags = 0;
