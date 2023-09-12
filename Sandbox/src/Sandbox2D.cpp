@@ -61,14 +61,18 @@ void Sandbox2D::OnUpdate(float deltaTime)
 
 void Sandbox2D::OnImGuiRender()
 {
-    bool showDemo = true;
-    ImGui::ShowDemoWindow(&showDemo);
+    ImGui::ShowDemoWindow();
+    ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
-    // Game Objects Popup
-    ImGui::Begin("Editor");
+    ImGuiWindowClass windowClass;
+    windowClass.DockNodeFlagsOverrideSet = ImGuiDockNodeFlags_AutoHideTabBar;
+    ImGui::SetNextWindowClass(&windowClass);
+
+    ImGuiWindowFlags windowFlags = 0;
+    windowFlags |= ImGuiWindowFlags_NoTitleBar;
+    ImGui::Begin("Scene Manager", nullptr, windowFlags);
 
     ImGui::SeparatorText("Scene");
-    // ImGui::Spacing();
     float windowSizeOffsetY = ImGui::GetWindowSize().y * 0.5;
     ImGui::Dummy(ImVec2(0.0f, windowSizeOffsetY));
 
@@ -88,7 +92,6 @@ void Sandbox2D::OnImGuiRender()
         ImGui::Button("Plane");
         ImGui::EndPopup();
     }
-
     ImGui::End();
 }
 
