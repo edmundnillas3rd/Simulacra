@@ -128,6 +128,11 @@ namespace Simulacra
         return shader;
     }
 
+    void SetShaderMat4(GLuint program, const std::string& name, const glm::mat4& mat)
+    {
+        glUniformMatrix4fv(glGetUniformLocation(program, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+    }
+
     static ShaderSource ParseShaderFile(const std::string& shaderSource)
     {
         std::string shaderStr;
