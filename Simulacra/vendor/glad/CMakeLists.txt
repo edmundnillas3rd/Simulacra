@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.26)
 project(glad)
 
 set(GLAD_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src/glad.c")
