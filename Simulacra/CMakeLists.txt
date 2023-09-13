@@ -9,9 +9,12 @@ set(SOURCE_FILES
     "${SRC_DIR}/Core/Application.cpp"
     "${SRC_DIR}/Core/Log.cpp"
     "${SRC_DIR}/Core/Window.cpp"
+    "${SRC_DIR}/Core/Input.cpp"
     "${SRC_DIR}/Platform/SDL2/SDL2.cpp"
     "${SRC_DIR}/Platform/Linux/FileSystem.cpp"
     "${SRC_DIR}/Platform/OpenGL/Shader.cpp"
+    "${SRC_DIR}/Platform/OpenGL/Framebuffer.cpp"
+    "${SRC_DIR}/Platform/OpenGL/Texture.cpp"
     "${SRC_DIR}/ImGui/ImGui.cpp"
     "${SRC_DIR}/Scene/Scene.cpp"
     "${API_DIR}/spch.cpp"
@@ -20,8 +23,7 @@ set(SOURCE_FILES
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/glad")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/imguizmo")
-
-# add_subdirectory("${CMAKE_SOURCE_DIR}/vendor/stb")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/stb")
 
 find_package(SDL2 CONFIG REQUIRED)
 find_package(spdlog REQUIRED)
@@ -32,12 +34,12 @@ add_library(
     ${SOURCE_FILES}
 )
         
-set_target_properties(
-    ${PROJECT_NAME}
-    PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY "${BIN_DIR}/$<CONFIG>"
-    LIBRARY_OUTPUT_DIRECTORY "${BIN_DIR}/$<CONFIG>"
-)
+# set_target_properties(
+#     ${PROJECT_NAME}
+#     PROPERTIES
+#     ARCHIVE_OUTPUT_DIRECTORY "${BIN_DIR}/$<CONFIG>"
+#     LIBRARY_OUTPUT_DIRECTORY "${BIN_DIR}/$<CONFIG>"
+# )
 
 target_include_directories(
     ${PROJECT_NAME} 
@@ -48,14 +50,17 @@ target_include_directories(
 )
 
 set(LIBRARIES
+    # Static libraries
     SDL2::SDL2
     SDL2::SDL2main
     spdlog::spdlog
     glm::glm
+
+    # Header only libraries
     glad
     imgui
     imguizmo
-    # stb
+    stb
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LIBRARIES})
