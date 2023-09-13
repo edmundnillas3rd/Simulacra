@@ -9,5 +9,5 @@ namespace Simulacra
         GLuint ID;
     };
 
-    Texture CreateTexture();
+    Texture LoadTexture(const std::string& path);
 }
