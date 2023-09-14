@@ -1,6 +1,7 @@
 #include "Sandbox2D.h"
 
 #include <SDL.h>
+#include <glm/gtc/type_ptr.hpp>
 
 Sandbox2D::Sandbox2D()
     : m_FreeRoam(false)
@@ -106,6 +107,7 @@ Sandbox2D::Sandbox2D()
     Simulacra::UnBindFramebuffer();
 
     glEnable(GL_DEPTH_TEST);
+
 }
 
 Sandbox2D::~Sandbox2D()
@@ -178,19 +180,43 @@ void Sandbox2D::OnUpdate(float deltaTime)
     Simulacra::SetShaderMat4(m_Shader.IDs[0], "view", view);
     Simulacra::SetShaderMat4(m_Shader.IDs[0], "projection", projection);
 
-    glBindVertexArray(m_CubeVAO);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, m_Texture.ID);
+    // Draw Scene
+    for (const auto& object : Simulacra::MainScene.GameObjects)
+    {
+        switch (object.Type)
+        {
+        case Simulacra::Shape3D::CUBE:
+            glBindVertexArray(m_CubeVAO);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, m_Texture.ID);
 
-    model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -1.0f));
-    Simulacra::SetShaderMat4(m_Shader.IDs[0], "model", model);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, object.Position);
+            model = glm::rotate(model, 90.0f, glm::vec3(object.Rotation));
+            model = glm::scale(model, object.Scale);
+            Simulacra::SetShaderMat4(m_Shader.IDs[0], "model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+            glBindVertexArray(0);
 
-    model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
-    Simulacra::SetShaderMat4(m_Shader.IDs[0], "model", model);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    glBindVertexArray(0);
+            break;
+        default:
+            break;
+        }
+    }
+
+    // glBindVertexArray(m_CubeVAO);
+    // glActiveTexture(GL_TEXTURE0);
+    // glBindTexture(GL_TEXTURE_2D, m_Texture.ID);
+
+    // model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -1.0f));
+    // Simulacra::SetShaderMat4(m_Shader.IDs[0], "model", model);
+    // glDrawArrays(GL_TRIANGLES, 0, 36);
+
+    // model = glm::mat4(1.0f);
+    // model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
+    // Simulacra::SetShaderMat4(m_Shader.IDs[0], "model", model);
+    // glDrawArrays(GL_TRIANGLES, 0, 36);
+    // glBindVertexArray(0);
     
     Simulacra::UnBindFramebuffer();
     // glClearColor(1.0f, 1.0f, 1.0f, 1.0f); 
@@ -205,7 +231,7 @@ void Sandbox2D::OnUpdate(float deltaTime)
 
 void Sandbox2D::OnImGuiRender()
 {
-    ImGui::ShowDemoWindow();
+    // ImGui::ShowDemoWindow();
 
     ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
@@ -219,9 +245,75 @@ void Sandbox2D::OnImGuiRender()
     windowFlags |= ImGuiWindowFlags_NoTitleBar;
     ImGui::Begin("Scene Manager", nullptr, windowFlags);
 
+    // Scene
     ImGui::SeparatorText("Scene");
-    float windowSizeOffsetY = ImGui::GetWindowSize().y * 0.5;
+
+    static ImGuiTreeNodeFlags baseFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
+    
+    int n = 1;
+    if (ImGui::TreeNode((void*)(intptr_t)n, "MainScene"))
+    {
+        int nodeClicked = -1;
+        static int selectionMask = (1 << 2);
+        for (size_t count = 0; count < Simulacra::MainScene.GameObjects.size(); count++)
+        {
+            ImGuiTreeNodeFlags nodeFlags = baseFlags;
+            const bool selected = (selectionMask & (1 << count)) != 0;
+            if (selected)
+            {
+                nodeFlags |= ImGuiTreeNodeFlags_Selected;
+            }
+
+            bool open = ImGui::TreeNodeEx((void*)(intptr_t)count, nodeFlags, Simulacra::MainScene.GameObjects[count].Name.c_str());
+
+            if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
+            {
+                nodeClicked = count;
+                Simulacra::MainScene.SelectedGameObject = &Simulacra::MainScene.GameObjects[count];
+            }
+
+            // TODO: might populated children node
+            if (open)
+            {
+                ImGui::TreePop();
+            }
+        }
+
+        if (nodeClicked != -1)
+        {
+            if (ImGui::GetIO().KeyCtrl)
+            {
+                selectionMask ^= (1 << nodeClicked);
+                Simulacra::MainScene.SelectedGameObject = nullptr;
+            }
+            else
+            {
+                selectionMask = (1 << nodeClicked);  
+            }
+        }
+
+        ImGui::TreePop();
+    }
+
     ImGui::Checkbox("Enable Free Roam", &m_FreeRoam);
+
+    float windowSizeOffsetY = ImGui::GetWindowSize().y * 0.5;
+    ImGui::Dummy(ImVec2(0.0f, windowSizeOffsetY));
+
+    ImGui::SeparatorText("Inspector");
+    auto* gameObject = Simulacra::MainScene.SelectedGameObject;
+
+    if (gameObject)
+    {
+        ImGui::SliderFloat3("Translate", glm::value_ptr(gameObject->Position), -100.0f, 100.0f);
+        ImGui::SliderFloat3("Rotate", glm::value_ptr(gameObject->Rotation), -100.0f, 100.0f);
+        ImGui::SliderFloat3("Scale", glm::value_ptr(gameObject->Scale), 0.0f, 1.0f);
+
+        Simulacra::UpdateScene();
+    }
+
+
+    windowSizeOffsetY = 20.0f;
     ImGui::Dummy(ImVec2(0.0f, windowSizeOffsetY));
 
     ImGui::SeparatorText("Components");
@@ -235,7 +327,10 @@ void Sandbox2D::OnImGuiRender()
     if (ImGui::BeginPopup("gameobject_popup", ImGuiWindowFlags_NoMove))
     {
         ImGui::SeparatorText("Add Game Objects");
-        ImGui::Button("Cube");
+        if (ImGui::Button("Cube"))
+        {
+            Simulacra::AddGameObject("Cube");
+        }
         ImGui::Button("Sphere");
         ImGui::Button("Plane");
         ImGui::EndPopup();
