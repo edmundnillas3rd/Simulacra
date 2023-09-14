@@ -1,8 +1,5 @@
 #include "Application.h"
 
-#include <SDL2/SDL.h>
-#include <imgui.h>
-
 #include "Event.h"
 #include "Window.h"
 #include "Log.h"
@@ -14,30 +11,29 @@ namespace Simulacra
 {
     struct ApplicationState
     {
-        Application* instance;
-        bool running;
+        Application* Instance;
+        bool Running;
         
-        Window window;
-        Event event;
+        Window ApplicationWindow;
+        Event ApplicationEvent;
         
-        std::vector<std::unique_ptr<Layer>> layerStack;
+        std::vector<std::unique_ptr<Layer>> LayerStack;
     };
 
 
     static ApplicationState s_State;
 
-    static void StartApplication();
-    static void ShutdownApplication();
-    static void PollEvents();
+    auto callbackFn = [](Event event, SDL_Event sdlEvent) -> void {
 
-    auto callbackFn = [](Event event) -> void {
+        // TODO: Find an alternative means of getting the SDL_Events for ImGui
+        s_State.ApplicationEvent = event;
 
-        s_State.event = event;
+        ImGuiEvent(sdlEvent);
 
         switch (event)
         {
         case Event::SIMULACRA_EXIT:
-            s_State.running = false;
+            s_State.Running = false;
             break;
         default:
             break;
@@ -46,40 +42,42 @@ namespace Simulacra
 
     void RunApplication(Application* app)
     {
-        s_State.window = CreateWindow(app->name, 1280, 768, callbackFn);
+        s_State.ApplicationWindow = CreateWindow(app->name, 1280, 768, callbackFn);
 
-        s_State.instance = app;
+        s_State.Instance = app;
 
         SIM_LOG_INFO("Application Name: {}", app->name);
 
-        StartWindow(s_State.instance->path.c_str(), s_State.window);
-        s_State.instance->submit();
-        s_State.running = true;
+        StartWindow(s_State.Instance->path.c_str(), s_State.ApplicationWindow);
+        s_State.Instance->submit();
+        s_State.Running = true;
+
+        ImGuiOnAttach();
 
         float previousFrame = 0.0f;
 
-        while (s_State.running)
+        while (s_State.Running)
         {
             float deltaTime = ((float)SDL_GetTicks64() / 1000.0f) - previousFrame;
             previousFrame = (float)SDL_GetTicks64() / 1000.0f;
 
-            PollWindowEvents(s_State.window);
+            PollWindowEvents(s_State.ApplicationWindow);
 
             {
-                for (const auto& layer : s_State.layerStack)
-                    layer->OnEvent(s_State.event);
+                for (const auto& layer : s_State.LayerStack)
+                    layer->OnEvent(s_State.ApplicationEvent);
             }
 
-            if (!s_State.running) break;
+            if (!s_State.Running) break;
 
             {
-                for (const auto& layer : s_State.layerStack)
+                for (const auto& layer : s_State.LayerStack)
                     layer->OnUpdate(deltaTime);
             }
 
             ImGuiBegin();
             {
-                for (const auto& layer : s_State.layerStack)
+                for (const auto& layer : s_State.LayerStack)
                     layer->OnImGuiRender();
             }
             ImGuiEnd();
@@ -88,17 +86,19 @@ namespace Simulacra
 
         }
 
+        ImGuiOnDetach();
+
         ShutdownWindow();
 
     }
 
     void PushLayer(Layer* layer)
     {
-        s_State.layerStack.emplace_back(layer);
+        s_State.LayerStack.emplace_back(layer);
     }
 
     void PopLayer()
     {
-        s_State.layerStack.pop_back();
+        s_State.LayerStack.pop_back();
     }
 }

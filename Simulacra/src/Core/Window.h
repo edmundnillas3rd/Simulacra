@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SDL.h>
+
 #include <string>
 #include <functional>
 
@@ -7,7 +9,7 @@
 
 namespace Simulacra
 {
-    using CallbackFn = std::function<void(Event)>;
+    using CallbackFn = std::function<void(Event, SDL_Event)>;
 
     struct Window
     {

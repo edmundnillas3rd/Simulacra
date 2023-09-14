@@ -101,8 +101,6 @@ namespace Simulacra
 
         SDL_GL_SetSwapInterval(1);
 
-        ImGuiOnAttach();
-
         int w, h;
         SDL_GetWindowSize(s_SDLProps.window, &w, &h);
         glViewport(0, 0, w, h);
@@ -116,23 +114,22 @@ namespace Simulacra
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    void PollSDLEvents(const std::function<void(Event)>& fn)
+    void PollSDLEvents(const std::function<void(Event, SDL_Event)>& fn)
     {
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
-            ImGuiEvent(event);
             switch (event.type)
             {
             case SDL_QUIT:
-                fn(Event::SIMULACRA_EXIT);
+                fn(Event::SIMULACRA_EXIT, event);
                 break;
             case SDL_WINDOWEVENT:
-                fn(Event::SIMULACRA_WINDOW_EVENT);
+                fn(Event::SIMULACRA_WINDOW_EVENT, event);
                 if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
                 {
                     glViewport(0, 0, event.window.data1, event.window.data2);
-                    fn(Event::SIMULACRA_WINDOW_RESIZE_EVENT);
+                    fn(Event::SIMULACRA_WINDOW_RESIZE_EVENT, event);
                 }
 
                 break;
@@ -142,8 +139,6 @@ namespace Simulacra
 
     void ShutdownSDL()
     {
-        ImGuiOnDetach();
-
         SDL_GL_DeleteContext(s_SDLProps.context);
         SDL_DestroyRenderer(s_SDLProps.renderer);
         SDL_DestroyWindow(s_SDLProps.window);

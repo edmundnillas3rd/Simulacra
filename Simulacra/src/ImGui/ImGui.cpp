@@ -35,7 +35,7 @@ namespace Simulacra
 
     void ImGuiEvent(SDL_Event event)
     {
-        ImGui_ImplSDL2_ProcessEvent(&event);
+        ImGui_ImplSDL2_ProcessEvent(&(SDL_Event)event);
     }
 
     void ImGuiBegin()
