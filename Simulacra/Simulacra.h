@@ -10,6 +10,7 @@
 // OpenGL Header files
 #include "src/Platform/OpenGL/Shader.h"
 #include "src/Platform/OpenGL/Framebuffer.h"
+#include "src/Platform/OpenGL/Texture.h"
 #include "src/Camera.h"
 
 // ImGui Header files
