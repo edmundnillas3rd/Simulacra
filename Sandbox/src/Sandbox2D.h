@@ -13,6 +13,20 @@ public:
     virtual void OnEvent(Simulacra::Event event) override;
 private:
     Simulacra::Shader m_Shader;
-    GLuint m_VAO;
-    GLuint m_VBO;
+    Simulacra::Framebuffer m_FBO;
+    Simulacra::Camera m_Camera;
+    Simulacra::Texture m_Texture;
+    
+    GLuint m_CubeVAO;
+    GLuint m_CubeVBO;
+
+    GLuint m_ColorBuffer;
+    GLuint m_RBO;
+    GLuint m_QuadVAO;
+    GLuint m_QuadVBO;
+
+    bool m_FreeRoam;
+    bool firstMouse = true;
+    float lastX;
+    float lastY;
 };
