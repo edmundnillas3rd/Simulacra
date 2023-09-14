@@ -9,7 +9,7 @@
 
 namespace Simulacra
 {
-    using CallbackFn = std::function<void(Event, SDL_Event)>;
+    using CallbackFn = std::function<void(Event)>;
 
     struct Window
     {

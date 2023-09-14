@@ -114,22 +114,29 @@ namespace Simulacra
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    void PollSDLEvents(const std::function<void(Event, SDL_Event)>& fn)
+    void PollSDLEvents(const std::function<void(Event)>& fn)
     {
         SDL_Event event;
+        Event e;
         while (SDL_PollEvent(&event))
         {
+            e.APIEvent = event;
+            e.Type = EventType::SIMULACRA_NONE;
+            fn(e);
             switch (event.type)
             {
             case SDL_QUIT:
-                fn(Event::SIMULACRA_EXIT, event);
+                e.Type = EventType::SIMULACRA_EXIT;
+                fn(e);
                 break;
             case SDL_WINDOWEVENT:
-                fn(Event::SIMULACRA_WINDOW_EVENT, event);
+                e.Type = EventType::SIMULACRA_WINDOW_EVENT;
+                fn(e);
                 if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
                 {
                     glViewport(0, 0, event.window.data1, event.window.data2);
-                    fn(Event::SIMULACRA_WINDOW_RESIZE_EVENT, event);
+                    e.Type = EventType::SIMULACRA_WINDOW_RESIZE_EVENT;
+                    fn(e);
                 }
 
                 break;

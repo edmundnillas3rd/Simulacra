@@ -23,16 +23,16 @@ namespace Simulacra
 
     static ApplicationState s_State;
 
-    auto callbackFn = [](Event event, SDL_Event sdlEvent) -> void {
+    auto callbackFn = [](Event event) -> void {
 
         // TODO: Find an alternative means of getting the SDL_Events for ImGui
         s_State.ApplicationEvent = event;
 
-        ImGuiEvent(sdlEvent);
+        ImGuiEvent(event.APIEvent);
 
-        switch (event)
+        switch (event.Type)
         {
-        case Event::SIMULACRA_EXIT:
+        case EventType::SIMULACRA_EXIT:
             s_State.Running = false;
             break;
         default:
