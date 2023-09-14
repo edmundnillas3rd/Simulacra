@@ -13,4 +13,5 @@ namespace Simulacra
     Shader LoadShader(std::vector<std::string> paths);
 
     void SetShaderMat4(GLuint program, const std::string& name, const glm::mat4& mat4);
+    void SetShaderInt(GLuint program, const std::string &name, int value);
 }

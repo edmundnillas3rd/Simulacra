@@ -133,6 +133,11 @@ namespace Simulacra
         glUniformMatrix4fv(glGetUniformLocation(program, name.c_str()), 1, GL_FALSE, &mat[0][0]);
     }
 
+    void SetShaderInt(GLuint program, const std::string &name, int value)
+    { 
+        glUniform1i(glGetUniformLocation(program, name.c_str()), value); 
+    }
+
     static ShaderSource ParseShaderFile(const std::string& shaderSource)
     {
         std::string shaderStr;
