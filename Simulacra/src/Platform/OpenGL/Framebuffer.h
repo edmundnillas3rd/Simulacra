@@ -7,8 +7,11 @@ namespace Simulacra
     struct Framebuffer
     {
         GLuint ID;
+        GLuint ColorBuffer;
+        GLuint RenderBuffer;
     };
 
     Framebuffer CreateFramebuffer();
-    void AttackTextureToFramebuffer(GLuint buffer);
+    void BindFramebuffer(GLuint id);
+    void UnBindFramebuffer();
 }
