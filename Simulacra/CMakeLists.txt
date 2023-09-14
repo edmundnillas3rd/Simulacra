@@ -17,7 +17,7 @@ set(SOURCE_FILES
     "${SRC_DIR}/Platform/OpenGL/Framebuffer.cpp"
     "${SRC_DIR}/Platform/OpenGL/Texture.cpp"
     "${SRC_DIR}/ImGui/ImGui.cpp"
-    "${SRC_DIR}/Scene/Scene.cpp"
+    "${SRC_DIR}/Scene.cpp"
     "${API_DIR}/spch.cpp"
 )
 
