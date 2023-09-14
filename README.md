@@ -4,7 +4,7 @@ A in-house rendering engine for the implementation of rendering algorithms speci
 
 Personally used for game development, visualizing data, and algorithms.
 
-![Demo](Sandbox/assets/images/demo-1.png)
+![Demo](Sandbox/assets/images/demo-1.jpg)
 
 # Installation
 
