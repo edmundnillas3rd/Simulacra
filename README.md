@@ -8,6 +8,10 @@ Personally used for game development, visualizing data, and algorithms.
 
 # Installation
 
+## Prerequisites
+* **[Conan](https://conan.io/downloads)**
+* **[CMake](https://cmake.org/download/)**
+
 <debug_profile> is the conan profile set to debug mode
 
 ```
