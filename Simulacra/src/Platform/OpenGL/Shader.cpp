@@ -23,7 +23,7 @@ namespace Simulacra
         Shader shader;
 
         const size_t PATH_SIZE = paths.size();
-        std::string source[PATH_SIZE];
+        std::vector<std::string> source(PATH_SIZE, " ");
 
         for (size_t pathIndex = 0; pathIndex < paths.size(); pathIndex++)
         {
@@ -40,8 +40,10 @@ namespace Simulacra
             SIM_LOG_INFO("Reading shader file from {} ", paths[pathIndex]);
             while (getline(shaderSourceFile, shaderSource))
             {
-                source[pathIndex] += shaderSource;
-                source[pathIndex].push_back('\n');
+                source.push_back(shaderSource + '\n');
+
+                // source[pathIndex] += shaderSource;
+                // source[pathIndex].push_back('\n');
             }
 
             shaderSourceFile.close();
@@ -225,8 +227,8 @@ namespace Simulacra
             GLint logLength;
             glGetShaderiv(program, GL_INFO_LOG_LENGTH, &logLength);
 
-            char msg[logLength];
-            glGetShaderInfoLog(program, logLength, nullptr, msg);
+            std::string msg(logLength, ' ');
+            glGetShaderInfoLog(program, logLength, nullptr, (char*)msg.c_str());
 
             std::string fmtMsg = msg;
             SIM_LOG_ERROR("{} COMPILE ERROR: \n{}", shader, fmtMsg);
@@ -249,8 +251,8 @@ namespace Simulacra
             GLint logLength;
             glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
 
-            char msg[logLength];
-            glGetProgramInfoLog(program, logLength, nullptr, msg);
+            std::string msg(logLength, ' ');
+            glGetProgramInfoLog(program, logLength, nullptr, (char*)msg.c_str());
 
             std::string fmtMsg = msg;
             SIM_LOG_ERROR("LINKING ERROR: \n{}", fmtMsg);

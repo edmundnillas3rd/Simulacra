@@ -8,8 +8,8 @@ namespace Simulacra
     void SetCWDPath(const std::string& path)
     {
         std::filesystem::current_path(path);
-        filesystem.cwd = std::filesystem::current_path();
-        filesystem.cwd = filesystem.cwd + "/";
+        std::string currentPath = std::filesystem::current_path().string();
+        filesystem.cwd.append(currentPath + std::to_string('/'));
         SIM_LOG_INFO("Current Simulacra Working Directory: {}", filesystem.cwd);
     }
 }
