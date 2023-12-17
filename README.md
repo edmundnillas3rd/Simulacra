@@ -15,16 +15,16 @@ Personally used for game development, visualizing data, and algorithms.
 
 ## Conan 2.0
 ```console
-$ conan install . --ouptput-folder=build --setting=build_type=Debug --build=missing
+conan install . --ouptput-folder=build --setting=build_type=Debug --build=missing
 ```
 
 ## Prior to Conan 2.0
 <debug_profile> is the conan profile set to debug mode
 
 ```console
-$ mkdir build
-$ cd build
-$ conan install .. --ouptput-folder=build --profile=<debug_profile> --build=missing
+mkdir build
+cd build
+conan install .. --ouptput-folder=build --profile=<debug_profile> --build=missing
 ```
 
 
