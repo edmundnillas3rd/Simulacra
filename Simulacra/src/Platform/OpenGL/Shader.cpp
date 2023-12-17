@@ -40,7 +40,8 @@ namespace Simulacra
             SIM_LOG_INFO("Reading shader file from {} ", paths[pathIndex]);
             while (getline(shaderSourceFile, shaderSource))
             {
-                source.push_back(shaderSource + '\n');
+                // source.push_back(shaderSource + '\n');
+                source[pathIndex].append(shaderSource + '\n');
 
                 // source[pathIndex] += shaderSource;
                 // source[pathIndex].push_back('\n');

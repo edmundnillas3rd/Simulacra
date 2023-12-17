@@ -1,11 +1,12 @@
 #include "Window.h"
 
 #if _WIN32
-
+// #error "Windows is unsupported at this moment
 #elif __linux__
-#include "Platform/SDL2/SDL2.h"
-#include "Platform/Linux/FileSystem.h"
 #endif
+
+#include "Platform/Linux/FileSystem.h"
+#include "Platform/SDL2/SDL2.h"
 
 namespace Simulacra
 {

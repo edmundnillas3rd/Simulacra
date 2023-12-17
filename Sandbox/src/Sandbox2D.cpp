@@ -7,8 +7,8 @@ Sandbox2D::Sandbox2D()
     : m_FreeRoam(false)
 {
     m_Shader = Simulacra::LoadShader({
-        "assets/shaders/default.glsl",          // m_Shader.IDs[0]
-        "assets/shaders/default-screen.glsl"    // m_Shader.IDs[1]
+        "assets\\shaders\\default.glsl",          // m_Shader.IDs[0]
+        "assets\\shaders\\default-screen.glsl"    // m_Shader.IDs[1]
     });
 
     float cubeVertices[] = {
