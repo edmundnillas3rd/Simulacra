@@ -15,7 +15,7 @@ Personally used for game development, visualizing data, and algorithms.
 
 ## Conan 2.0
 ```console
-conan install . --ouptput-folder=build --setting=build_type=Debug --build=missing
+conan install . --output-folder=build --settings=build_type=Debug --build=missing
 ```
 
 ## Prior to Conan 2.0
