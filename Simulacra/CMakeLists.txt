@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.26)
 project(Simulacra)
 
 set(API_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
@@ -20,14 +20,14 @@ set(SOURCE_FILES
     "${API_DIR}/spch.cpp"
 )
 
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/glad")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/imguizmo")
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/stb")
 
 find_package(SDL2 CONFIG REQUIRED)
+find_package(glad REQUIRED)
 find_package(spdlog REQUIRED)
 find_package(glm REQUIRED)
+find_package(stb REQUIRED)
 
 add_library(
     ${PROJECT_NAME} STATIC
@@ -53,14 +53,14 @@ set(LIBRARIES
     # Static libraries
     SDL2::SDL2
     SDL2::SDL2main
+    glad::glad
     spdlog::spdlog
     glm::glm
+    stb::stb
 
-    # Header only libraries
-    glad
+    # Header libraries
     imgui
     imguizmo
-    stb
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LIBRARIES})
