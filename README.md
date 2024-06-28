@@ -30,6 +30,11 @@ cd build
 conan install .. --ouptput-folder=build --profile=<debug_profile> --build=missing
 ```
 
+## Building the project
+```console
+cmake --build build
+```
+
 
 ### Roadmap
 - [ ] Multi-threading
