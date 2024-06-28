@@ -12,6 +12,9 @@ Personally used for game development, visualizing data, and algorithms.
 * **[Conan](https://conan.io/downloads)**
 * **[CMake](https://cmake.org/download/)**
 
+## Required IDEs / Compilers
+* **[Visual Studio Community / MSVC](https://visualstudio.microsoft.com/downloads/)**
+* **[GCC](chatgpt.com/?oai-dm=1)**
 
 ## Conan 2.0
 ```console
