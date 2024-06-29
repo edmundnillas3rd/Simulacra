@@ -52,7 +52,7 @@ cmake --build build
 
 cmake -DCMAKE_TOOLCHAIN_FILE=build/generators/conan_toolchain.cmake -S . -B build
 cmake --build build
-cd bin/<build_config>/Sandbox.exe
+cd bin/<build_config>
 Sandbox.exe # to run the program
 ```
 
