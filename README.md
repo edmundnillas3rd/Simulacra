@@ -37,7 +37,24 @@ cd build
 conan install .. --ouptput-folder=build --profile=<debug_profile> --build=missing
 ```
 
-## Building the project
+## Building and running the project
+
+### Terminal / Console
+```console
+cmake -DCMAKE_TOOLCHAIN_FILE=<path-to-conan_toolchain.cmake> -S . -B build
+cmake --build build
+
+
+# Windows Example
+
+# Values: 
+# <build_config> - Debug, Release
+
+cmake -DCMAKE_TOOLCHAIN_FILE=build/generators/conan_toolchain.cmake -S . -B build
+cmake --build build
+cd bin/<build_config>/Sandbox.exe
+Sandbox.exe # to run the program
+```
 
 ### VSCode 
 1. If the appropriate cmake tools didn't exist. Install the CMake and CMake Tools extension first.
