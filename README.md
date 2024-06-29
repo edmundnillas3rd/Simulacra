@@ -43,7 +43,7 @@ conan install .. --ouptput-folder=build --profile=<debug_profile> --build=missin
 1. If the appropriate cmake tools didn't exist. Install the CMake and CMake Tools extension first.
 2. Follow the conan installation procedure.
 3. CTRL + SHIFT + P and search for CMake: Configure in the command palette
-4. Then build (F7) or debug (CTRL + F%)
+4. Then build (F7) or debug (CTRL + F5)
  
 
 ### Roadmap
