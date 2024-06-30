@@ -24,10 +24,10 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/imguizmo")
 
 find_package(SDL2 CONFIG REQUIRED)
-find_package(glad REQUIRED)
-find_package(spdlog REQUIRED)
-find_package(glm REQUIRED)
-find_package(stb REQUIRED)
+find_package(glad CONFIG REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
+find_package(glm CONFIG REQUIRED)
+find_package(stb CONFIG REQUIRED)
 
 add_library(
     ${PROJECT_NAME} STATIC
