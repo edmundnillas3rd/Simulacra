@@ -17,12 +17,12 @@ namespace Simulacra
 
         if (!s_Window)
         {
-            std::cout << "Failed to initialize window\n";
-            std::cout << "SDL2 Error Message: " << SDL_GetError() << "\n";
+            std::cout << "Failed to initialize window" << std::endl;;
+            std::cout << "SDL2 Error Message: " << SDL_GetError() << std::endl;
             return false;
         }
 
-        std::cout << "Window initialized\n";
+        std::cout << "Window initialized" << std::endl;
 
         return true;
     }
