@@ -6,17 +6,7 @@ set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 set(BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 
 set(SOURCE_FILES
-    "${SRC_DIR}/Core/Application.cpp"
-    "${SRC_DIR}/Core/Log.cpp"
-    "${SRC_DIR}/Core/Window.cpp"
-    "${SRC_DIR}/Core/Input.cpp"
-    "${SRC_DIR}/Platform/SDL2/SDL2.cpp"
-    "${SRC_DIR}/Platform/Linux/FileSystem.cpp"
-    "${SRC_DIR}/Platform/OpenGL/Shader.cpp"
-    "${SRC_DIR}/Platform/OpenGL/Framebuffer.cpp"
-    "${SRC_DIR}/Platform/OpenGL/Texture.cpp"
-    "${SRC_DIR}/ImGui/ImGui.cpp"
-    "${SRC_DIR}/Scene.cpp"
+    "${API_DIR}/src/Application.cpp"
     "${API_DIR}/spch.cpp"
 )
 
