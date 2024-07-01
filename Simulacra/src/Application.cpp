@@ -10,6 +10,7 @@ namespace Simulacra
 {
     extern Application* CreateApplication();
     Application* App;
+    Window window;
 
     void StartApplication();
     void ShutdownApplication();
@@ -27,7 +28,8 @@ namespace Simulacra
 
         while (App->Running)
         {
-            PlatformEvents();
+            PollEvents();
+            PlatformRender(window);
         }
 
         ShutdownApplication();
@@ -35,7 +37,7 @@ namespace Simulacra
 
     void StartApplication()
     {
-        Window window = {
+        window = {
             App->Props.Title,
             App->Props.Width,
             App->Props.Height

@@ -9,5 +9,6 @@ namespace Simulacra
 {
     bool InitializePlatformWindow(Window window);
     bool ShutdownPlatformWindow();
-    void PlatformEvents();
+    void PollEvents();
+    void PlatformRender(Window window);
 }
