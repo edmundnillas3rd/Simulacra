@@ -8,4 +8,5 @@ namespace Simulacra
 {
     bool InitializePlatformWindow(Window window);
     bool ShutdownPlatformWindow();
+    void PlatformEvents();
 }

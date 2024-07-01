@@ -27,6 +27,20 @@ namespace Simulacra
         return true;
     }
 
+    void PlatformEvents()
+    {
+        SDL_Event e;
+        while (SDL_PollEvent(&e) != 0)
+        {
+            switch (e.type)
+            {
+            case SDL_QUIT:
+                break;
+            }
+        }
+    }
+
+
     bool ShutdownPlatformWindow()
     {
         SDL_DestroyWindow(s_Window);

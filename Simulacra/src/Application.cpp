@@ -17,22 +17,30 @@ namespace Simulacra
 
     void Run()
     {
-        InitializeWindow();
-        ShutdownWindow();
+        StartApplication();
+
+        while (App->Running)
+        {
+            PlatformEvents();
+        }
+
+        ShutdownApplication();
     }
 
-    void InitializeWindow()
+    void StartApplication()
     {
         Window window = {
-            App->props.Title,
-            App->props.Width,
-            App->props.Height
+            App->Props.Title,
+            App->Props.Width,
+            App->Props.Height
         };
 
         InitializePlatformWindow(window);
+
+        App->Running = true;
     }
 
-    void ShutdownWindow()
+    void ShutdownApplication()
     {
         ShutdownPlatformWindow();
     }

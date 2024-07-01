@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <string>
+#include <vector>
 
 namespace Simulacra
 {
@@ -15,7 +16,8 @@ namespace Simulacra
 
     struct Application
     {
-        Window props;
+        Window Props;
+        bool Running;
     };
 
     Application* CreateApplication();
