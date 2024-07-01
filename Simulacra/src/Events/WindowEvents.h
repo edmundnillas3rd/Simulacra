@@ -14,7 +14,11 @@ namespace Simulacra
     {
     public:
         explicit WindowCloseEvent()
-            : Event<WindowEventType>(WindowEventType::WINDOW_CLOSED, "Window Closed") {}
+            : Event<WindowEventType>(WindowEventType::WINDOW_CLOSED, "Window Closed") 
+        {
+            // NOTE(Edmund): To be replaced with a proper logger
+            std::cout << "Window is closed" << std::endl;
+        }
         virtual ~WindowCloseEvent() = default;
     };
 
