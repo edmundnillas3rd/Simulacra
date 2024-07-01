@@ -9,11 +9,17 @@
 namespace Simulacra
 {
     extern Application* CreateApplication();
-
     Application* App;
 
-    void InitializeWindow();
-    void ShutdownWindow();
+    void StartApplication();
+    void ShutdownApplication();
+
+    // NOTE(Edmund): Revise this event handling callback
+    void OnEventExitApplication(const Event<WindowEventType>& event)
+    {
+        if (event.Type() == WindowEventType::WINDOW_CLOSED)
+            App->Running = false;
+    }
 
     void Run()
     {

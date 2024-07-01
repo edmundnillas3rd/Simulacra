@@ -1,16 +1,21 @@
 #include "SDL2Windows.h"
 #include <iostream>
+#include <string>
 
 #include <SDL.h>
 
+#include "src/Application.h"
+
 namespace Simulacra
 {
+    Dispatcher<WindowEventType> WindowDispatcher;
+
     SDL_Window* s_Window;
     bool InitializePlatformWindow(Window window)
     {
         int flags = 0;
         flags |= SDL_WINDOW_SHOWN;
-        flags |= SDL_WINDOW_OPENGL;
+        flags |= SDL_WINDOW_RESIZABLE;
 
         s_Window = nullptr;
         s_Window = SDL_CreateWindow(window.Title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, window.Width, window.Height, flags);
@@ -22,6 +27,8 @@ namespace Simulacra
             return false;
         }
 
+        WindowDispatcher.Subscribe(WindowEventType::WINDOW_CLOSED, OnEventExitApplication);
+
         std::cout << "Window initialized" << std::endl;
 
         return true;
@@ -32,9 +39,11 @@ namespace Simulacra
         SDL_Event e;
         while (SDL_PollEvent(&e) != 0)
         {
-            switch (e.type)
+            switch (e.window.event)
             {
-            case SDL_QUIT:
+            case SDL_WINDOWEVENT_CLOSE:
+                WindowCloseEvent wce;
+                WindowDispatcher.Post(wce);
                 break;
             }
         }
