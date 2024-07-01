@@ -4,10 +4,10 @@
 
 #include <SDL.h>
 
-#include "src/Application.h"
-
 namespace Simulacra
 {
+    void OnEventExitApplication(const Event<WindowEventType>& event);
+
     Dispatcher<WindowEventType> WindowDispatcher;
 
     SDL_Window* s_Window;

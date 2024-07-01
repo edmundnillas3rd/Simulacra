@@ -2,7 +2,8 @@
 
 #include <SDL.h>
 
-#include "src/Application.h"
+#include "src/Events/WindowEvents.h"
+#include "src/Window.h"
 
 namespace Simulacra
 {
