@@ -1,6 +1,10 @@
 #include "Application.h"
 
-#include <iostream>
+#ifdef _WIN32
+    #include "Platform/SDL2Windows.h"
+#else
+    #error "Platform not yet supported
+#endif
 
 namespace Simulacra
 {
@@ -13,17 +17,24 @@ namespace Simulacra
 
     void Run()
     {
-
+        InitializeWindow();
+        ShutdownWindow();
     }
 
     void InitializeWindow()
     {
+        Window window = {
+            App->props.Title,
+            App->props.Width,
+            App->props.Height
+        };
 
+        InitializePlatformWindow(window);
     }
 
     void ShutdownWindow()
     {
-
+        ShutdownPlatformWindow();
     }
    
 }
@@ -32,6 +43,7 @@ int main(int argc, char* argv[])
 {
     Simulacra::App = nullptr;
     Simulacra::App = Simulacra::CreateApplication();
+    Simulacra::Run();
 
     delete Simulacra::App;
     Simulacra::App = nullptr;
