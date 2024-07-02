@@ -7,6 +7,7 @@ set(BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 
 set(SOURCE_FILES
     "${API_DIR}/src/Application.cpp"
+    "${API_DIR}/src/Input.cpp"
     "${API_DIR}/src/Platform/SDL2Windows.cpp"
     "${API_DIR}/src/Platform/OpenGL/Framebuffer.cpp"
     "${API_DIR}/src/Platform/OpenGL/Texture.cpp"
