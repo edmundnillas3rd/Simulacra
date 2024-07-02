@@ -7,6 +7,10 @@
 
 namespace Simulacra
 {
+    // NOTE(Edmund): There may be an alternative to this, rather
+    // than putthing the declaration of a function from a seperate
+    // module.
+    // Source - Application.cpp
     void OnEventExitApplication(const Event<WindowEventType>& event);
 
     Dispatcher<WindowEventType> WindowDispatcher;
