@@ -8,7 +8,7 @@ namespace Simulacra
     {
         Framebuffer buffer;
 
-        glGenFramebuffers(1, &buffer.FBO);
+        glCreateFramebuffers(1, &buffer.FBO);
         glBindFramebuffer(GL_FRAMEBUFFER, buffer.FBO);
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)

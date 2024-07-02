@@ -12,8 +12,27 @@ namespace Simulacra
     Application* App;
     Window window;
 
+    std::vector<Application*> m_Layers;
+
     void StartApplication();
     void ShutdownApplication();
+
+    void AddLayer(Application* layer)
+    {
+        m_Layers.push_back(layer);
+    }
+
+    std::vector<Application*> QueryLayers()
+    {
+
+        if (m_Layers.empty())
+        {
+            std::cout << "List is empty" << std::endl;
+            return m_Layers;
+        }
+            
+        return m_Layers;
+    }
 
     // NOTE(Edmund): Revise this event handling callback
     void OnEventExitApplication(const Event<WindowEventType>& event)
@@ -29,7 +48,18 @@ namespace Simulacra
         while (App->Running)
         {
             PollEvents();
+
+            for (const auto& layer : QueryLayers())
+            {
+                layer->OnEvent();
+            }
+
             PlatformRender(window);
+
+            for (const auto& layer : QueryLayers())
+            {
+                layer->OnUpdate(1.05f);
+            }
         }
 
         ShutdownApplication();
