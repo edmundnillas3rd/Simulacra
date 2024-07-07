@@ -27,7 +27,7 @@ namespace Simulacra
         const char* fragment = shader.Sources[1].c_str();
 
         GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vs, 1, &vertex, NULL);
+        glShaderSource(vs, 1, &vertex, nullptr);
         glCompileShader(vs);
 
         int success = -1;
@@ -35,20 +35,20 @@ namespace Simulacra
         glGetShaderiv(vs, GL_COMPILE_STATUS, &success);
         if(success != GL_TRUE) 
         {
-            glGetShaderInfoLog(vs, 512, NULL, infoLog);
+            glGetShaderInfoLog(vs, 512, nullptr, infoLog);
             std::cout << "VERTEX SHADER COMPILATION FAILED: " << infoLog << std::endl;
             return shader;
         }
         
         GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fs, 1, &fragment, NULL);
+        glShaderSource(fs, 1, &fragment, nullptr);
         glCompileShader(fs);
 
         success = -1;
         glGetShaderiv(fs, GL_COMPILE_STATUS, &success);
         if(success != GL_TRUE) 
         {
-            glGetShaderInfoLog(fs, 512, NULL, infoLog);
+            glGetShaderInfoLog(fs, 512, nullptr, infoLog);
             std::cout << "FRAGMENT SHADER COMPILATION FAILED: " << infoLog << std::endl;
             return shader;
         }

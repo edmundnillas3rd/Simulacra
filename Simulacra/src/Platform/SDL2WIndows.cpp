@@ -26,7 +26,7 @@ namespace Simulacra
             return false;
         }
 
-        SDL_GL_LoadLibrary(NULL);
+        SDL_GL_LoadLibrary(nullptr);
 
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
@@ -87,7 +87,6 @@ namespace Simulacra
     void PlatformRender(Window window)
     {
         SDL_GL_SwapWindow(s_Window);
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
     }
 

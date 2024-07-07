@@ -7,22 +7,17 @@
 namespace Simulacra
 {
 
-    Renderer* s_Renderer;
+    GLuint s_VAO;
 
-    Renderer* CreateRenderer();
-
-    GLuint VAO;
-
-    static Shader shader;
+    Shader s_Shader;
 
     void InitializeRenderer()
     {
-        s_Renderer = nullptr;
-        VAO = 0;
+        s_VAO = 0;
 
-        shader = LoadShaders("assets/shaders/default-screen.glsl");
-        glCreateVertexArrays(1, &VAO);
-        glBindVertexArray(VAO);
+        s_Shader = LoadShaders("assets/shaders/default-screen.glsl");
+        glCreateVertexArrays(1, &s_VAO);
+        glBindVertexArray(s_VAO);
     }
 
     void RenderTexture(Texture texture)
@@ -38,14 +33,7 @@ namespace Simulacra
 
         glClearBufferfv(GL_COLOR, 0, color);
         glPointSize(40.0f);
-        SetActiveShader(shader.Program);
+        SetActiveShader(s_Shader.Program);
         glDrawArrays(GL_POINTS, 0, 1);
     }
-
-    Renderer* CreateRenderer()
-    {
-        Renderer renderer;
-        return nullptr;
-    }
-
 }

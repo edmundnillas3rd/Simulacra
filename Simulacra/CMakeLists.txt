@@ -10,7 +10,6 @@ set(SOURCE_FILES
     "${API_DIR}/src/Renderer.cpp"
     "${API_DIR}/src/Input.cpp"
     "${API_DIR}/src/Platform/SDL2Windows.cpp"
-    "${API_DIR}/src/Platform/OpenGL/Framebuffer.cpp"
     "${API_DIR}/src/Platform/OpenGL/Shader.cpp"
     "${API_DIR}/src/Platform/OpenGL/Texture.cpp"
     "${API_DIR}/spch.cpp"
