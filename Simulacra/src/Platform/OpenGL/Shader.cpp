@@ -30,11 +30,13 @@ namespace Simulacra
         glShaderSource(vs, 1, &vertex, NULL);
         glCompileShader(vs);
 
-        int params = -1;
-        glGetShaderiv(vs, GL_COMPILE_STATUS, &params);
-        if(params != GL_TRUE) 
+        int success = -1;
+        char infoLog[512];
+        glGetShaderiv(vs, GL_COMPILE_STATUS, &success);
+        if(success != GL_TRUE) 
         {
-            std::cout << "GL Shader Vertex did not compile: " << vs << std::endl;
+            glGetShaderInfoLog(vs, 512, NULL, infoLog);
+            std::cout << "VERTEX SHADER COMPILATION FAILED: " << infoLog << std::endl;
             return shader;
         }
         
@@ -42,11 +44,12 @@ namespace Simulacra
         glShaderSource(fs, 1, &fragment, NULL);
         glCompileShader(fs);
 
-        params = -1;
-        glGetShaderiv(fs, GL_COMPILE_STATUS, &params);
-        if(params != GL_TRUE) 
+        success = -1;
+        glGetShaderiv(fs, GL_COMPILE_STATUS, &success);
+        if(success != GL_TRUE) 
         {
-            std::cout << "GL Shader Fragment did not compile: " << fs << std::endl;
+            glGetShaderInfoLog(fs, 512, NULL, infoLog);
+            std::cout << "FRAGMENT SHADER COMPILATION FAILED: " << infoLog << std::endl;
             return shader;
         }
 
