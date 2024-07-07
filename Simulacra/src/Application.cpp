@@ -2,6 +2,7 @@
 
 #ifdef _WIN32
     #include "Platform/SDL2Windows.h"
+    #include "Renderer.h"
 #else
     #error "Platform not yet supported
 #endif
@@ -74,6 +75,7 @@ namespace Simulacra
         };
 
         InitializePlatformWindow(window);
+        InitializeRenderer();
 
         App->Running = true;
     }
