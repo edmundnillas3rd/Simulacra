@@ -104,11 +104,33 @@ namespace Simulacra
         glUseProgram(program);
     }
 
-    void SetIntShader(const std::string& location, int i, int j)
+    void SetIntUniform(Shader shader, const std::string& location, int i)
     {
+        glUniform1i(glGetUniformLocation(shader.Program, location.c_str()), i);
     }
 
-    void SetIntShader(const std::string& location, int i)
+    void SetIntUniform(Shader shader, const std::string& location, int i, int j)
     {
+        glUniform2i(glGetUniformLocation(shader.Program, location.c_str()), i, j);
+    }
+
+    void SetIntUniform(Shader shader, const std::string &location, int i, int j, int k)
+    {
+        glUniform3i(glGetUniformLocation(shader.Program, location.c_str()), i, j, k);
+    }
+
+    void SetFloatUniform(Shader shader, const std::string &location, float i)
+    {
+        glUniform1f(glGetUniformLocation(shader.Program, location.c_str()), i);
+    }
+
+    void SetFloatUniform(Shader shader, const std::string &location, float i, float j)
+    {
+        glUniform2f(glGetUniformLocation(shader.Program, location.c_str()), i, j);
+    }
+    
+    void SetFloatUniform(Shader shader, const std::string &location, float i, float j, float k)
+    {
+        glUniform3f(glGetUniformLocation(shader.Program, location.c_str()), i, j, k);
     }
 }
