@@ -9,7 +9,7 @@ set(SOURCE_FILES
     "${API_DIR}/src/Simulacra/Application.cpp"
     "${API_DIR}/src/Simulacra/Renderer.cpp"
     "${API_DIR}/src/Simulacra/Input.cpp"
-    "${API_DIR}/src/Platform/SDL2Windows.cpp"
+    "${API_DIR}/src/Platform/Windows/SDL2Windows.cpp"
     "${API_DIR}/src/Platform/OpenGL/Shader.cpp"
     "${API_DIR}/src/Platform/OpenGL/Texture.cpp"
     "${API_DIR}/spch.cpp"
