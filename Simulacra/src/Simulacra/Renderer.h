@@ -8,6 +8,4 @@ namespace Simulacra
 {
     void InitializeRenderer();
     void RenderTexture(Texture texture);
-
-    void DrawLine();
 }

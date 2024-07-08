@@ -7,7 +7,7 @@ namespace Simulacra
 {
     std::array<std::string, 5> ParseShader(const std::string& source);
 
-    Shader LoadShaders(const std::string &path)
+    Shader LoadShaders(const std::string& path)
     {
         std::fstream shaderFile(path.c_str(), std::ios::in | std::ios::binary);
         std::stringstream ss;
@@ -53,10 +53,10 @@ namespace Simulacra
             return shader;
         }
 
-        shader.Program = glCreateProgram();
-        glAttachShader(shader.Program, vs);
-        glAttachShader(shader.Program, fs);
-        glLinkProgram(shader.Program);
+        shader.ProgramID = glCreateProgram();
+        glAttachShader(shader.ProgramID, vs);
+        glAttachShader(shader.ProgramID, fs);
+        glLinkProgram(shader.ProgramID);
 
         glDeleteShader(vs);
         glDeleteShader(fs);
@@ -104,33 +104,33 @@ namespace Simulacra
         glUseProgram(program);
     }
 
-    void SetIntUniform(Shader shader, const std::string& location, int i)
+    void SetIntUniform(const Shader& shader, const std::string& location, int i)
     {
-        glUniform1i(glGetUniformLocation(shader.Program, location.c_str()), i);
+        glUniform1i(glGetUniformLocation(shader.ProgramID, location.c_str()), i);
     }
 
-    void SetIntUniform(Shader shader, const std::string& location, int i, int j)
+    void SetIntUniform(const Shader& shader, const std::string& location, int i, int j)
     {
-        glUniform2i(glGetUniformLocation(shader.Program, location.c_str()), i, j);
+        glUniform2i(glGetUniformLocation(shader.ProgramID, location.c_str()), i, j);
     }
 
-    void SetIntUniform(Shader shader, const std::string &location, int i, int j, int k)
+    void SetIntUniform(const Shader& shader, const std::string &location, int i, int j, int k)
     {
-        glUniform3i(glGetUniformLocation(shader.Program, location.c_str()), i, j, k);
+        glUniform3i(glGetUniformLocation(shader.ProgramID, location.c_str()), i, j, k);
     }
 
-    void SetFloatUniform(Shader shader, const std::string &location, float i)
+    void SetFloatUniform(const Shader& shader, const std::string &location, float i)
     {
-        glUniform1f(glGetUniformLocation(shader.Program, location.c_str()), i);
+        glUniform1f(glGetUniformLocation(shader.ProgramID, location.c_str()), i);
     }
 
-    void SetFloatUniform(Shader shader, const std::string &location, float i, float j)
+    void SetFloatUniform(const Shader& shader, const std::string &location, float i, float j)
     {
-        glUniform2f(glGetUniformLocation(shader.Program, location.c_str()), i, j);
+        glUniform2f(glGetUniformLocation(shader.ProgramID, location.c_str()), i, j);
     }
     
-    void SetFloatUniform(Shader shader, const std::string &location, float i, float j, float k)
+    void SetFloatUniform(const Shader& shader, const std::string &location, float i, float j, float k)
     {
-        glUniform3f(glGetUniformLocation(shader.Program, location.c_str()), i, j, k);
+        glUniform3f(glGetUniformLocation(shader.ProgramID, location.c_str()), i, j, k);
     }
 }
