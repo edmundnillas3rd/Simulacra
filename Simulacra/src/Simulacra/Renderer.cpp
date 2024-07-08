@@ -1,6 +1,6 @@
 #include "Renderer.h"
 
-#include "src/Platform/OpenGL/Shader.h"
+#include "src/Platform/OpenGL/Shaders.h"
 
 namespace Simulacra
 {

@@ -5,4 +5,4 @@
 #include "src/Simulacra/Input.h"
 
 #include "src/Platform/OpenGL/Texture.h"
-#include "src/Platform/OpenGL/Shader.h"
+#include "src/Platform/OpenGL/Shaders.h"
