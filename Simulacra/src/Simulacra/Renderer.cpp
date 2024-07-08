@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 
-#include "Platform/OpenGL/Shader.h"
+#include "src/Platform/OpenGL/Shader.h"
 
 namespace Simulacra
 {

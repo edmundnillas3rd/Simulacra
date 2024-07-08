@@ -3,7 +3,7 @@
 #include <SDL.h>
 
 #include "src/Events/WindowEvents.h"
-#include "src/Window.h"
+#include "src/Simulacra/Window.h"
 
 namespace Simulacra
 {

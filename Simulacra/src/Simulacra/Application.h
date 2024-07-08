@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "Events/WindowEvents.h"
-#include "src/Window.h"
+#include "src/Events/WindowEvents.h"
+#include "Window.h"
 
 namespace Simulacra
 {

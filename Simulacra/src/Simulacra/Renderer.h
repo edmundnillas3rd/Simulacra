@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "Platform/OpenGL/Texture.h"
+#include "src/Platform/OpenGL/Texture.h"
 
 namespace Simulacra
 {

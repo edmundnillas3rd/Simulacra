@@ -1,7 +1,7 @@
 #include "Application.h"
 
 #ifdef _WIN32
-    #include "Platform/SDL2Windows.h"
+    #include "src/Platform/SDL2Windows.h"
     #include "Renderer.h"
 #else
     #error "Platform not yet supported

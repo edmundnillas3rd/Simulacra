@@ -1,7 +1,7 @@
 #pragma once
 #include <SDL.h>
 
-#include "Events/InputEvents.h"
+#include "src/Events/InputEvents.h"
 
 namespace Simulacra
 {

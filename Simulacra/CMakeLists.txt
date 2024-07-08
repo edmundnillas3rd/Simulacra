@@ -6,9 +6,9 @@ set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 set(BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 
 set(SOURCE_FILES
-    "${API_DIR}/src/Application.cpp"
-    "${API_DIR}/src/Renderer.cpp"
-    "${API_DIR}/src/Input.cpp"
+    "${API_DIR}/src/Simulacra/Application.cpp"
+    "${API_DIR}/src/Simulacra/Renderer.cpp"
+    "${API_DIR}/src/Simulacra/Input.cpp"
     "${API_DIR}/src/Platform/SDL2Windows.cpp"
     "${API_DIR}/src/Platform/OpenGL/Shader.cpp"
     "${API_DIR}/src/Platform/OpenGL/Texture.cpp"
