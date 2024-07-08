@@ -10,7 +10,7 @@ namespace Simulacra
     struct Texture
     {
         uint32_t TextureID;
-        glm::ivec2 Texels;
+        glm::ivec2 Size;
     };
 
     Texture LoadTexture(const std::string& path);
