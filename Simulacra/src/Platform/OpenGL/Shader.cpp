@@ -3,6 +3,8 @@
 #include <fstream>
 #include <sstream>
 
+#include <glad/glad.h>
+
 namespace Simulacra
 {
     std::array<std::string, 5> ParseShader(const std::string& source);
@@ -26,7 +28,7 @@ namespace Simulacra
         const char* vertex = shader.Sources[0].c_str();
         const char* fragment = shader.Sources[1].c_str();
 
-        GLuint vs = glCreateShader(GL_VERTEX_SHADER);
+        uint32_t vs = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vs, 1, &vertex, nullptr);
         glCompileShader(vs);
 
@@ -40,7 +42,7 @@ namespace Simulacra
             return shader;
         }
         
-        GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
+        uint32_t fs = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(fs, 1, &fragment, nullptr);
         glCompileShader(fs);
 
@@ -99,7 +101,7 @@ namespace Simulacra
         };
     }
 
-    void SetActiveShader(GLuint program)
+    void SetActiveShader(uint32_t program)
     {
         glUseProgram(program);
     }

@@ -3,18 +3,16 @@
 #include <string>
 #include <array>
 
-#include <glad/glad.h>
-
 namespace Simulacra
 {
     struct Shader 
     {
-        GLuint ProgramID;
+        uint32_t ProgramID;
         std::array<std::string, 5> Sources;
     };
 
     Shader LoadShaders(const std::string& path);
-    void SetActiveShader(GLuint program);
+    void SetActiveShader(uint32_t program);
 
     void SetIntUniform(const Shader& shader, const std::string& location, int i);
     void SetIntUniform(const Shader& shader, const std::string& location, int i, int j);
