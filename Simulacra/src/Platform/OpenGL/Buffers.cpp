@@ -8,8 +8,13 @@ namespace Simulacra
     {
         VertexArrayBuffer va;
         glCreateVertexArrays(1, &va.RendererID);
-        glBindVertexArray(GL_VERTEX_ARRAY);
+        glBindVertexArray(va.RendererID);
 
         return va;
+    }
+
+    void BindVertexArrayBuffer(uint32_t buffer)
+    {
+        glBindVertexArray(buffer);
     }
 }

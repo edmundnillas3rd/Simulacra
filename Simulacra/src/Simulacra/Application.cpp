@@ -71,12 +71,22 @@ namespace Simulacra
 
         InitializePlatformWindow(window);
 
+        for (const auto& layer : QueryLayers())
+        {
+            layer->OnAttach();
+        }
+
         App->Running = true;
     }
 
     void ShutdownApplication()
     {
         ShutdownPlatformWindow();
+
+        for (const auto& layer : QueryLayers())
+        {
+            layer->OnDetach();
+        }
     }
    
 }

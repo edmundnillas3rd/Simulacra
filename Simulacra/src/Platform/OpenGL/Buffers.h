@@ -11,4 +11,5 @@ namespace Simulacra
 
 
     VertexArrayBuffer CreateVertexArrayBuffer();
+    void BindVertexArrayBuffer(uint32_t buffer);
 }
