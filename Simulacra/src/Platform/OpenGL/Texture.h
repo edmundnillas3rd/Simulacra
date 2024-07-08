@@ -11,7 +11,7 @@ namespace Simulacra
     struct Texture
     {
         glm::ivec2 Texels;
-        GLuint Data;
+        GLuint Buffer;
     };
 
     Texture LoadTexture(const std::string& path);

@@ -10,19 +10,19 @@ namespace Simulacra
 
         int n = 0;
         int forceChannels = 4;
-        unsigned char* image_data = stbi_load(path.c_str(), &texture.Texels.x, &texture.Texels.y, &n, forceChannels);
-        if (!image_data)
+        unsigned char* imageData = stbi_load(path.c_str(), &texture.Texels.x, &texture.Texels.y, &n, forceChannels);
+        if (!imageData)
         {
             std::cout << "Error: Could not load " + path << std::endl;
         }
 
         stbi_set_flip_vertically_on_load(1);
 
-        glCreateBuffers(1, &texture.Data);
+        glCreateBuffers(1, &texture.Buffer);
         glActiveTexture(GL_TEXTURE0);
-        BindTexture(texture.Data);
+        BindTexture(texture.Buffer);
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.Texels.x, texture.Texels.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.Texels.x, texture.Texels.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
