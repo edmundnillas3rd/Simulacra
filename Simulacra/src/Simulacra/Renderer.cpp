@@ -1,7 +1,5 @@
 #include "Renderer.h"
 
-#include <glad/glad.h>
-
 #include "src/Platform/OpenGL/Shader.h"
 
 namespace Simulacra

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <SDL.h>
-
 #include "src/Events/WindowEvents.h"
 #include "src/Simulacra/Window.h"
 

@@ -68,11 +68,7 @@ namespace Simulacra
 
     void StartApplication()
     {
-        window = {
-            App->Props.Title,
-            App->Props.Width,
-            App->Props.Height
-        };
+        window = { App->Props.Title, App->Props.Width, App->Props.Height };
 
         InitializePlatformWindow(window);
         InitializeRenderer();
