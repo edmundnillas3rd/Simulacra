@@ -59,6 +59,7 @@ namespace Simulacra
         gladLoadGLLoader(SDL_GL_GetProcAddress);
 
         SDL_GL_SetSwapInterval(1);
+        glViewport(0, 0, window.Width, window.Height);
 
         WindowDispatcher.Subscribe(WindowEventType::WINDOW_CLOSED, OnEventExitApplication);
 
@@ -76,6 +77,12 @@ namespace Simulacra
         {
             switch (e.window.event)
             {
+            case SDL_WINDOWEVENT_RESIZED:
+                // NOTE(Edmund): temporary approach to resizing viewport
+                int w, h;
+                SDL_GetWindowSize(s_Window, &w, &h);
+                glViewport(0, 0, w, h);
+                break;
             case SDL_WINDOWEVENT_CLOSE:
                 WindowCloseEvent wce;
                 WindowDispatcher.Post(wce);
