@@ -13,7 +13,7 @@ namespace Simulacra
     // Source - Application.cpp
     void OnEventExitApplication(const Event<WindowEventType>& event);
 
-    Dispatcher<WindowEventType> WindowDispatcher;
+    Dispatcher<WindowEventType> s_WindowDispatcher;
 
     SDL_Window* s_Window;
     SDL_GLContext s_Context;
@@ -61,7 +61,7 @@ namespace Simulacra
         SDL_GL_SetSwapInterval(1);
         glViewport(0, 0, window.Width, window.Height);
 
-        WindowDispatcher.Subscribe(WindowEventType::WINDOW_CLOSED, OnEventExitApplication);
+        s_WindowDispatcher.Subscribe(WindowEventType::WINDOW_CLOSED, OnEventExitApplication);
 
         
 
@@ -85,7 +85,7 @@ namespace Simulacra
                 break;
             case SDL_WINDOWEVENT_CLOSE:
                 WindowCloseEvent wce;
-                WindowDispatcher.Post(wce);
+                s_WindowDispatcher.Post(wce);
                 break;
             }
         }
