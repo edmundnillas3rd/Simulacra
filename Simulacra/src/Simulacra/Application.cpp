@@ -6,32 +6,35 @@
     #error "Platform not yet supported
 #endif
 
+#include "Time.h"
+
 namespace Simulacra
 {
-    extern Application* CreateApplication();
+    Application* CreateApplication();
     Application* App;
-    Window window;
 
-    std::vector<Application*> m_Layers;
+    Window s_Window;
+
+    std::vector<Application*> s_Layers;
 
     void StartApplication();
     void ShutdownApplication();
 
     void AddLayer(Application* layer)
     {
-        m_Layers.push_back(layer);
+        s_Layers.push_back(layer);
     }
 
     std::vector<Application*> QueryLayers()
     {
 
-        if (m_Layers.empty())
+        if (s_Layers.empty())
         {
             std::cout << "List is empty" << std::endl;
-            return m_Layers;
+            return s_Layers;
         }
             
-        return m_Layers;
+        return s_Layers;
     }
 
     // NOTE(Edmund): Revise this event handling callback
@@ -45,8 +48,13 @@ namespace Simulacra
     {
         StartApplication();
 
+        float lastFrame = 0.0f;
         while (App->Running)
         {
+            float time = CurrentTime() / 1000.0f;
+            float deltaTime = time - lastFrame;
+            lastFrame = time;
+
             PollEvents();
 
             for (const auto& layer : QueryLayers())
@@ -54,11 +62,12 @@ namespace Simulacra
                 layer->OnEvent();
             }
 
-            PlatformRender(window);
+            PlatformRender(s_Window);
+
 
             for (const auto& layer : QueryLayers())
             {
-                layer->OnUpdate(1.05f);
+                layer->OnUpdate(deltaTime);
             }
         }
 
@@ -67,9 +76,9 @@ namespace Simulacra
 
     void StartApplication()
     {
-        window = { App->Props.Title, App->Props.Width, App->Props.Height };
+        s_Window = { App->Props.Title, App->Props.Width, App->Props.Height };
 
-        InitializePlatformWindow(window);
+        InitializePlatformWindow(s_Window);
 
         for (const auto& layer : QueryLayers())
         {
