@@ -1,9 +1,11 @@
-#include "SDL2Windows.h"
+#include "src/Simulacra/Window.h"
 #include <iostream>
 #include <string>
 
 #include <SDL.h>
 #include <glad/glad.h>
+
+#include "src/Events/WindowEvents.h"
 
 namespace Simulacra
 {

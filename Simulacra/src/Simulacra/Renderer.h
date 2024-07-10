@@ -2,10 +2,11 @@
 
 #include <vector>
 
-#include "src/Platform/OpenGL/Texture.h"
-
 namespace Simulacra
 {
-    void InitializeRenderer();
-    void RenderTexture(Texture texture);
+    struct Renderer
+    {
+    };
+
+    Renderer* InitializeRenderer();
 }

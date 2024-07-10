@@ -1,11 +1,9 @@
-
 #pragma once
 
 #include <functional>
 #include <string>
 #include <vector>
 
-#include "src/Events/WindowEvents.h"
 #include "Window.h"
 
 namespace Simulacra

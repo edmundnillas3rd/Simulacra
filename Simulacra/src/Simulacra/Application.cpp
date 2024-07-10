@@ -1,11 +1,6 @@
 #include "Application.h"
 
-#ifdef _WIN32
-    #include "src/Platform/Windows/SDL2Windows.h"
-#else
-    #error "Platform not yet supported
-#endif
-
+#include "src/Events/WindowEvents.h"
 #include "Time.h"
 
 namespace Simulacra

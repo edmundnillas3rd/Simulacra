@@ -4,12 +4,8 @@
 
 namespace Simulacra
 {
-    void InitializeRenderer()
+    Renderer* InitializeRenderer()
     {
-    }
-
-    void RenderTexture(Texture texture)
-    {
-
+        return nullptr;
     }
 }

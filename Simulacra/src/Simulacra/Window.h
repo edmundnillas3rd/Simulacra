@@ -12,4 +12,8 @@ namespace Simulacra
         uint32_t Height;
     };
 
+    bool InitializePlatformWindow(Window window);
+    bool ShutdownPlatformWindow();
+    void PollEvents();
+    void PlatformRender(Window window);
 }
