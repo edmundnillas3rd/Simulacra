@@ -7,12 +7,12 @@ set(BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 
 set(SOURCE_FILES
     "${API_DIR}/src/Simulacra/Application.cpp"
-    "${API_DIR}/src/Simulacra/Renderer.cpp"
     "${API_DIR}/src/Simulacra/Input.cpp"
     "${API_DIR}/src/Platform/Windows/SDL2Windows.cpp"
     "${API_DIR}/src/Platform/Windows/SDL2WindowsTime.cpp"
     "${API_DIR}/src/Platform/OpenGL/Shaders.cpp"
     "${API_DIR}/src/Platform/OpenGL/Buffers.cpp"
+    "${API_DIR}/src/Platform/OpenGL/RendererAPI.cpp"
     "${API_DIR}/src/Platform/OpenGL/Texture.cpp"
     "${API_DIR}/spch.cpp"
 )

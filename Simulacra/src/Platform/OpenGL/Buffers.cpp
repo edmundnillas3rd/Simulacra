@@ -10,19 +10,33 @@ namespace Simulacra
     VertexArrayBuffer CreateVertexArrayBuffer()
     {
         VertexArrayBuffer va;
-        glCreateVertexArrays(1, &va.RendererID);
+        glGenVertexArrays(1, &va.RendererID);
         glBindVertexArray(va.RendererID);
 
         return va;
     }
-
 
     void BindVertexArrayBuffer(uint32_t buffer)
     {
         glBindVertexArray(buffer);
     }
 
-    void BufferArrayBuffer(size_t size, void *data)
+    VertexBuffer CreateVertexBuffer()
+    {
+        VertexBuffer vbo;
+
+        glGenBuffers(1, &vbo.RendererID);
+        glBindBuffer(GL_ARRAY_BUFFER, vbo.RendererID);
+
+        return vbo;
+    }
+
+    void BindVertexBuffer(uint32_t buffer)
+    {
+        glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    }
+
+    void BufferVertexBuffer(size_t size, const void *data)
     {
         glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
     }
@@ -31,18 +45,18 @@ namespace Simulacra
     {
         ElementBufferObject ebo;
 
-        glCreateBuffers(GL_ELEMENT_ARRAY_BUFFER, &ebo.RendererID);
+        glGenBuffers(1, &ebo.RendererID);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo.RendererID);
 
         return ebo;
     }
 
-    void BindElementBufferObject(uint32_t buffer)
+    void BindElementBuffer(uint32_t buffer)
     {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer);
     }
 
-    void BufferElementData(size_t size, void *data)
+    void BufferElementBuffer(size_t size, const void *data)
     {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
     }

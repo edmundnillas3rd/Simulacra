@@ -1,6 +1,8 @@
 #include "Texture.h"
 
+
 #include <glad/glad.h>
+#define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
 namespace Simulacra
@@ -19,7 +21,7 @@ namespace Simulacra
 
         stbi_set_flip_vertically_on_load(1);
 
-        glCreateBuffers(1, &texture.TextureID);
+        glGenTextures(1, &texture.TextureID);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture.TextureID);
 
@@ -32,6 +34,11 @@ namespace Simulacra
         stbi_image_free(imageData);
 
         return texture;
+    }
+
+    void SetActiveTexture(uint32_t index)
+    {
+        glActiveTexture(GL_TEXTURE0 + index);
     }
 
     void BindTexture(uint32_t texture)
