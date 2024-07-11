@@ -6,6 +6,7 @@
 #include <glad/glad.h>
 
 #include "src/Events/WindowEvents.h"
+#include "src/Simulacra/Window.h"
 
 namespace Simulacra
 {
@@ -99,6 +100,19 @@ namespace Simulacra
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
+    Window GetCurrentWindow()
+    {
+        int w = 0, h = 0;
+        SDL_GetWindowSize(s_Window, &w, &h);
+        const char* title = SDL_GetWindowTitle(s_Window);
+
+        Window window;
+        window.Title = title;
+        window.Width = w;
+        window.Height = h;
+
+        return window;
+    }
 
     bool ShutdownPlatformWindow()
     {

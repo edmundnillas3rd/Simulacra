@@ -16,4 +16,6 @@ namespace Simulacra
     bool ShutdownPlatformWindow();
     void PollEvents();
     void PlatformRender(Window window);
+
+    Window GetCurrentWindow();
 }
