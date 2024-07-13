@@ -1,18 +1,29 @@
-#include <Simulacra.h>
-#include <src/Core/EntryPoint.h>
-
 #include "Sandbox2D.h"
 
-static void Sandbox()
-{
-    Simulacra::PushLayer(new Sandbox2D());
-}
+#include <Simulacra.h>
 
-Simulacra::Application* CreateApplication()
+class Sandbox : public Simulacra::Application
 {
-    Simulacra::Application* app = new Simulacra::Application();
-    app->name = "This is a new game title";
-    app->path = "../../Sandbox";
-    app->submit = Sandbox;
+public:
+    Sandbox()
+    {
+        AddLayer(new Sandbox2D());
+    }
+
+    ~Sandbox()
+    {
+    }
+};
+
+Simulacra::Application* Simulacra::CreateApplication()
+{
+    Simulacra::Application* app = new Sandbox();
+
+    app->Props.Title = "This is a game";
+    app->Props.Width = 1280;
+    app->Props.Height = 680;
+
+    std::cout << "Application Created" << std::endl;
+
     return app;
 }
