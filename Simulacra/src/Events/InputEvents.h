@@ -3,7 +3,39 @@
 
 namespace Simulacra
 {
-    enum class VKEY : int
+    enum class VKEY : int32_t;
+
+    class KeyPressedDownEvent : public Event
+    {
+    public:
+        explicit KeyPressedDownEvent(VKEY key)
+            : Event(EventType::KEY_PRESSED, "Window Pressed"), m_Key(key)
+        {}
+        virtual ~KeyPressedDownEvent() = default;
+
+        VKEY KeyCode() const { return m_Key; }
+
+        static EventType StaticType()
+        {
+           return EventType::KEY_PRESSED;
+        }
+
+        virtual std::string ToString() const
+        {
+            std::stringstream ss;
+            ss << std::to_string((int32_t)m_Key);
+            return ss.str();
+        }
+
+        virtual EventType Type() const override
+        {
+            return StaticType();
+        }
+    private: 
+        VKEY m_Key;
+    };
+
+    enum class VKEY : int32_t
     {
         SCANCODE_UNKNOWN = 0,
         /**
@@ -393,17 +425,5 @@ namespace Simulacra
 
         NUM_SCANCODES = 512 /**< not a key, just marks the number of scancodes
                                     for array bounds */
-    };
-
-    class KeyPressedDownEvent : public Event
-    {
-    public:
-        explicit KeyPressedDownEvent(VKEY key)
-            : Event(EventType::KEY_PRESSED, "Window Pressed"), m_Key(key)
-        {}
-
-        virtual ~KeyPressedDownEvent() = default;
-    private: 
-        VKEY m_Key;
     };
 }

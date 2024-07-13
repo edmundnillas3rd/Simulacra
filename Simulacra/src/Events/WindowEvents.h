@@ -2,6 +2,7 @@
 
 #include "Event.h"
 
+
 namespace Simulacra
 {
 
@@ -18,6 +19,12 @@ namespace Simulacra
         static EventType StaticType()
         {
            return EventType::WINDOW_CLOSED;
+        }
+
+        virtual std::string ToString() const override
+        {
+            std::string s = m_Name;
+            return s;
         }
 
         virtual EventType Type() const override
@@ -42,6 +49,12 @@ namespace Simulacra
         static EventType StaticType()
         {
            return EventType::WINDOW_RESIZED;
+        }
+
+        virtual std::string ToString() const override
+        {
+            std::string s = m_Name;
+            return s;
         }
 
         virtual EventType Type() const override

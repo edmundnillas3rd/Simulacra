@@ -24,6 +24,7 @@ namespace Simulacra
         virtual ~Event() = default;
 
         virtual EventType Type() const = 0;
+        virtual std::string ToString() const = 0;
 
         const std::string& GetName()
         { 

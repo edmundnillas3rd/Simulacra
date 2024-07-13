@@ -6,6 +6,7 @@
 #include <glad/glad.h>
 
 #include "src/Events/WindowEvents.h"
+#include "src/Events/InputEvents.h"
 #include "src/Simulacra/Window.h"
 
 namespace Simulacra
@@ -32,45 +33,42 @@ namespace Simulacra
     {
         switch(event->type)
         {
-        case SDL_KEYDOWN:
-            switch (event->key.keysym.sym)
-            {
-            case SDLK_a:
-                std::cout << "Keyboard press a" << std::endl;
+            case SDL_KEYDOWN:
+                {
+                    WindowData& data = *(WindowData*)SDL_GetWindowData(s_Window, "windowdata");
+                    KeyPressedDownEvent kpde(static_cast<VKEY>(event->key.keysym.sym));
+                    data.Callback(kpde);
+                }
                 break;
-            }
-            break;
-        case SDL_KEYUP:
-            switch (event->key.keysym.sym)
-            {
-            case SDLK_a:
-                std::cout << "Keyboard keyup a" << std::endl;
+            case SDL_KEYUP:
+                {
+                    WindowData& data = *(WindowData*)SDL_GetWindowData(s_Window, "windowdata");
+                    KeyPressedDownEvent kpde(static_cast<VKEY>(event->key.keysym.sym));
+                    data.Callback(kpde);
+                }
                 break;
-            }
-            break;
         }
 
-        switch (event->type)
+        switch (event->window.event)
         {
-        case SDL_QUIT:
-            {
-                WindowData data = *(WindowData*)SDL_GetWindowData(s_Window, "windowdata");
-                WindowCloseEvent wce;
-                data.Callback(wce);
-            }
-            break;
-        case SDL_WINDOWEVENT_RESIZED:
-            {
-                // NOTE(Edmund): temporary approach to resizing viewport
-                int w, h;
-                SDL_GetWindowSize(s_Window, &w, &h);
-                glViewport(0, 0, w, h);
+            case SDL_WINDOWEVENT_CLOSE:
+                {
+                    WindowData& data = *(WindowData*)SDL_GetWindowData(s_Window, "windowdata");
+                    WindowCloseEvent wce;
+                    data.Callback(wce);
+                }
+                break;
+            case SDL_WINDOWEVENT_RESIZED:
+                {
+                    int w, h;
+                    SDL_GetWindowSize(s_Window, &w, &h);
+                    glViewport(0, 0, w, h);
 
-                WindowData data = *(WindowData*)SDL_GetWindowData(s_Window, "windowdata");
-                WindowResizeEvent rse(w, h);
-                data.Callback(rse);
-            }
-            break;
+                    WindowData& data = *(WindowData*)SDL_GetWindowData(s_Window, "windowdata");
+                    WindowResizeEvent rse(w, h);
+                    data.Callback(rse);
+                }
+                break;
         }
         return 0;
     }
@@ -138,45 +136,6 @@ namespace Simulacra
         while (SDL_PollEvent(&e) != 0)
         {
             SDL_PushEvent(&e);
-            // switch(e.type)
-            // {
-            // case SDL_KEYDOWN:
-            //     switch (e.key.keysym.sym)
-            //     {
-            //     case SDLK_a:
-            //         std::cout << "Keyboard press a" << std::endl;
-            //         break;
-            //     }
-            //     break;
-            // case SDL_KEYUP:
-            //     switch (e.key.keysym.sym)
-            //     {
-            //     case SDLK_a:
-            //         std::cout << "Keyboard keyup a" << std::endl;
-            //         break;
-            //     }
-            //     break;
-            // }
-
-            // switch (e.window.event)
-            // {
-            // case SDL_WINDOWEVENT_CLOSE:
-            //     {
-            //         WindowCloseEvent wce;
-            //         s_WindowDispatcher.Post(wce);
-            //     }
-            //     break;
-            // case SDL_WINDOWEVENT_RESIZED:
-            //     {
-            //         // NOTE(Edmund): temporary approach to resizing viewport
-            //         int w, h;
-            //         SDL_GetWindowSize(s_Window, &w, &h);
-            //         glViewport(0, 0, w, h);
-            //         WindowResizeEvent rse(w, h);
-            //         s_WindowDispatcher.Post(rse);
-            //     }
-            //     break;
-            // }
         }
     }
 
