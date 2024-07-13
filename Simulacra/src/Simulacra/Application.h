@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Window.h"
+#include "src/Events/Event.h"
 
 namespace Simulacra
 {
@@ -18,7 +19,7 @@ namespace Simulacra
         virtual void OnDetach() {};
         virtual void OnUpdate(float deltaTime) {};
         virtual void OnImGuiRender() {};
-        virtual void OnEvent() {};
+        virtual void OnEvent(Event& event) {};
     };
     
     void AddLayer(Application* layer);

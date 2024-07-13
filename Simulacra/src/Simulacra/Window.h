@@ -2,6 +2,9 @@
 
 #include <string>
 #include <cstdint>
+#include <functional>
+
+#include "src/Events/Event.h"
 
 namespace Simulacra
 {
@@ -12,6 +15,9 @@ namespace Simulacra
         uint32_t Height;
     };
 
+    using CallbackFn = std::function<void(Event&)>;
+
+    void SubmitApplicationCallback(const CallbackFn& fn);
     bool InitializePlatformWindow(Window window);
     bool ShutdownPlatformWindow();
     void PollEvents();

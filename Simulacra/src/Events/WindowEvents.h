@@ -4,40 +4,54 @@
 
 namespace Simulacra
 {
-    enum class WindowEventType
-    {
-        WINDOW_CLOSED,
-        WINDOW_RESIZED
-    };
 
     // NOTE(Edmund): Might need to revise this later
-    class WindowCloseEvent : public Event<WindowEventType>
+    class WindowCloseEvent : public Event
     {
     public:
         explicit WindowCloseEvent()
-            : Event<WindowEventType>(WindowEventType::WINDOW_CLOSED, "Window Closed") 
+            : Event(EventType::WINDOW_CLOSED, "Window Closed")
         {
-            // NOTE(Edmund): To be replaced with a proper logger
-            std::cout << "Window is closed" << std::endl;
         }
         virtual ~WindowCloseEvent() = default;
+
+        static EventType StaticType()
+        {
+           return EventType::WINDOW_CLOSED;
+        }
+
+        virtual EventType Type() const override
+        {
+            return StaticType();
+        }
+
+
     };
 
-    class WindowResizeEvent : public Event<WindowEventType>
+    class WindowResizeEvent : public Event
     {
     public:
-        explicit WindowResizeEvent(size_t w, size_t h)
-            : Event<WindowEventType>(WindowEventType::WINDOW_RESIZED, "Window Resized") 
+        explicit WindowResizeEvent(uint32_t w, uint32_t h)
+            : Event(EventType::WINDOW_RESIZED, "Window Resized")
         {
-            std::cout << "Window is resize" << std::endl;
             Width = w;
             Height = h;
         }
-
-        size_t Width;
-        size_t Height;
-
         virtual ~WindowResizeEvent() = default;
+
+        static EventType StaticType()
+        {
+           return EventType::WINDOW_RESIZED;
+        }
+
+        virtual EventType Type() const override
+        {
+            return StaticType();
+        }
+
+        uint32_t Width;
+        uint32_t Height;
+
     };
 
 }

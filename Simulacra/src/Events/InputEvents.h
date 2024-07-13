@@ -1,4 +1,5 @@
 #pragma once
+#include "Event.h"
 
 namespace Simulacra
 {
@@ -392,5 +393,17 @@ namespace Simulacra
 
         NUM_SCANCODES = 512 /**< not a key, just marks the number of scancodes
                                     for array bounds */
+    };
+
+    class KeyPressedDownEvent : public Event
+    {
+    public:
+        explicit KeyPressedDownEvent(VKEY key)
+            : Event(EventType::KEY_PRESSED, "Window Pressed"), m_Key(key)
+        {}
+
+        virtual ~KeyPressedDownEvent() = default;
+    private: 
+        VKEY m_Key;
     };
 }

@@ -4,64 +4,65 @@
 
 namespace Simulacra
 {
+    enum class EventType
+    {
+        WINDOW_CLOSED, WINDOW_RESIZED,
+        KEY_PRESSED, KEY_RELEASED
+    };
     // NOTE(Edmund): normally when implement the EventType, don't use enum classes
     // We usually use a GUIDs, but in this particular case since I'm developing in 
     // VSCode which it doesn't have the GUIDs generator feature like Visual Studio Community has
 
     // Reference: https://github.com/Pseudomanifold/Events
     // NOTE(Edmund): To be replace with a GUIDs
-    template<typename T>
     class Event
     {
     public:
         Event() = default;
-        Event(T type, const std::string& name = "") : m_Type(type), m_Name(name) {}
+        Event(EventType type, const std::string& name = "") : m_Type(type), m_Name(name) {}
 
-        inline const T Type() const 
-        {
-            return m_Type;
-        }
+        virtual ~Event() = default;
 
-        inline const std::string& GetName() const 
+        virtual EventType Type() const = 0;
+
+        const std::string& GetName()
         { 
             return m_Name;
         }
 
         virtual bool IsHandled()
         {
-            return m_Handled;
+            return Handled;
         }
+
+        bool Handled;
     protected:
-        T m_Type;
+        EventType m_Type;
         std::string m_Name;
-        bool m_Handled = false;
     };
 
     
     
-    template<typename T>
-    class Dispatcher 
+    class Dispatcher
     {
-    using SlotType = std::function<void(const Event<T>&)>;
     public:
-
-        void Subscribe(T type, const SlotType& funct)
+        Dispatcher(Event& event)
+            : m_Event(event)
         {
-            m_Observers[type].push_back(funct);
+
         }
 
-        void Post(Event<T>& event)
+        template<typename T, typename F>
+        bool Post(const F& func)
         {
-            if(m_Observers.find(event.Type()) == m_Observers.end())
-                return;
-
-            for(auto&& observer : m_Observers.at(event.Type())) 
+            if (m_Event.Type() == T::StaticType())
             {
-                if(!event.IsHandled()) 
-                observer(event);  
+                m_Event.Handled |= func(static_cast<T&>(m_Event));
+                return true;
             }
+            return false; 
         }
     private:
-        std::map<T, std::vector<SlotType>> m_Observers;
+        Event& m_Event;
     };
 }

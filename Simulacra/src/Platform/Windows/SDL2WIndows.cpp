@@ -10,18 +10,74 @@
 
 namespace Simulacra
 {
-    // NOTE(Edmund): There may be an alternative to this, rather
-    // than putthing the declaration of a function from a seperate
-    // module.
-    // Source - Application.cpp
-    void OnEventWindowApplication(const Event<WindowEventType>& event);
+    struct WindowData
+    {
+        std::string Title;
+        uint32_t Width;
+        uint32_t Height;
+        CallbackFn Callback;
+    };
 
-    Dispatcher<WindowEventType> s_WindowDispatcher;
+    WindowData n_WindowData;
 
     SDL_Window* s_Window;
     SDL_GLContext s_Context;
+
+    void SubmitApplicationCallback(const CallbackFn& fn)
+    {
+        n_WindowData.Callback = fn;
+    }
+
+    int OnWindowEvent(void* userdata, SDL_Event* event)
+    {
+        switch(event->type)
+        {
+        case SDL_KEYDOWN:
+            switch (event->key.keysym.sym)
+            {
+            case SDLK_a:
+                std::cout << "Keyboard press a" << std::endl;
+                break;
+            }
+            break;
+        case SDL_KEYUP:
+            switch (event->key.keysym.sym)
+            {
+            case SDLK_a:
+                std::cout << "Keyboard keyup a" << std::endl;
+                break;
+            }
+            break;
+        }
+
+        switch (event->type)
+        {
+        case SDL_QUIT:
+            {
+                WindowData data = *(WindowData*)SDL_GetWindowData(s_Window, "windowdata");
+                WindowCloseEvent wce;
+                data.Callback(wce);
+            }
+            break;
+        case SDL_WINDOWEVENT_RESIZED:
+            {
+                // NOTE(Edmund): temporary approach to resizing viewport
+                int w, h;
+                SDL_GetWindowSize(s_Window, &w, &h);
+                glViewport(0, 0, w, h);
+
+                WindowData data = *(WindowData*)SDL_GetWindowData(s_Window, "windowdata");
+                WindowResizeEvent rse(w, h);
+                data.Callback(rse);
+            }
+            break;
+        }
+        return 0;
+    }
+
     bool InitializePlatformWindow(Window window)
     {
+
         if (SDL_Init(SDL_INIT_VIDEO) < 0)
         {
             std::cout << "Failed to initialized SDL2" << std::endl;
@@ -64,8 +120,12 @@ namespace Simulacra
         SDL_GL_SetSwapInterval(1);
         glViewport(0, 0, window.Width, window.Height);
 
-        s_WindowDispatcher.Subscribe(WindowEventType::WINDOW_CLOSED, OnEventWindowApplication);
-        s_WindowDispatcher.Subscribe(WindowEventType::WINDOW_RESIZED, OnEventWindowApplication);
+        n_WindowData.Title = window.Title;
+        n_WindowData.Width = window.Width;
+        n_WindowData.Height = window.Height;
+
+        SDL_SetWindowData(s_Window, "windowdata", &n_WindowData);
+        SDL_AddEventWatch(OnWindowEvent, &n_WindowData);
 
         std::cout << "Window initialized" << std::endl;
 
@@ -77,45 +137,46 @@ namespace Simulacra
         SDL_Event e;
         while (SDL_PollEvent(&e) != 0)
         {
-            switch(e.type)
-            {
-            case SDL_KEYDOWN:
-                switch (e.key.keysym.sym)
-                {
-                case SDLK_a:
-                    std::cout << "Keyboard press a" << std::endl;
-                    break;
-                }
-                break;
-            case SDL_KEYUP:
-                switch (e.key.keysym.sym)
-                {
-                case SDLK_a:
-                    std::cout << "Keyboard keyup a" << std::endl;
-                    break;
-                }
-                break;
-            }
+            SDL_PushEvent(&e);
+            // switch(e.type)
+            // {
+            // case SDL_KEYDOWN:
+            //     switch (e.key.keysym.sym)
+            //     {
+            //     case SDLK_a:
+            //         std::cout << "Keyboard press a" << std::endl;
+            //         break;
+            //     }
+            //     break;
+            // case SDL_KEYUP:
+            //     switch (e.key.keysym.sym)
+            //     {
+            //     case SDLK_a:
+            //         std::cout << "Keyboard keyup a" << std::endl;
+            //         break;
+            //     }
+            //     break;
+            // }
 
-            switch (e.window.event)
-            {
-            case SDL_WINDOWEVENT_CLOSE:
-                {
-                    WindowCloseEvent wce;
-                    s_WindowDispatcher.Post(wce);
-                }
-                break;
-            case SDL_WINDOWEVENT_RESIZED:
-                {
-                    // NOTE(Edmund): temporary approach to resizing viewport
-                    int w, h;
-                    SDL_GetWindowSize(s_Window, &w, &h);
-                    glViewport(0, 0, w, h);
-                    WindowResizeEvent rse(w, h);
-                    s_WindowDispatcher.Post(rse);
-                }
-                break;
-            }
+            // switch (e.window.event)
+            // {
+            // case SDL_WINDOWEVENT_CLOSE:
+            //     {
+            //         WindowCloseEvent wce;
+            //         s_WindowDispatcher.Post(wce);
+            //     }
+            //     break;
+            // case SDL_WINDOWEVENT_RESIZED:
+            //     {
+            //         // NOTE(Edmund): temporary approach to resizing viewport
+            //         int w, h;
+            //         SDL_GetWindowSize(s_Window, &w, &h);
+            //         glViewport(0, 0, w, h);
+            //         WindowResizeEvent rse(w, h);
+            //         s_WindowDispatcher.Post(rse);
+            //     }
+            //     break;
+            // }
         }
     }
 

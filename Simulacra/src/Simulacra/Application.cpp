@@ -32,12 +32,28 @@ namespace Simulacra
         return s_Layers;
     }
 
-    // NOTE(Edmund): Revise this event handling callback
-    void OnEventWindowApplication(const Event<WindowEventType>& event)
+    bool OnExitWindow(Event& event)
     {
-        if (event.Type() == WindowEventType::WINDOW_CLOSED)
+        App->Running = false;
+        return true;
+    }
+
+    bool OnResizeWindow(Event& event)
+    {
+        return true;
+    }
+
+    void OnEventWindowApplication(Event& event)
+    {
+        Dispatcher dispatcher(event);
+
+        dispatcher.Post<WindowCloseEvent>(OnExitWindow);
+        dispatcher.Post<WindowCloseEvent>(OnExitWindow);
+        for (const auto& layer : s_Layers)
         {
-            App->Running = false;
+            if (event.IsHandled())
+                break;
+            layer->OnEvent(event);
         }
     }
 
@@ -53,11 +69,6 @@ namespace Simulacra
             lastFrame = time;
 
             PollEvents();
-
-            for (const auto& layer : QueryLayers())
-            {
-                layer->OnEvent();
-            }
 
             PlatformRender(s_Window);
 
@@ -76,6 +87,8 @@ namespace Simulacra
         s_Window = { App->Props.Title, App->Props.Width, App->Props.Height };
 
         InitializePlatformWindow(s_Window);
+
+        SubmitApplicationCallback(OnEventWindowApplication);
 
         for (const auto& layer : QueryLayers())
         {
