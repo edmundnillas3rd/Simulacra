@@ -33,10 +33,12 @@ namespace Simulacra
     }
 
     // NOTE(Edmund): Revise this event handling callback
-    void OnEventExitApplication(const Event<WindowEventType>& event)
+    void OnEventWindowApplication(const Event<WindowEventType>& event)
     {
         if (event.Type() == WindowEventType::WINDOW_CLOSED)
+        {
             App->Running = false;
+        }
     }
 
     void Run()
