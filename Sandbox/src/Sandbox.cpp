@@ -22,6 +22,7 @@ Simulacra::Application* Simulacra::CreateApplication()
     app->Props.Title = "This is a game";
     app->Props.Width = 1280;
     app->Props.Height = 680;
+    app->Props.Path = "../../Sandbox";
 
     std::cout << "Application Created" << std::endl;
 
