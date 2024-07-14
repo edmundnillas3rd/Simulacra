@@ -24,5 +24,8 @@ namespace Simulacra
     void PollEvents();
     void PlatformRender(Window window);
 
+    void BeginImGuiRender();
+    void EndImGuiRender();
+
     Window GetCurrentWindow();
 }

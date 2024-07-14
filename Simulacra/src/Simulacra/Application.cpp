@@ -71,8 +71,17 @@ namespace Simulacra
 
             PollEvents();
 
-            PlatformRender(s_Window);
 
+            BeginImGuiRender();
+
+            for (const auto& layer : QueryLayers())
+            {
+                layer->OnImGuiRender();
+            }
+
+            EndImGuiRender();
+
+            PlatformRender(s_Window);
 
             for (const auto& layer : QueryLayers())
             {

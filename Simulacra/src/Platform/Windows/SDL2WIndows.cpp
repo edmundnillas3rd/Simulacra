@@ -4,6 +4,9 @@
 
 #include <SDL.h>
 #include <glad/glad.h>
+#include <imgui.h>
+#include <imgui_impl_sdl2.h>
+#include <imgui_impl_opengl3.h>
 
 #include "src/Events/WindowEvents.h"
 #include "src/Events/InputEvents.h"
@@ -107,6 +110,8 @@ namespace Simulacra
         }
 
         s_Context = SDL_GL_CreateContext(s_Window);
+        SDL_GL_MakeCurrent(s_Window, s_Context);
+        SDL_GL_SetSwapInterval(1);
 
         if (!s_Context)
         {
@@ -115,7 +120,6 @@ namespace Simulacra
 
         gladLoadGLLoader(SDL_GL_GetProcAddress);
 
-        SDL_GL_SetSwapInterval(1);
         glViewport(0, 0, window.Width, window.Height);
 
         n_WindowData.Title = window.Title;
@@ -125,6 +129,17 @@ namespace Simulacra
         SDL_SetWindowData(s_Window, "windowdata", &n_WindowData);
         SDL_AddEventWatch(OnWindowEvent, &n_WindowData);
 
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO(); (void)io;
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+
+        ImGui::StyleColorsDark();
+
+        const char* GLSLVERSION = "#version 460";
+        ImGui_ImplSDL2_InitForOpenGL(s_Window, s_Context);
+        ImGui_ImplOpenGL3_Init(GLSLVERSION);
+
         std::cout << "Window initialized" << std::endl;
 
         return true;
@@ -133,7 +148,23 @@ namespace Simulacra
     void PollEvents()
     {
         SDL_Event e;
-        while (SDL_PollEvent(&e) == 1);
+        while (SDL_PollEvent(&e) == 1)
+        {
+            ImGui_ImplSDL2_ProcessEvent(&e);
+        }
+    }
+
+    void BeginImGuiRender()
+    {
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplSDL2_NewFrame();
+        ImGui::NewFrame();
+    }
+
+    void EndImGuiRender()
+    {
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
     void PlatformRender(Window window)
