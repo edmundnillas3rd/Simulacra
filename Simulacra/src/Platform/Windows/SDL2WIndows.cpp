@@ -42,9 +42,9 @@ namespace Simulacra
                 break;
             case SDL_KEYUP:
                 {
-                    // WindowData& data = *(WindowData*)SDL_GetWindowData(s_Window, "windowdata");
-                    // KeyPressedDownEvent kpde(static_cast<VKEY>(event->key.keysym.sym));
-                    // data.Callback(kpde);
+                    WindowData& data = *(WindowData*)SDL_GetWindowData(s_Window, "windowdata");
+                    KeyPressedUpEvent kpde(static_cast<VKEY>(event->key.keysym.sym));
+                    data.Callback(kpde);
                 }
                 break;
         }
