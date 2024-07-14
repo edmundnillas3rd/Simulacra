@@ -9,8 +9,10 @@ namespace Simulacra
     {
     public:
         explicit KeyPressedDownEvent(VKEY key)
-            : Event(EventType::KEY_PRESSED, "Window Pressed"), m_Key(key)
-        {}
+            : Event(EventType::KEY_PRESSED, "Key Pressed"), m_Key(key)
+        {
+            std::cout << m_Name << std::endl;
+        }
         virtual ~KeyPressedDownEvent() = default;
 
         VKEY KeyCode() const { return m_Key; }
@@ -20,7 +22,7 @@ namespace Simulacra
            return EventType::KEY_PRESSED;
         }
 
-        virtual std::string ToString() const
+        std::string ToString() const override
         {
             std::stringstream ss;
             ss << std::to_string((int32_t)m_Key);

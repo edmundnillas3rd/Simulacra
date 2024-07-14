@@ -42,9 +42,9 @@ namespace Simulacra
                 break;
             case SDL_KEYUP:
                 {
-                    WindowData& data = *(WindowData*)SDL_GetWindowData(s_Window, "windowdata");
-                    KeyPressedDownEvent kpde(static_cast<VKEY>(event->key.keysym.sym));
-                    data.Callback(kpde);
+                    // WindowData& data = *(WindowData*)SDL_GetWindowData(s_Window, "windowdata");
+                    // KeyPressedDownEvent kpde(static_cast<VKEY>(event->key.keysym.sym));
+                    // data.Callback(kpde);
                 }
                 break;
         }
@@ -133,10 +133,7 @@ namespace Simulacra
     void PollEvents()
     {
         SDL_Event e;
-        while (SDL_PollEvent(&e) != 0)
-        {
-            SDL_PushEvent(&e);
-        }
+        while (SDL_PollEvent(&e) == 1);
     }
 
     void PlatformRender(Window window)

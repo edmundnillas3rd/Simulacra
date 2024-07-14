@@ -5,6 +5,10 @@
 #include "src/Simulacra/Input.h"
 #include "src/Simulacra/Time.h"
 
+#include "src/Events/Event.h"
+#include "src/Events/WindowEvents.h"
+#include "src/Events/InputEvents.h"
+
 #include "src/Platform/OpenGL/Buffers.h"
 #include "src/Platform/OpenGL/Texture.h"
 #include "src/Platform/OpenGL/Shaders.h"

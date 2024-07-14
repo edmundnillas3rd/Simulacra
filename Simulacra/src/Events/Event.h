@@ -24,11 +24,11 @@ namespace Simulacra
         virtual ~Event() = default;
 
         virtual EventType Type() const = 0;
-        virtual std::string ToString() const = 0;
+        virtual std::string ToString() const { return GetName(); }
 
-        const std::string& GetName()
+        virtual const char* GetName() const
         { 
-            return m_Name;
+            return m_Name.c_str();
         }
 
         virtual bool IsHandled()
@@ -36,7 +36,7 @@ namespace Simulacra
             return Handled;
         }
 
-        bool Handled;
+        bool Handled = false;
     protected:
         EventType m_Type;
         std::string m_Name;
