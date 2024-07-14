@@ -9,6 +9,8 @@
 
 namespace Simulacra
 {
+    // TODO(Edmund): Should probably make a dedicated "command line"/"app configuration" settings
+    // that would determined the entire behavior of the entire engine
 
     struct Application
     {

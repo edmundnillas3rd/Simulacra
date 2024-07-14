@@ -13,6 +13,7 @@ namespace Simulacra
         std::string Title;
         uint32_t Width;
         uint32_t Height;
+        std::string Path;
     };
 
     using CallbackFn = std::function<void(Event&)>;

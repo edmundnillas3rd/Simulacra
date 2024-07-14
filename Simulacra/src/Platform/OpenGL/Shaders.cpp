@@ -5,13 +5,16 @@
 
 #include <glad/glad.h>
 
+#include "src/Simulacra/Filesystem.h"
+
 namespace Simulacra
 {
     std::array<std::string, 5> ParseShader(const std::string& source);
 
     Shader LoadShaders(const std::string& path)
     {
-        std::fstream shaderFile(path.c_str(), std::ios::in | std::ios::binary);
+        const auto fullPath = FileManager.CurrenWorkingDirectory + path;
+        std::fstream shaderFile(fullPath.c_str(), std::ios::in | std::ios::binary);
         std::stringstream ss;
 
         ss << shaderFile.rdbuf();

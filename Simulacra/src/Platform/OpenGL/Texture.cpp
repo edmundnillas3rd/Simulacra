@@ -4,15 +4,18 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+#include "src/Simulacra/Filesystem.h"
+
 namespace Simulacra
 {
     Texture LoadTexture(const std::string& path)
     {
+        const std::string fullPath = FileManager.CurrenWorkingDirectory + path;
         Texture texture;
 
         int n = 0;
         int forceChannels = 4;
-        unsigned char* imageData = stbi_load(path.c_str(), &texture.Size.x, &texture.Size.y, &n, forceChannels);
+        unsigned char* imageData = stbi_load(fullPath.c_str(), &texture.Size.x, &texture.Size.y, &n, forceChannels);
         if (!imageData)
         {
             std::cout << "Error: Could not load " + path << std::endl;

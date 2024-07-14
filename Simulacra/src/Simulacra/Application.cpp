@@ -1,7 +1,8 @@
 #include "Application.h"
 
-#include "src/Events/WindowEvents.h"
 #include "Time.h"
+#include "Filesystem.h"
+#include "src/Events/WindowEvents.h"
 
 namespace Simulacra
 {
@@ -84,9 +85,10 @@ namespace Simulacra
 
     void StartApplication()
     {
-        s_Window = { App->Props.Title, App->Props.Width, App->Props.Height };
+        s_Window = { App->Props.Title, App->Props.Width, App->Props.Height, App->Props.Path };
 
         InitializePlatformWindow(s_Window);
+        InitializePlatformFilesystem(s_Window);
 
         SubmitApplicationCallback(OnEventWindowApplication);
 
