@@ -1,8 +1,10 @@
 #include "Sandbox2D.h"
 
 #include <glad/glad.h>
+#include <imgui.H>
 
 Sandbox2D::Sandbox2D()
+    : m_Show(false)
 {
     m_QuadVertices = {
         -1.0f,  1.0f,  0.0f, 1.0f,
@@ -102,8 +104,24 @@ void Sandbox2D::OnUpdate(float deltaTime)
 
 void Sandbox2D::OnImGuiRender()
 {
+    if (m_Show)
+    {
+        ImGui::ShowDemoWindow(&m_Show);
+    }
 }
 
 void Sandbox2D::OnEvent(Simulacra::Event& event)
 {
+    if (event.Type() == Simulacra::EventType::KEY_RELEASED)
+    {
+        const auto key = dynamic_cast<Simulacra::KeyPressedUpEvent*>(&event);
+        switch (key->KeyCode())
+        {
+            case Simulacra::VKEY::KEYCODE_BACKQUOTE:
+                {
+                    m_Show = !m_Show;
+                }
+                break;
+        }
+    }
 }

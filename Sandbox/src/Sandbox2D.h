@@ -14,6 +14,7 @@ public:
     void OnImGuiRender();
     void OnEvent(Simulacra::Event& event);
 private:
+    bool m_Show;
     // Framebuffer
     Simulacra::Framebuffer m_Framebuffer;
     Simulacra::Shader m_ScreenShader;
