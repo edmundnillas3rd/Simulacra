@@ -138,11 +138,16 @@ namespace Simulacra
         glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
     }
 
-    void DrawSprite(const Texture& texture, glm::vec2 pos)
+    void DrawSprite(const Texture& texture, glm::mat4 transform)
     {
         SetActiveTexture(0);
         BindTexture(texture.TextureID);
-        DrawIndices(n_Renderer->RendererShader[1], n_Renderer->SpriteVAO, 6);
+
+        SetActiveShader(n_Renderer->RendererShader[1].ProgramID);
+        SetMatfUniform(n_Renderer->RendererShader[1], "transform", transform);
+
+        BindVertexArrayBuffer(n_Renderer->SpriteVAO.RendererID);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
     }
 }
 

@@ -3,6 +3,10 @@
 #include <string>
 #include <array>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 namespace Simulacra
 {
     struct Shader 
@@ -21,4 +25,6 @@ namespace Simulacra
     void SetFloatUniform(const Shader& shader, const std::string& location, float i);
     void SetFloatUniform(const Shader& shader, const std::string& location, float i, float j);
     void SetFloatUniform(const Shader& shader, const std::string& location, float i, float j, float k);
+
+    void SetMatfUniform(const Shader& shader, const std::string& location, glm::mat4 transform);
 }

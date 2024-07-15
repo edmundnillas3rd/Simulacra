@@ -22,5 +22,5 @@ namespace Simulacra
     void EndRender();
 
     void DrawIndices(Shader shader, VertexArrayBuffer object, uint32_t count);
-    void DrawSprite(const Texture& texture, glm::vec2 pos);
+    void DrawSprite(const Texture& texture, glm::mat4 transform);
 }
