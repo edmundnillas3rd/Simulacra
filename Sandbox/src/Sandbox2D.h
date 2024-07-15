@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Simulacra.h>
+#include "GameObject.h"
 
 class Sandbox2D : public Simulacra::Application
 {
@@ -15,6 +16,7 @@ public:
     void OnEvent(Simulacra::Event& event);
 private:
     bool m_Show;
+    GameObject Player;
     Simulacra::Texture m_Texture;
     Simulacra::Texture m_AnotherTexture;
 };

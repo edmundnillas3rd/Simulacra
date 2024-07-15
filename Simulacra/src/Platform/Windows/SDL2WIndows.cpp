@@ -64,7 +64,8 @@ namespace Simulacra
             case SDL_WINDOWEVENT_RESIZED:
                 {
                     int w, h;
-                    SDL_GetWindowSize(n_Window, &w, &h);
+                    // SDL_GetWindowSize(n_Window, &w, &h);
+                    SDL_GL_GetDrawableSize(n_Window, &w, &h);
                     glViewport(0, 0, w, h);
 
                     WindowData& data = *(WindowData*)SDL_GetWindowData(n_Window, "windowdata");
@@ -119,8 +120,6 @@ namespace Simulacra
         }
 
         gladLoadGLLoader(SDL_GL_GetProcAddress);
-
-        glViewport(0, 0, window.Width, window.Height);
 
         n_WindowData.Title = window.Title;
         n_WindowData.Width = window.Width;

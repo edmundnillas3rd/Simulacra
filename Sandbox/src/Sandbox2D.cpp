@@ -1,7 +1,10 @@
 #include "Sandbox2D.h"
 
 #include <glad/glad.h>
-#include <imgui.H>
+#include <imgui.h>
+
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 Sandbox2D::Sandbox2D()
     : m_Show(false)
@@ -25,14 +28,15 @@ void Sandbox2D::OnDetach()
 
 void Sandbox2D::OnUpdate(float deltaTime)
 {
-    if (Simulacra::IsKeyPressed(Simulacra::SCANCODE::SCANCODE_0))
-    {
-        Simulacra::DrawSprite(m_AnotherTexture, glm::vec2(0.0f, 0.0f));
-    }
-    else if  (Simulacra::IsKeyPressed(Simulacra::SCANCODE::SCANCODE_1))
-    {
-        Simulacra::DrawSprite(m_Texture, glm::vec2(0.0f, 0.0f));
-    }
+    static float time;
+    time += deltaTime;
+
+    glm::mat4 transform = glm::mat4(1.0f);
+    transform = glm::translate(transform, glm::vec3(0.5f, -0.5f, 0.0f));
+    transform = glm::rotate(transform, (float)time, glm::vec3(0.0f, 0.0f, 1.0f));
+
+    Simulacra::DrawSprite(m_AnotherTexture, glm::mat4(1.0f));
+    Simulacra::DrawSprite(m_Texture, transform);
 }
 
 void Sandbox2D::OnImGuiRender()
@@ -56,7 +60,7 @@ void Sandbox2D::OnEvent(Simulacra::Event& event)
                 }
             case Simulacra::VKEY::KEYCODE_w:
                 {
-                    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+                    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
                 }
                 break;
         }
