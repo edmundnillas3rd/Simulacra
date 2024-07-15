@@ -5,6 +5,8 @@
 
 #include <glm/glm.hpp>
 
+#include "Buffers.h"
+
 namespace Simulacra
 {
     struct Texture

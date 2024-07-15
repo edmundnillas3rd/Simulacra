@@ -14,7 +14,7 @@ namespace Simulacra
         uint32_t RendererID;
     };
 
-    struct ElementBufferObject
+    struct ElementBuffer
     {
         uint32_t RendererID;
     };
@@ -27,7 +27,7 @@ namespace Simulacra
     void BufferVertexBuffer(size_t size, const void* data);
 
 ;
-    ElementBufferObject CreateElementBuferObject();
+    ElementBuffer CreateElementBuffer();
     void BindElementBuffer(uint32_t buffer);
     void BufferElementBuffer(size_t size, const void* data);
 

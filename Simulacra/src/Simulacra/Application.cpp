@@ -2,6 +2,7 @@
 
 #include "Time.h"
 #include "Filesystem.h"
+#include "Renderer.h"
 #include "src/Events/WindowEvents.h"
 
 namespace Simulacra
@@ -71,7 +72,6 @@ namespace Simulacra
 
             PollEvents();
 
-
             BeginImGuiRender();
 
             for (const auto& layer : QueryLayers())
@@ -83,10 +83,14 @@ namespace Simulacra
 
             PlatformRender(n_Window);
 
+            BeginRender();
+
             for (const auto& layer : QueryLayers())
             {
                 layer->OnUpdate(deltaTime);
             }
+
+            EndRender();
         }
 
         ShutdownApplication();
@@ -98,6 +102,7 @@ namespace Simulacra
 
         InitializePlatformWindow(n_Window);
         InitializePlatformFilesystem(n_Window);
+        InitializeRenderer();
 
         SubmitApplicationCallback(OnEventWindowApplication);
 

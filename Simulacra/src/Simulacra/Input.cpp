@@ -3,7 +3,7 @@
 
 namespace Simulacra
 {
-    bool IsKeyPressed(VKEY key)
+    bool IsKeyPressed(SCANCODE key)
     {
         const Uint8* input = SDL_GetKeyboardState(nullptr);
 

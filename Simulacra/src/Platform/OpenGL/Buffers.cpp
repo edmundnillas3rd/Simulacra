@@ -41,9 +41,9 @@ namespace Simulacra
         glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
     }
 
-    ElementBufferObject CreateElementBuferObject()
+    ElementBuffer CreateElementBuffer()
     {
-        ElementBufferObject ebo;
+        ElementBuffer ebo;
 
         glGenBuffers(1, &ebo.RendererID);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo.RendererID);

@@ -4,5 +4,5 @@
 
 namespace Simulacra
 {
-    bool IsKeyPressed(VKEY key);
+    bool IsKeyPressed(SCANCODE key);
 }

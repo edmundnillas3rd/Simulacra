@@ -2,6 +2,7 @@
 #include <string>
 
 #include "Texture.h"
+#include "Buffers.h"
 
 namespace Simulacra
 {
@@ -9,6 +10,8 @@ namespace Simulacra
     {
         uint32_t ID;
         std::string Name;
+        Texture TextureBuffer;
+        VertexArrayBuffer FramebufferVAO;
     };
 
     Framebuffer CreateFramebuffer(const std::string& name);

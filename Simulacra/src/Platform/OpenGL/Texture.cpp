@@ -8,6 +8,7 @@
 
 namespace Simulacra
 {
+
     Texture LoadTexture(const std::string& path)
     {
         const std::string fullPath = FileManager.CurrenWorkingDirectory + path;
