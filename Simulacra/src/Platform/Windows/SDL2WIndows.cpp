@@ -24,8 +24,8 @@ namespace Simulacra
 
     WindowData n_WindowData;
 
-    SDL_Window* s_Window;
-    SDL_GLContext s_Context;
+    SDL_Window* n_Window;
+    SDL_GLContext n_Context;
 
     void SubmitApplicationCallback(const CallbackFn& fn)
     {
@@ -38,14 +38,14 @@ namespace Simulacra
         {
             case SDL_KEYDOWN:
                 {
-                    WindowData& data = *(WindowData*)SDL_GetWindowData(s_Window, "windowdata");
+                    WindowData& data = *(WindowData*)SDL_GetWindowData(n_Window, "windowdata");
                     KeyPressedDownEvent kpde(static_cast<VKEY>(event->key.keysym.sym));
                     data.Callback(kpde);
                 }
                 break;
             case SDL_KEYUP:
                 {
-                    WindowData& data = *(WindowData*)SDL_GetWindowData(s_Window, "windowdata");
+                    WindowData& data = *(WindowData*)SDL_GetWindowData(n_Window, "windowdata");
                     KeyPressedUpEvent kpde(static_cast<VKEY>(event->key.keysym.sym));
                     data.Callback(kpde);
                 }
@@ -56,7 +56,7 @@ namespace Simulacra
         {
             case SDL_WINDOWEVENT_CLOSE:
                 {
-                    WindowData& data = *(WindowData*)SDL_GetWindowData(s_Window, "windowdata");
+                    WindowData& data = *(WindowData*)SDL_GetWindowData(n_Window, "windowdata");
                     WindowCloseEvent wce;
                     data.Callback(wce);
                 }
@@ -64,10 +64,10 @@ namespace Simulacra
             case SDL_WINDOWEVENT_RESIZED:
                 {
                     int w, h;
-                    SDL_GetWindowSize(s_Window, &w, &h);
+                    SDL_GetWindowSize(n_Window, &w, &h);
                     glViewport(0, 0, w, h);
 
-                    WindowData& data = *(WindowData*)SDL_GetWindowData(s_Window, "windowdata");
+                    WindowData& data = *(WindowData*)SDL_GetWindowData(n_Window, "windowdata");
                     WindowResizeEvent rse(w, h);
                     data.Callback(rse);
                 }
@@ -99,21 +99,21 @@ namespace Simulacra
         flags |= SDL_WINDOW_RESIZABLE;
         flags |= SDL_WINDOW_OPENGL;
 
-        s_Window = nullptr;
-        s_Window = SDL_CreateWindow(window.Title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, window.Width, window.Height, flags);
+        n_Window = nullptr;
+        n_Window = SDL_CreateWindow(window.Title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, window.Width, window.Height, flags);
 
-        if (!s_Window)
+        if (!n_Window)
         {
             std::cout << "Failed to initialize window" << std::endl;;
             std::cout << "SDL2 Error Message: " << SDL_GetError() << std::endl;
             return false;
         }
 
-        s_Context = SDL_GL_CreateContext(s_Window);
-        SDL_GL_MakeCurrent(s_Window, s_Context);
+        n_Context = SDL_GL_CreateContext(n_Window);
+        SDL_GL_MakeCurrent(n_Window, n_Context);
         SDL_GL_SetSwapInterval(1);
 
-        if (!s_Context)
+        if (!n_Context)
         {
             std::cout << "Failed to create an OpenGL context" << std::endl;
         }
@@ -126,18 +126,18 @@ namespace Simulacra
         n_WindowData.Width = window.Width;
         n_WindowData.Height = window.Height;
 
-        SDL_SetWindowData(s_Window, "windowdata", &n_WindowData);
+        SDL_SetWindowData(n_Window, "windowdata", &n_WindowData);
         SDL_AddEventWatch(OnWindowEvent, &n_WindowData);
 
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO(); (void)io;
-        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+        io.ConfigFlags |= ImGuiConfigFlagn_NavEnableKeyboard;
 
         ImGui::StyleColorsDark();
 
         const char* GLSLVERSION = "#version 460";
-        ImGui_ImplSDL2_InitForOpenGL(s_Window, s_Context);
+        ImGui_ImplSDL2_InitForOpenGL(n_Window, n_Context);
         ImGui_ImplOpenGL3_Init(GLSLVERSION);
 
         std::cout << "Window initialized" << std::endl;
@@ -169,15 +169,15 @@ namespace Simulacra
 
     void PlatformRender(Window window)
     {
-        SDL_GL_SwapWindow(s_Window);
+        SDL_GL_SwapWindow(n_Window);
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
     Window GetCurrentWindow()
     {
         int w = 0, h = 0;
-        SDL_GetWindowSize(s_Window, &w, &h);
-        const char* title = SDL_GetWindowTitle(s_Window);
+        SDL_GetWindowSize(n_Window, &w, &h);
+        const char* title = SDL_GetWindowTitle(n_Window);
 
         Window window;
         window.Title = title;
@@ -189,8 +189,8 @@ namespace Simulacra
 
     bool ShutdownPlatformWindow()
     {
-        SDL_DestroyWindow(s_Window);
-        s_Window = nullptr;
+        SDL_DestroyWindow(n_Window);
+        n_Window = nullptr;
 
         return true;
     }

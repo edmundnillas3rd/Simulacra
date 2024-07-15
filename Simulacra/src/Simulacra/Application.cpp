@@ -9,28 +9,28 @@ namespace Simulacra
     Application* CreateApplication();
     Application* App;
 
-    Window s_Window;
+    Window n_Window;
 
-    std::vector<Application*> s_Layers;
+    std::vector<Application*> n_Layers;
 
     void StartApplication();
     void ShutdownApplication();
 
     void AddLayer(Application* layer)
     {
-        s_Layers.push_back(layer);
+        n_Layers.push_back(layer);
     }
 
     std::vector<Application*> QueryLayers()
     {
 
-        if (s_Layers.empty())
+        if (n_Layers.empty())
         {
             std::cout << "List is empty" << std::endl;
-            return s_Layers;
+            return n_Layers;
         }
             
-        return s_Layers;
+        return n_Layers;
     }
 
     bool OnExitWindow(Event& event)
@@ -50,7 +50,7 @@ namespace Simulacra
 
         dispatcher.Post<WindowCloseEvent>(OnExitWindow);
         dispatcher.Post<WindowCloseEvent>(OnExitWindow);
-        for (const auto& layer : s_Layers)
+        for (const auto& layer : n_Layers)
         {
             if (event.IsHandled())
                 break;
@@ -81,7 +81,7 @@ namespace Simulacra
 
             EndImGuiRender();
 
-            PlatformRender(s_Window);
+            PlatformRender(n_Window);
 
             for (const auto& layer : QueryLayers())
             {
@@ -94,10 +94,10 @@ namespace Simulacra
 
     void StartApplication()
     {
-        s_Window = { App->Props.Title, App->Props.Width, App->Props.Height, App->Props.Path };
+        n_Window = { App->Props.Title, App->Props.Width, App->Props.Height, App->Props.Path };
 
-        InitializePlatformWindow(s_Window);
-        InitializePlatformFilesystem(s_Window);
+        InitializePlatformWindow(n_Window);
+        InitializePlatformFilesystem(n_Window);
 
         SubmitApplicationCallback(OnEventWindowApplication);
 
