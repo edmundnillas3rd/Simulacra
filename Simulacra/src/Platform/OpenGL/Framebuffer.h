@@ -17,6 +17,6 @@ namespace Simulacra
     Framebuffer CreateFramebuffer(const std::string& name);
     void BindFramebuffer(uint32_t id);
 
-    Texture CreateTextureAttachment();
+    Texture CreateTextureAttachment(uint32_t width, uint32_t height);
 
 }

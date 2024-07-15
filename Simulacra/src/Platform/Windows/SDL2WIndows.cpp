@@ -64,9 +64,7 @@ namespace Simulacra
             case SDL_WINDOWEVENT_RESIZED:
                 {
                     int w, h;
-                    // SDL_GetWindowSize(n_Window, &w, &h);
-                    SDL_GL_GetDrawableSize(n_Window, &w, &h);
-                    glViewport(0, 0, w, h);
+                    SDL_GetWindowSize(n_Window, &w, &h);
 
                     WindowData& data = *(WindowData*)SDL_GetWindowData(n_Window, "windowdata");
                     WindowResizeEvent rse(w, h);

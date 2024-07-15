@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 
-#include "src/Simulacra/Renderer.h"
+#include "src/Simulacra/Window.h"
 
 namespace Simulacra
 {
@@ -41,11 +41,14 @@ namespace Simulacra
         };
     }
 
+    #define TEX_ATTCH_WIDTH 1280
+    #define TEX_ATTCH_HEIGHT 680
+
     Renderer* CreateRenderer()
     {
         RendererAPI* renderer = new RendererAPI();
         renderer->CurrentFramebuffer = CreateFramebuffer("Main");
-        renderer->CurrentFramebuffer.TextureBuffer = CreateTextureAttachment();
+        renderer->CurrentFramebuffer.TextureBuffer = CreateTextureAttachment(TEX_ATTCH_WIDTH, TEX_ATTCH_HEIGHT);
         BindFramebuffer(0);
 
         // [0]: The screen to render
@@ -110,6 +113,7 @@ namespace Simulacra
     void BeginRender()
     {
         BindFramebuffer(n_Renderer->CurrentFramebuffer.ID);
+        glViewport(0, 0, TEX_ATTCH_WIDTH, TEX_ATTCH_HEIGHT);
 
         glEnable(GL_DEPTH_TEST);
 
@@ -122,6 +126,9 @@ namespace Simulacra
     {
         // This renders the framebuffer to screen
         BindFramebuffer(0);
+        Window window = GetCurrentWindow();
+        glViewport(0, 0, window.Width, window.Height);
+
         glDisable(GL_DEPTH_TEST);
 
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);

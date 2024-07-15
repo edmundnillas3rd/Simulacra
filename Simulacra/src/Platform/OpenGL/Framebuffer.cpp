@@ -3,8 +3,6 @@
 
 #include <glad/glad.h>
 
-#include "src/Simulacra/Window.h"
-
 namespace Simulacra
 {
     Framebuffer CreateFramebuffer(const std::string& name)
@@ -23,14 +21,13 @@ namespace Simulacra
         glBindFramebuffer(GL_FRAMEBUFFER, id);
     }
 
-    Texture CreateTextureAttachment()
+    Texture CreateTextureAttachment(uint32_t width, uint32_t height)
     {
         Texture texture;
         glGenTextures(1, &texture.TextureID);
         glBindTexture(GL_TEXTURE_2D, texture.TextureID);
 
-        Window window = GetCurrentWindow();
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, window.Width, window.Height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
