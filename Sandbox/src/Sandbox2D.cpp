@@ -63,6 +63,11 @@ void Sandbox2D::OnEvent(Simulacra::Event& event)
                     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
                 }
                 break;
+            case Simulacra::VKEY::KEYCODE_q:
+                {
+                    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+                }
+                break;
         }
     }
 }
