@@ -17,6 +17,4 @@ namespace Simulacra
 
 
     void InitializeRenderer();
-
-    void DrawIndices(Shader shader, VertexArrayBuffer object, uint32_t count);
 }
