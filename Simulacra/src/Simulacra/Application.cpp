@@ -114,12 +114,12 @@ namespace Simulacra
 
     void ShutdownApplication()
     {
-        ShutdownWindow();
-
         for (const auto& layer : QueryLayers())
         {
             layer->OnDetach();
         }
+
+        ShutdownWindow();
     }
    
 }
