@@ -6,7 +6,7 @@
 
 namespace Simulacra
 {
-    struct RendererAPI : Renderer
+    struct Renderer2D : Renderer
     {
         // Default vertices for drawing a 2D texture
         std::array<float, 20> Vertices;
@@ -17,7 +17,7 @@ namespace Simulacra
         ElementBuffer SpriteEBO;
     };
 
-    RendererAPI* n_Renderer;
+    Renderer2D* n_Renderer;
 
     // The set vertices for the quad
     std::array<float, 24> QuadVertices;
@@ -27,7 +27,7 @@ namespace Simulacra
     void InitializeRenderer()
     {
         n_Renderer = nullptr;
-        n_Renderer = reinterpret_cast<RendererAPI*>(CreateRenderer());
+        n_Renderer = reinterpret_cast<Renderer2D*>(CreateRenderer());
 
         // The quad to be drawn to
         QuadVertices = {
@@ -46,7 +46,7 @@ namespace Simulacra
 
     Renderer* CreateRenderer()
     {
-        RendererAPI* renderer = new RendererAPI();
+        Renderer2D* renderer = new Renderer2D();
         renderer->CurrentFramebuffer = CreateFramebuffer("Main");
         renderer->CurrentFramebuffer.TextureBuffer = CreateTextureAttachment(TEX_ATTCH_WIDTH, TEX_ATTCH_HEIGHT);
         BindFramebuffer(0);

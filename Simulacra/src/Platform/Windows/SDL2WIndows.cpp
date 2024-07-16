@@ -75,7 +75,7 @@ namespace Simulacra
         return 0;
     }
 
-    bool InitializePlatformWindow(Window window)
+    bool InitializeWindow(Window window)
     {
 
         if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -164,9 +164,13 @@ namespace Simulacra
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
-    void PlatformRender(Window window)
+    void SwapBuffer(Window window)
     {
         SDL_GL_SwapWindow(n_Window);
+    }
+
+    void ClearBuffer()
+    {
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
@@ -184,7 +188,7 @@ namespace Simulacra
         return window;
     }
 
-    bool ShutdownPlatformWindow()
+    bool ShutdownWindow()
     {
         SDL_DestroyWindow(n_Window);
         n_Window = nullptr;

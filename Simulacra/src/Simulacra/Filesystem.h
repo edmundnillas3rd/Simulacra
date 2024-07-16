@@ -11,5 +11,5 @@ namespace Simulacra
 
     extern FileSystem FileManager;
 
-    void InitializePlatformFilesystem(Window window);
+    void InitializeFilesystem(Window window);
 }

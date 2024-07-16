@@ -19,10 +19,11 @@ namespace Simulacra
     using CallbackFn = std::function<void(Event&)>;
 
     void SubmitApplicationCallback(const CallbackFn& fn);
-    bool InitializePlatformWindow(Window window);
-    bool ShutdownPlatformWindow();
+    bool InitializeWindow(Window window);
+    bool ShutdownWindow();
     void PollEvents();
-    void PlatformRender(Window window);
+    void SwapBuffer(Window window);
+    void ClearBuffer();
 
     void BeginImGuiRender();
     void EndImGuiRender();

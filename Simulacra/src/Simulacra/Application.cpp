@@ -81,7 +81,7 @@ namespace Simulacra
 
             EndImGuiRender();
 
-            PlatformRender(n_Window);
+            ClearBuffer();
 
             BeginRender();
 
@@ -91,6 +91,8 @@ namespace Simulacra
             }
 
             EndRender();
+
+            SwapBuffer(n_Window);
         }
 
         ShutdownApplication();
@@ -100,8 +102,8 @@ namespace Simulacra
     {
         n_Window = { App->Props.Title, App->Props.Width, App->Props.Height, App->Props.Path };
 
-        InitializePlatformWindow(n_Window);
-        InitializePlatformFilesystem(n_Window);
+        InitializeWindow(n_Window);
+        InitializeFilesystem(n_Window);
         InitializeRenderer();
 
         SubmitApplicationCallback(OnEventWindowApplication);
@@ -116,7 +118,7 @@ namespace Simulacra
 
     void ShutdownApplication()
     {
-        ShutdownPlatformWindow();
+        ShutdownWindow();
 
         for (const auto& layer : QueryLayers())
         {

@@ -6,7 +6,7 @@ namespace Simulacra
 {
     FileSystem FileManager;
 
-    void InitializePlatformFilesystem(Window window)
+    void InitializeFilesystem(Window window)
     {
     #ifdef _WIN32
         if (!window.Path.empty())

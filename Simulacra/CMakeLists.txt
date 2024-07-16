@@ -15,7 +15,7 @@ set(SOURCE_FILES
     "${API_DIR}/src/Platform/OpenGL/Shaders.cpp"
     "${API_DIR}/src/Platform/OpenGL/Buffers.cpp"
     "${API_DIR}/src/Platform/OpenGL/Texture.cpp"
-    "${API_DIR}/src/Platform/OpenGL/RendererAPI.cpp"
+    "${API_DIR}/src/Platform/OpenGL/Renderer2DAPI.cpp"
     "${API_DIR}/src/Platform/OpenGL/Framebuffer.cpp"
     "${API_DIR}/spch.cpp"
 )
