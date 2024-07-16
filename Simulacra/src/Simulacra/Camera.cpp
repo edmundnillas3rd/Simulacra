@@ -9,25 +9,27 @@ namespace Simulacra
         return glm::lookAt(camera.Position, camera.Position + camera.Front, camera.Up);
     }
 
-    void UpdateCamera(const Camera& camera, float velocity)
+    void UpdateCamera(Camera& camera, float velocity)
     {
         if (IsKeyPressed(SCANCODE::SCANCODE_W))
         {
-            // camera.Position = camera.Position + (camera.Front * velocity);
+            camera.Position += camera.Front * velocity;
         }
-        // if (IsKeyPressed(SCANCODE::SCANCODE_S))
-        // {
-        //     camera.Position += camera.Front * velocity;
-        // }
 
-        // if (IsKeyPressed(SCANCODE::SCANCODE_A))
-        // {
-        //     camera.Position += camera.Front * velocity;
-        // }
-        // if (IsKeyPressed(SCANCODE::SCANCODE_D))
-        // {
-        //     camera.Position += camera.Front * velocity;
-        // }
+        if (IsKeyPressed(SCANCODE::SCANCODE_S))
+        {
+            camera.Position -= camera.Front * velocity;
+        }
+
+        if (IsKeyPressed(SCANCODE::SCANCODE_A))
+        {
+            camera.Position -= camera.Right * velocity;
+        }
+
+        if (IsKeyPressed(SCANCODE::SCANCODE_D))
+        {
+            camera.Position += camera.Right * velocity;
+        }
 
     }
 }

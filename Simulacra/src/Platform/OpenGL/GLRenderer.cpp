@@ -1,4 +1,4 @@
-#include "src/Simulacra/Renderer.h"
+#include "src/Simulacra/Renderer/Renderer.h"
 
 #include <glad/glad.h>
 
@@ -47,9 +47,6 @@ namespace Simulacra
     Renderer* CreateRenderer()
     {
         Renderer2D* renderer = new Renderer2D();
-        renderer->CurrentFramebuffer = CreateFramebuffer("Main");
-        renderer->CurrentFramebuffer.TextureBuffer = CreateTextureAttachment(TEX_ATTCH_WIDTH, TEX_ATTCH_HEIGHT);
-        BindFramebuffer(0);
 
         // [0]: The screen to render
         // [1]: The scene to be drawn into
@@ -96,51 +93,10 @@ namespace Simulacra
              1.0f,  1.0f,  1.0f, 1.0f
         };
 
-        renderer->CurrentFramebuffer.FramebufferVAO = CreateVertexArrayBuffer();
-        BindVertexArrayBuffer(renderer->CurrentFramebuffer.FramebufferVAO.RendererID);
-
-        VertexBuffer vbo = CreateVertexBuffer();
-        BindVertexBuffer(vbo.RendererID);
-        BufferVertexBuffer(sizeof(QuadVertices), QuadVertices.data());
-        SetVertexAttribute(0, 3, sizeof(float) * 4, (void*)0);
-        SetVertexAttribute(1, 2, sizeof(float) * 4, (void*)(sizeof(float) * 2));
-
-        BindVertexArrayBuffer(0);
-
         return renderer;
     }
 
-    void BeginRender()
-    {
-        BindFramebuffer(n_Renderer->CurrentFramebuffer.ID);
-        glViewport(0, 0, TEX_ATTCH_WIDTH, TEX_ATTCH_HEIGHT);
-
-        glEnable(GL_DEPTH_TEST);
-
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-        // glClearColor(0.5f, 0.5f, 1.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    }
-    
-    void EndRender()
-    {
-        // This renders the framebuffer to screen
-        BindFramebuffer(0);
-        Window window = GetCurrentWindow();
-        glViewport(0, 0, window.Width, window.Height);
-
-        glDisable(GL_DEPTH_TEST);
-
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        SetActiveShader(n_Renderer->RendererShader[0].ProgramID);
-        BindVertexArrayBuffer(n_Renderer->CurrentFramebuffer.FramebufferVAO.RendererID);
-        BindTexture(n_Renderer->CurrentFramebuffer.TextureBuffer.TextureID);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-    }
-
-    void DrawIndices(Shader shader, VertexArrayBuffer object, uint32_t count)
+    void DrawIndices(Shader shader, VertexArrayBuffer object, uint32_t count) 
     {
         SetActiveShader(shader.ProgramID);
         BindVertexArrayBuffer(object.RendererID);

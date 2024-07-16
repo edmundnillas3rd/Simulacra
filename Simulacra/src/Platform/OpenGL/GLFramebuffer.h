@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 
-#include "Texture.h"
-#include "Buffers.h"
+#include "GLTexture.h"
+#include "GLBuffers.h"
 
 namespace Simulacra
 {

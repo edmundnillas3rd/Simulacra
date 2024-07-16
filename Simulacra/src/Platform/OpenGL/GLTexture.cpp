@@ -1,4 +1,4 @@
-#include "Texture.h"
+#include "GLTexture.h"
 
 #include <glad/glad.h>
 #define STB_IMAGE_IMPLEMENTATION

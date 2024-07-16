@@ -5,7 +5,7 @@
 
 #include <glm/glm.hpp>
 
-#include "Buffers.h"
+#include "GLBuffers.h"
 
 namespace Simulacra
 {

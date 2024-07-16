@@ -2,7 +2,7 @@
 
 #include "Time.h"
 #include "Filesystem.h"
-#include "Renderer.h"
+#include "Renderer/Renderer.h"
 #include "src/Events/WindowEvents.h"
 
 namespace Simulacra
@@ -81,18 +81,14 @@ namespace Simulacra
 
             EndImGuiRender();
 
+            SwapBuffer(n_Window);
             ClearBuffer();
-
-            BeginRender();
 
             for (const auto& layer : QueryLayers())
             {
                 layer->OnUpdate(deltaTime);
             }
 
-            EndRender();
-
-            SwapBuffer(n_Window);
         }
 
         ShutdownApplication();
