@@ -54,13 +54,12 @@ namespace Simulacra
         SetVertexAttribute(1, 2, 6 * sizeof(float), (void*)(4 * sizeof(float)));
 
         n_Data.SceneShader = LoadShaders("assets/shaders/default.glsl");
+        SetActiveShader(n_Data.SceneShader.ProgramID);
     }
 
-    void DrawSprite(const Texture& texture)
+    void DrawSprite(const Texture& texture, glm::vec2 position)
     {
         BindTexture(texture.TextureID);
-
-        SetActiveShader(n_Data.SceneShader.ProgramID);
         BindVertexArrayBuffer(n_Data.QuadArray.RendererID);
         DrawIndices(n_Data.QuadIndices.IndexCount);
     }
