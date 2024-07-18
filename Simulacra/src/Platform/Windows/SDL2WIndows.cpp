@@ -42,6 +42,11 @@ namespace Simulacra
                     WindowData& data = *(WindowData*)SDL_GetWindowData(n_Window, "windowdata");
                     int x = event->motion.x;
                     int y = event->motion.y;
+
+                #ifdef _DEBUG
+                    SDL_WarpMouseGlobal(event->motion.xrel, event->motion.yrel);
+                #endif
+
                     MouseMovedEvent mme(x, y);
                     data.Callback(mme);
                 }
@@ -117,6 +122,8 @@ namespace Simulacra
             std::cout << "SDL2 Error Message: " << SDL_GetError() << std::endl;
             return false;
         }
+
+        SDL_SetRelativeMouseMode(SDL_TRUE);
 
         n_Context = SDL_GL_CreateContext(n_Window);
         SDL_GL_MakeCurrent(n_Window, n_Context);

@@ -4,6 +4,7 @@
 #include "src/Simulacra/Renderer/Renderer.h"
 #include "src/Simulacra/Input.h"
 #include "src/Simulacra/Time.h"
+#include "src/Simulacra/Camera.h"
 
 #include "src/Events/Event.h"
 #include "src/Events/WindowEvents.h"

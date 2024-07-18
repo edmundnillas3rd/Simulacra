@@ -1,7 +1,10 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+
+#include "src/Events/Event.h"
 
 namespace Simulacra
 {
@@ -13,13 +16,18 @@ namespace Simulacra
 
     struct Camera
     {
-        Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+        Camera(uint32_t width, uint32_t height, glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
         {
+            Width = width;
+            Height = height;
             Position = position;
             WorldUp = up;
             Yaw = yaw;
             Pitch = pitch;
         }
+
+        uint32_t Width;
+        uint32_t Height;
 
         glm::vec3 Position;
         glm::vec3 Front;
@@ -35,6 +43,7 @@ namespace Simulacra
         float Zoom;
     };
 
-    glm::mat4 GetViewMatrix(const Camera& camera);
+    glm::mat4 GetViewMatrix(Camera& camera);
     void UpdateCamera(Camera& camera, float velocity);
+    void OnEventCamera(Camera& camera, Event& event);
 }
