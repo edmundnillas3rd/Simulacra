@@ -2,7 +2,7 @@
 
 #include "Time.h"
 #include "Filesystem.h"
-#include "Renderer/Renderer.h"
+#include "src/Simulacra/Renderer/Renderer.h"
 #include "src/Events/WindowEvents.h"
 
 namespace Simulacra
@@ -82,7 +82,7 @@ namespace Simulacra
             EndImGuiRender();
 
             SwapBuffer(n_Window);
-            ClearBuffer();
+            ClearWindowBuffer();
 
             for (const auto& layer : QueryLayers())
             {

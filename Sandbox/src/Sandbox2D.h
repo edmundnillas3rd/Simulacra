@@ -18,5 +18,4 @@ private:
     bool m_Show;
     GameObject Player;
     Simulacra::Texture m_Texture;
-    Simulacra::Texture m_AnotherTexture;
 };

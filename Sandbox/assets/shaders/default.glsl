@@ -1,29 +1,27 @@
 #shader vertex
 #version 460 core
 
-layout (location = 0) in vec3 aPos;
+layout (location = 0) in vec4 aPos;
 layout (location = 1) in vec2 aTex;
 
-uniform mat4 transform;
-
-out vec2 OutTex;
+out vec2 TexCoord;
 
 void main()
 {
-    gl_Position = transform * vec4(aPos, 1.0);
-    OutTex = aTex;
+    gl_Position = vec4(aPos);
+    TexCoord = aTex;
 }
 
 #shader fragment
 #version 460 core
 
-in vec2 OutTex;
+in vec2 TexCoord;
 
 out vec4 color;
 
-uniform sampler2D screenTexture;
+uniform sampler2D texture1;
 
 void main()
 {
-    color = texture(screenTexture, OutTex);
+    color = texture(texture1, TexCoord);
 } 

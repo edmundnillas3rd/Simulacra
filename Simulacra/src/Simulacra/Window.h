@@ -23,7 +23,7 @@ namespace Simulacra
     bool ShutdownWindow();
     void PollEvents();
     void SwapBuffer(Window window);
-    void ClearBuffer();
+    void ClearWindowBuffer();
 
     void BeginImGuiRender();
     void EndImGuiRender();

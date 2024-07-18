@@ -1,27 +1,13 @@
-#include "src/Simulacra/Renderer/Renderer.h"
+#include "GLRenderer.h"
 
 #include <glad/glad.h>
 
-#include "src/Simulacra/Window.h"
 
 namespace Simulacra
 {
-    struct Renderer2D : Renderer
+    void DrawIndices(uint32_t count)
     {
-    };
-
-
-    // The set vertices for the quad
-
-    void InitializeRenderer()
-    {
-    }
-
-    #define TEX_ATTCH_WIDTH 1280
-    #define TEX_ATTCH_HEIGHT 680
-
-    void DrawIndices(Shader shader, VertexArrayBuffer object, uint32_t count) 
-    {
+        glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
     }
 
 }

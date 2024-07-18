@@ -41,12 +41,19 @@ namespace Simulacra
         glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
     }
 
-    ElementBuffer CreateElementBuffer()
+    void BufferSubVertexBuffer(uint32_t offset, size_t size, const void *data)
+    {
+        glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
+    }
+
+    ElementBuffer CreateElementBuffer(uint32_t count)
     {
         ElementBuffer ebo;
 
         glGenBuffers(1, &ebo.RendererID);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo.RendererID);
+
+        ebo.IndexCount = count;
 
         return ebo;
     }
