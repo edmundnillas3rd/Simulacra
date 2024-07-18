@@ -10,6 +10,7 @@
 
 #include "src/Events/WindowEvents.h"
 #include "src/Events/InputEvents.h"
+#include "src/Events/MouseEvents.h"
 #include "src/Simulacra/Window.h"
 
 namespace Simulacra
@@ -36,6 +37,15 @@ namespace Simulacra
     {
         switch(event->type)
         {
+            case SDL_MOUSEMOTION:
+                {
+                    WindowData& data = *(WindowData*)SDL_GetWindowData(n_Window, "windowdata");
+                    int x = event->motion.x;
+                    int y = event->motion.y;
+                    MouseMovedEvent mme(x, y);
+                    data.Callback(mme);
+                }
+                break;
             case SDL_KEYDOWN:
                 {
                     WindowData& data = *(WindowData*)SDL_GetWindowData(n_Window, "windowdata");
@@ -63,8 +73,8 @@ namespace Simulacra
                 break;
             case SDL_WINDOWEVENT_RESIZED:
                 {
-                    int w, h;
-                    SDL_GetWindowSize(n_Window, &w, &h);
+                    int w = event->window.data1;
+                    int h = event->window.data2;
 
                     WindowData& data = *(WindowData*)SDL_GetWindowData(n_Window, "windowdata");
                     WindowResizeEvent rse(w, h);

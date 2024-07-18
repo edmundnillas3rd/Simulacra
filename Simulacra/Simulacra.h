@@ -8,6 +8,7 @@
 #include "src/Events/Event.h"
 #include "src/Events/WindowEvents.h"
 #include "src/Events/InputEvents.h"
+#include "src/Events/MouseEvents.h"
 
 #include "src/Platform/OpenGL/GLBuffers.h"
 #include "src/Platform/OpenGL/GLTexture.h"

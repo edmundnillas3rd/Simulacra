@@ -7,7 +7,8 @@ namespace Simulacra
     enum class EventType
     {
         WINDOW_CLOSED, WINDOW_RESIZED,
-        KEY_PRESSED, KEY_RELEASED
+        KEY_PRESSED, KEY_RELEASED,
+        MOUSE_MOVED, MOUSE_PRESSED, MOUSE_RELEASED
     };
     // NOTE(Edmund): normally when implement the EventType, don't use enum classes
     // We usually use a GUIDs, but in this particular case since I'm developing in 
