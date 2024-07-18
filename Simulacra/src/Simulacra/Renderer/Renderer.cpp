@@ -63,4 +63,9 @@ namespace Simulacra
         BindVertexArrayBuffer(n_Data.QuadArray.RendererID);
         DrawIndices(n_Data.QuadIndices.IndexCount);
     }
+
+    Shader GetCurrentShader()
+    {
+        return n_Data.SceneShader;
+    }
 }
