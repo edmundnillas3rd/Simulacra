@@ -1,8 +1,6 @@
 # Simulacra
 
-A in-house rendering engine for the implementation of rendering algorithms specified in the PBR book.
-
-Personally used for game development, visualizing data, and algorithms.
+A in-house rendering engine for the playing around with ideas. Mostly used for game development, visualizing data, and algorithms.
 
 ![Demo](Sandbox/assets/images/demo-1.jpg)
 
@@ -71,4 +69,16 @@ Sandbox.exe # to run the program
 
 # References
 
-* [Physically Based Rendering: From Theory to Implentation](https://www.pbr-book.org/)
+## Graphics
+* [Learn OpenGL](https://learnopengl.com)
+* [OpenGL Superbible](http://www.openglsuperbible.com)
+* [Anton's OpenGL 4 Tutorials](https://antongerdelan.net/opengl)
+* [Physically Based Rendering: From Theory to Implentation](https://www.pbr-book.org)
+* [Graphics Shaders Theory and Practice](https://cs.uns.edu.ar/cg/clasespdf/GraphicShaders.pdf)
+* [Real-Time Rendering](https://www.realtimerendering.com/)
+
+## Game/Rendering Engine Architecture
+* [Beginning Game Programming v2.0](https://lazyfoo.net/tutorials/SDL)
+* [The Cherno's Game Engine Series](https://youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT&si=of_e13nO4Y_J9VWg)
+* [Game Engine Architecture by Jason Gregory](https://www.gameenginebook.com)
+* [Game Coding Complete](https://github.com/MikeMcShaffry/gamecode4)
