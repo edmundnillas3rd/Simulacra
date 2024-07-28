@@ -121,6 +121,11 @@ namespace Simulacra
 
         ShutdownWindow();
     }
+
+    bool IsApplicationRunning()
+    {
+        return App->Running;
+    }
    
 }
 

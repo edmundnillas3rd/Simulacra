@@ -26,4 +26,5 @@ namespace Simulacra
     
     void AddLayer(Application* layer);
     Application* CreateApplication();
+    bool IsApplicationRunning();
 }
