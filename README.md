@@ -82,3 +82,7 @@ Sandbox.exe # to run the program
 * [The Cherno's Game Engine Series](https://youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT&si=of_e13nO4Y_J9VWg)
 * [Game Engine Architecture by Jason Gregory](https://www.gameenginebook.com)
 * [Game Coding Complete](https://github.com/MikeMcShaffry/gamecode4)
+
+## Articles
+* [Implementing a simple event system in C++11](https://bastian.rieck.me/blog/2015/event_system_cxx11)
+* [A Tiny OpenGL 2D Batch Renderer](https://jasonliang.js.org/batch-renderer.html)
