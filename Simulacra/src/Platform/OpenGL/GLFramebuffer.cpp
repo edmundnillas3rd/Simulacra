@@ -21,6 +21,11 @@ namespace Simulacra
         glBindFramebuffer(GL_FRAMEBUFFER, id);
     }
 
+    void SetViewport(uint32_t width, uint32_t height)
+    {
+        glViewport(0, 0, width, height);
+    }
+
     Texture CreateTextureAttachment(uint32_t width, uint32_t height)
     {
         Texture texture;
