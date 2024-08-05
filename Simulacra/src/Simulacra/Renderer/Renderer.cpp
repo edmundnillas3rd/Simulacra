@@ -10,7 +10,7 @@
 
 namespace Simulacra
 {
-    struct Sprite
+    struct SpriteVertices
     {
         glm::vec3 Position;
         glm::vec4 Color;
@@ -41,8 +41,8 @@ namespace Simulacra
         VertexBuffer QuadBuffer;
         ElementBuffer QuadIndices;
 
-        Sprite* Sprites;
-        Sprite* SpritePtr;
+        SpriteVertices* Sprites;
+        SpriteVertices* SpritePtr;
 
         std::array<glm::vec4, 4> QuadPositions;
     };
@@ -55,9 +55,9 @@ namespace Simulacra
         n_Data.QuadArray = CreateVertexArrayBuffer();
 
         n_Data.QuadBuffer = CreateVertexBuffer();
-        BufferVertexBuffer(sizeof(Sprite) * n_Data.MAX_VERTICES);
+        BufferVertexBuffer(sizeof(SpriteVertices) * n_Data.MAX_VERTICES);
 
-        n_Data.Sprites = new Sprite[n_Data.MAX_VERTICES];
+        n_Data.Sprites = new SpriteVertices[n_Data.MAX_VERTICES];
 
         n_Data.QuadIndices = CreateElementBuffer();
 
@@ -83,9 +83,9 @@ namespace Simulacra
         n_Data.QuadPositions[2] = { -0.5f, -0.5f, 0.0f, 1.0f };
         n_Data.QuadPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
 
-        SetVertexAttribute(0, 3, sizeof(Sprite), (void*)offsetof(Sprite, Position));
-        SetVertexAttribute(1, 4, sizeof(Sprite), (void*)offsetof(Sprite, Color));
-        SetVertexAttribute(2, 2, sizeof(Sprite), (void*)offsetof(Sprite, TexCoords));
+        SetVertexAttribute(0, 3, sizeof(SpriteVertices), (void*)offsetof(SpriteVertices, Position));
+        SetVertexAttribute(1, 4, sizeof(SpriteVertices), (void*)offsetof(SpriteVertices, Color));
+        SetVertexAttribute(2, 2, sizeof(SpriteVertices), (void*)offsetof(SpriteVertices, TexCoords));
 
         n_Data.SceneShader = LoadShaders("assets/shaders/default.glsl");
         SetActiveShader(n_Data.SceneShader.ProgramID);
