@@ -16,7 +16,7 @@ Sandbox2D::~Sandbox2D()
 
 void Sandbox2D::OnAttach()
 {
-    m_Texture = Simulacra::LoadTexture("assets/images/container.jpg");
+    m_ContainerTexture = Simulacra::LoadTexture("assets/images/container.jpg");
 }
 
 void Sandbox2D::OnDetach()
@@ -25,7 +25,35 @@ void Sandbox2D::OnDetach()
 
 void Sandbox2D::OnUpdate(float deltaTime)
 {
-    Simulacra::DrawSprite(m_Texture);
+    Simulacra::BeginRender();
+
+    static float x;
+    static float y;
+
+    if (Simulacra::IsKeyPressed(Simulacra::SCANCODE::SCANCODE_A))
+    {
+        x += 5.0f * deltaTime;
+    }
+    else if (Simulacra::IsKeyPressed(Simulacra::SCANCODE::SCANCODE_D))
+    {
+        x -= 5.0f * deltaTime;
+    }
+
+    if (Simulacra::IsKeyPressed(Simulacra::SCANCODE::SCANCODE_S))
+    {
+        y += 5.0f * deltaTime;
+    }
+    else if (Simulacra::IsKeyPressed(Simulacra::SCANCODE::SCANCODE_W))
+    {
+        y -= 5.0f * deltaTime;
+    }
+
+    // Base on trial and error, 8000 quads is the maximum number before the performance slowed down.
+    // At least in this particular hardware
+    for (size_t i = 0; i < 8000; i++)
+        Simulacra::DrawSprite(m_ContainerTexture, glm::vec3({ (float)i + x, y, -1.0f }));
+
+    Simulacra::EndRender();
 }
 
 void Sandbox2D::OnImGuiRender()
@@ -50,4 +78,5 @@ void Sandbox2D::OnEvent(Simulacra::Event& event)
                 break;
         }
     }
+
 }
