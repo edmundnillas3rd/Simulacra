@@ -100,7 +100,7 @@ namespace Simulacra
 
         InitializeWindow(n_Window);
         InitializeFilesystem(n_Window);
-        InitializeRenderer();
+        CreateRenderer();
 
         SubmitApplicationCallback(OnEventWindowApplication);
 
@@ -119,6 +119,7 @@ namespace Simulacra
             layer->OnDetach();
         }
 
+        DestroyRenderer();
         ShutdownWindow();
     }
 
