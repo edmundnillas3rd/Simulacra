@@ -88,7 +88,7 @@ namespace Simulacra
         SetVertexAttribute(2, 2, sizeof(SpriteVertices), (void*)offsetof(SpriteVertices, TexCoords));
 
         n_Data.SceneShader = LoadShaders("assets/shaders/default.glsl");
-        SetActiveShader(n_Data.SceneShader.ProgramID);
+        UseShaderProgram(n_Data.SceneShader.ProgramID);
     }
 
     void DestroyRenderer()
@@ -101,7 +101,7 @@ namespace Simulacra
         if (n_Data.IndexCount)
         {
             uint32_t dataSize = (uint32_t)((uint8_t*)n_Data.SpritePtr - (uint8_t*)n_Data.Sprites);
-            SetActiveShader(n_Data.SceneShader.ProgramID);
+            UseShaderProgram(n_Data.SceneShader.ProgramID);
             BindVertexArrayBuffer(n_Data.QuadArray.RendererID);
             BufferSubVertexBuffer(0, dataSize, n_Data.Sprites);
 

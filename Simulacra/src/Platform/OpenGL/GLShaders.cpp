@@ -104,7 +104,7 @@ namespace Simulacra
         };
     }
 
-    void SetActiveShader(uint32_t program)
+    void UseShaderProgram(uint32_t program)
     {
         glUseProgram(program);
     }
