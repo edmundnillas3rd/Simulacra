@@ -13,12 +13,13 @@ namespace Simulacra
         std::string Name;
     };
 
-    void InitializeRenderer();
+    void CreateRenderer();
+    void DestroyRenderer();
     
     // For 2D Rendering
-    void DrawQuad();
-    void DrawSprite(const Texture& texture, glm::vec2 position);
+    void BeginRender();
+    void EndRender();
 
-    // Tentative
-    Shader GetCurrentShader();
+    void DrawQuad(const Texture& texture, const glm::mat4 transform);
+    void DrawSprite(const Texture& texture, glm::vec3 position);
 }
