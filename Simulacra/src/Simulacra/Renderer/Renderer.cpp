@@ -110,16 +110,21 @@ namespace Simulacra
 
     }
 
+    void StartBatch()
+    {
+        n_Data.IndexCount = 0;
+        n_Data.SpritePtr = n_Data.Sprites;
+    }
+
     void NextBatch()
     {
         Flush();
-        BeginRender();
+        StartBatch();
     }
 
     void BeginRender()
     {
-        n_Data.IndexCount = 0;
-        n_Data.SpritePtr = n_Data.Sprites;
+        StartBatch();
     }
 
     void EndRender()
