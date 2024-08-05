@@ -12,7 +12,6 @@ namespace Simulacra
     struct ElementBuffer
     {
         uint32_t RendererID;
-        uint32_t IndexCount;
     };
 
     struct VertexArrayBuffer
@@ -23,12 +22,14 @@ namespace Simulacra
 
     VertexBuffer CreateVertexBuffer();
     void BindVertexBuffer(uint32_t buffer);
+    void BufferVertexBuffer(size_t size);
     void BufferVertexBuffer(size_t size, const void* data);
     void BufferSubVertexBuffer(uint32_t offset, size_t size, const void *data);
 
 ;
-    ElementBuffer CreateElementBuffer(uint32_t count);
+    ElementBuffer CreateElementBuffer();
     void BindElementBuffer(uint32_t buffer);
+    void BufferElementBuffer(size_t size);
     void BufferElementBuffer(size_t size, const void* data);
 
     VertexArrayBuffer CreateVertexArrayBuffer();
