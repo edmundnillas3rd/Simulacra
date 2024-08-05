@@ -27,4 +27,6 @@ namespace Simulacra
     void SetFloatUniform(const Shader& shader, const std::string& location, float i, float j, float k);
 
     void SetMatfUniform(const Shader& shader, const std::string& location, glm::mat4 transform);
+    void SetMatfUniform(const Shader& shader, const std::string& location, glm::mat3 transform);
+    void SetMatfUniform(const Shader& shader, const std::string& location, glm::mat2 transform);
 }

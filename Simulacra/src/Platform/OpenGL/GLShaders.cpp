@@ -143,4 +143,14 @@ namespace Simulacra
     {
         glUniformMatrix4fv(glGetUniformLocation(shader.ProgramID, location.c_str()), 1, GL_FALSE, glm::value_ptr(transform));
     }
+
+    void SetMatfUniform(const Shader &shader, const std::string &location, glm::mat3 transform)
+    {
+        glUniformMatrix3fv(glGetUniformLocation(shader.ProgramID, location.c_str()), 1, GL_FALSE, glm::value_ptr(transform));
+    }
+
+    void SetMatfUniform(const Shader &shader, const std::string &location, glm::mat2 transform)
+    {
+        glUniformMatrix2fv(glGetUniformLocation(shader.ProgramID, location.c_str()), 1, GL_FALSE, glm::value_ptr(transform));
+    }
 }
