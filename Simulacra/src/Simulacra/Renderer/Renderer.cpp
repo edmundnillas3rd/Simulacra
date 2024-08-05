@@ -28,7 +28,7 @@ namespace Simulacra
 
     struct RendererData
     {
-        static const uint32_t MAX_QUADS = 40000;
+        static const uint32_t MAX_QUADS = 8000;
         static const uint32_t MAX_VERTICES = MAX_QUADS * 4;
         static const uint32_t MAX_INDICES = MAX_QUADS * 6;
 
@@ -96,13 +96,7 @@ namespace Simulacra
         delete[] n_Data.Sprites;
     }
 
-    void BeginRender()
-    {
-        n_Data.IndexCount = 0;
-        n_Data.SpritePtr = n_Data.Sprites;
-    }
-
-    void EndRender()
+    void Flush()
     {
         if (n_Data.IndexCount)
         {
@@ -113,12 +107,33 @@ namespace Simulacra
 
             DrawIndices(n_Data.IndexCount);
         }
+
+    }
+
+    void NextBatch()
+    {
+        Flush();
+        BeginRender();
+    }
+
+    void BeginRender()
+    {
+        n_Data.IndexCount = 0;
+        n_Data.SpritePtr = n_Data.Sprites;
+    }
+
+    void EndRender()
+    {
+        Flush();
     }
 
     void DrawQuad(const Texture& texture, const glm::mat4 transform)
     {
 		const glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
         const glm::vec4 tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+        if (n_Data.IndexCount >= RendererData::MAX_INDICES)
+            NextBatch();
 
         for (size_t i = 0; i < n_Data.QuadPositions.size(); i++)
         {
