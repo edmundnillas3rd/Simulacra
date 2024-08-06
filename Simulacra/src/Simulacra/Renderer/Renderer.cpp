@@ -34,7 +34,7 @@ namespace Simulacra
 
         uint32_t IndexCount;
 
-        Shader SceneShader;
+        Shader SpriteQuadShader;
 
         // Quad
         VertexArrayBuffer QuadArray;
@@ -87,8 +87,8 @@ namespace Simulacra
         SetVertexAttribute(1, 4, sizeof(SpriteVertices), (void*)offsetof(SpriteVertices, Color));
         SetVertexAttribute(2, 2, sizeof(SpriteVertices), (void*)offsetof(SpriteVertices, TexCoords));
 
-        n_Data.SceneShader = LoadShaders("assets/shaders/default.glsl");
-        UseShaderProgram(n_Data.SceneShader.ProgramID);
+        n_Data.SpriteQuadShader = LoadShaders("assets/shaders/default.glsl");
+        UseShaderProgram(n_Data.SpriteQuadShader.ProgramID);
     }
 
     void DestroyRenderer()
@@ -101,10 +101,10 @@ namespace Simulacra
         if (n_Data.IndexCount)
         {
             uint32_t dataSize = (uint32_t)((uint8_t*)n_Data.SpritePtr - (uint8_t*)n_Data.Sprites);
-            UseShaderProgram(n_Data.SceneShader.ProgramID);
             BindVertexArrayBuffer(n_Data.QuadArray.RendererID);
             BufferSubVertexBuffer(0, dataSize, n_Data.Sprites);
 
+            UseShaderProgram(n_Data.SpriteQuadShader.ProgramID);
             DrawIndices(n_Data.IndexCount);
         }
 
