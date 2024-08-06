@@ -24,9 +24,6 @@ namespace Simulacra
         Shader shader;
 
         shader.Sources = ParseShader(ss.str());
-        
-        std::cout << shader.Sources[0] << std::endl;
-        std::cout << shader.Sources[1] << std::endl;
 
         const char* vertex = shader.Sources[0].c_str();
         const char* fragment = shader.Sources[1].c_str();
