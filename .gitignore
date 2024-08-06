@@ -13,8 +13,9 @@
 CMakeUserPresets.json
 
 # Files
-*.exe
-*.lib
-*.dll
-*.pdb
-*.txt
+**/*.exe
+**/*.lib
+**/*.dll
+**/*.pdb
+**/*.txt
+**/*.aseprite
