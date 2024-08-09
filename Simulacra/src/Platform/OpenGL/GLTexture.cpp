@@ -12,12 +12,12 @@ namespace Simulacra
     Texture LoadTexture(const std::string& path)
     {
         const std::string fullPath = FileManager.CurrenWorkingDirectory + path;
-        Texture texture;
+        Texture texture = { 0 };
 
         int n = 0;
         int forceChannels = 4;
-        unsigned char* imageData = stbi_load(fullPath.c_str(), &texture.Size.x, &texture.Size.y, &n, forceChannels);
-        if (!imageData)
+        texture.Data = stbi_load(fullPath.c_str(), &texture.Width, &texture.Height, &n, forceChannels);
+        if (!texture.Data)
         {
             std::cout << "Error: Could not load " + path << std::endl;
         }
@@ -28,13 +28,13 @@ namespace Simulacra
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture.TextureID);
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.Size.x, texture.Size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.Width, texture.Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture.Data);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-        stbi_image_free(imageData);
+        stbi_image_free(texture.Data);
 
         return texture;
     }
