@@ -66,6 +66,44 @@ namespace Simulacra
         return shader;
     }
 
+    Shader LoadComputeShader(const std::string &path)
+    {
+        Shader shader = { 0 };
+        const auto fullPath = FileManager.CurrenWorkingDirectory + path;
+        std::fstream shaderFile(fullPath.c_str(), std::ios::in | std::ios::binary);
+
+        std::stringstream ss;
+
+        ss << shaderFile.rdbuf();
+
+        shaderFile.close();
+
+        std::string computeShaderStr = ss.str();
+        const char* computeShaderSrc = computeShaderStr.c_str();
+
+        uint32_t cs = glCreateShader(GL_COMPUTE_SHADER);
+        glShaderSource(cs, 1, &computeShaderSrc, nullptr);
+        glCompileShader(cs);
+
+        int success = -1;
+        char infoLog[512];
+        glGetShaderiv(cs, GL_COMPILE_STATUS, &success);
+        if(success != GL_TRUE) 
+        {
+            glGetShaderInfoLog(cs, 512, nullptr, infoLog);
+            std::cout << "COMPUTE VERTEX SHADER COMPILATION FAILED: " << infoLog << std::endl;
+            return shader;
+        }
+
+        shader.ProgramID = glCreateProgram();
+        glAttachShader(shader.ProgramID, cs);
+        glLinkProgram(shader.ProgramID);
+
+        glDeleteShader(cs);
+
+        return shader;
+    }
+
     std::array<std::string, 5> ParseShader(const std::string& source)
     {
         std::string shaderStr;
