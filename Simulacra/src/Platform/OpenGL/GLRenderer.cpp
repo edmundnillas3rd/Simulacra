@@ -5,7 +5,7 @@
 
 namespace Simulacra
 {
-    void RenderComputeShader(uint32_t width, uint32_t height)
+    void DrawImageTexture(uint32_t width, uint32_t height)
     {
         glDispatchCompute((unsigned int)width, (unsigned int)height, 1);
         glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
