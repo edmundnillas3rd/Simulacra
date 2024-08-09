@@ -39,6 +39,27 @@ namespace Simulacra
         return texture;
     }
 
+    Texture CreateTexture(int32_t width, int32_t height)
+    {
+        Texture texture = { 0 };
+        texture.Width = width;
+        texture.Height = height;
+
+        glGenTextures(1, &texture.TextureID);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture.TextureID);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, texture.Width, texture.Height, 0, GL_RGBA, GL_FLOAT, nullptr);
+
+        glBindImageTexture(0, texture.TextureID, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F);
+
+        return texture;
+    }
+
     void SetActiveTexture(uint32_t index)
     {
         glActiveTexture(GL_TEXTURE0 + index);
