@@ -135,20 +135,28 @@ namespace Simulacra
     // For rendering the screen quad
     void DrawQuad(const Texture& texture)
     {
-		const glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
+		const glm::vec2 textureCoords[] = { 
+            { 1.0f, 1.0f }, 
+            { 1.0f, 0.0f }, 
+            { 0.0f, 0.0f }, 
+            { 0.0f, 1.0f } 
+        };
+
         const glm::vec4 tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 
         if (n_Data.IndexCount >= RendererData::MAX_INDICES)
             NextBatch();
 
-        n_Data.QuadPositions[0] = {  1.0f,  1.0f, 0.0f, 1.0f };
-        n_Data.QuadPositions[1] = {  1.0f, -1.0f, 0.0f, 1.0f };
-        n_Data.QuadPositions[2] = { -1.0f, -1.0f, 0.0f, 1.0f };
-        n_Data.QuadPositions[3] = { -1.0f,  1.0f, 0.0f, 1.0f };
+        const glm::vec3 FlipQuadPositions[] = {
+            {  1.0f,  1.0f, 0.0f },
+            {  1.0f, -1.0f, 0.0f },
+            { -1.0f, -1.0f, 0.0f },
+            { -1.0f,  1.0f, 0.0f }
+        };
 
         for (size_t i = 0; i < n_Data.QuadPositions.size(); i++)
         {
-            n_Data.SpritePtr->Position = n_Data.QuadPositions[i];
+            n_Data.SpritePtr->Position = FlipQuadPositions[i];
             n_Data.SpritePtr->Color = tintColor;
             n_Data.SpritePtr->TexCoords = textureCoords[i];
             n_Data.SpritePtr++;
