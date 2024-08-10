@@ -9,6 +9,7 @@ set(SOURCE_FILES
     "${SRC_DIR}/Sandbox2D.cpp"
 )
 
+
 add_executable(
     ${PROJECT_NAME}
     ${SOURCE_FILES}
@@ -22,4 +23,5 @@ set_target_properties(
 
 target_link_libraries(${PROJECT_NAME} PUBLIC Simulacra)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+target_compile_options(${PROJECT_NAME} PRIVATE /wd4312)
 target_include_directories(${PROJECT_NAME} PUBLIC ${SRC_DIR})
