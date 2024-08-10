@@ -5,6 +5,11 @@
 
 namespace Simulacra
 {
+    void WritePixel(const Texture& texture)
+    {
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, texture.Width, texture.Height, GL_RGBA, GL_UNSIGNED_BYTE, texture.Data);
+    }
+
     void DrawImageTexture(uint32_t width, uint32_t height)
     {
         glDispatchCompute((unsigned int)width, (unsigned int)height, 1);
