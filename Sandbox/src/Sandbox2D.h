@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Simulacra.h>
+#include <thread>
 
-#include "GameObject.h"
+#include <Simulacra.h>
 
 class Sandbox2D : public Simulacra::Application
 {
@@ -16,7 +16,15 @@ public:
     void OnImGuiRender();
     void OnEvent(Simulacra::Event& event);
 private:
-    Simulacra::Texture m_ContainerTexture;
+    glm::vec4 PerPixel(uint32_t x, uint32_t y);
+
     bool m_Show;
-    GameObject Player;
+    Simulacra::Shader m_QuadShader;
+
+    Simulacra::Texture m_SceneTexture;
+    glm::vec4* m_DataPtr = nullptr;
+    uint32_t* m_ImageData = nullptr;
+
+    std::vector<uint32_t> m_HorizontalPixels;
+    std::vector<uint32_t> m_VerticalPixels;
 };
