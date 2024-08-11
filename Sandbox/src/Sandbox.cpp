@@ -19,7 +19,7 @@ Simulacra::Application* Simulacra::CreateApplication()
 {
     Simulacra::Application* app = new Sandbox();
 
-    app->Props.Title = "This is a game";
+    app->Props.Title = "Simulacra";
     app->Props.Width = 1280;
     app->Props.Height = 680;
     app->Props.Path = "../../Sandbox";

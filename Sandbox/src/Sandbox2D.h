@@ -1,8 +1,11 @@
 #pragma once
 
-#include <thread>
-
 #include <Simulacra.h>
+
+#include "Material.h"
+#include "Ray.h"
+#include "Intersect.h"
+#include "Camera.h"
 
 class Sandbox2D : public Simulacra::Application
 {
@@ -16,8 +19,14 @@ public:
     void OnImGuiRender();
     void OnEvent(Simulacra::Event& event);
 private:
-    glm::vec4 PerPixel(uint32_t x, uint32_t y);
+    void OnRender();
 
+    glm::vec4 WritePerPixel(uint32_t x, uint32_t y);
+    glm::vec3 CalculateRay(const Ray& ray, int depth);
+    uint32_t ConvertToRGBA(glm::vec4& color);
+    void RandomSpheres();
+
+private:
     bool m_Show;
     Simulacra::Shader m_QuadShader;
 

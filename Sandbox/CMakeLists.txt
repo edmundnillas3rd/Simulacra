@@ -7,6 +7,14 @@ set(BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 set(SOURCE_FILES
     "${SRC_DIR}/Sandbox.cpp"
     "${SRC_DIR}/Sandbox2D.cpp"
+    "${SRC_DIR}/Ray.cpp"
+    "${SRC_DIR}/Ray.h"
+    "${SRC_DIR}/Intersect.cpp"
+    "${SRC_DIR}/Intersect.h"
+    "${SRC_DIR}/Camera.cpp"
+    "${SRC_DIR}/Camera.h"
+    "${SRC_DIR}/Material.cpp"
+    "${SRC_DIR}/Material.h"
 )
 
 
