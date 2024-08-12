@@ -27,7 +27,7 @@ conan install . --settings=build_type=Debug --build=missing
 ```
 
 ## Prior to Conan 2.0
-<debug_profile> is the conan profile set to debug mode
+`<debug_profile>` is the conan profile set to debug mode
 
 ```console
 mkdir build
@@ -57,9 +57,12 @@ Sandbox.exe # to run the program
 ### VSCode 
 1. If the appropriate cmake tools didn't exist. Install the CMake and CMake Tools extension first.
 2. Follow the conan installation procedure.
-3. CTRL + SHIFT + P and search for CMake: Configure in the command palette
-4. Then build (F7) or debug (CTRL + F5)
- 
+3. `CTRL + SHIFT + P` and search for `CMake: Configure in the command palette`
+4. Then build `(F7)` or debug `(CTRL + F5)`
+
+### Configure IntelliSense for VSCode
+1. `CTRL + SHIFT + P` and search for `C/C++: Select IntelliSense Configuration`
+2. Select `Use CMake Tools` to fix the path errors in the project
 
 ### Roadmap
 - [ ] Multi-threading
