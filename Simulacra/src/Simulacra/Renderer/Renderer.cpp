@@ -24,6 +24,7 @@ namespace Simulacra
         // [2]: the width of the texture rect
         // [3]: the height of the texture rect
         glm::vec2 TexCoords;
+        float TexIndex;
     };
 
     struct RendererData
@@ -31,6 +32,7 @@ namespace Simulacra
         static const uint32_t MAX_QUADS = 8000;
         static const uint32_t MAX_VERTICES = MAX_QUADS * 4;
         static const uint32_t MAX_INDICES = MAX_QUADS * 6;
+        static const uint32_t MAX_TEXTURES = 8;
 
         uint32_t IndexCount;
 
@@ -45,6 +47,9 @@ namespace Simulacra
         SpriteVertices* SpritePtr;
 
         std::array<glm::vec4, 4> QuadPositions;
+
+        std::array<Texture, MAX_TEXTURES> Textures;
+        uint32_t TextureSlotIndex = 0;
     };
 
     RendererData n_Data;
@@ -86,6 +91,7 @@ namespace Simulacra
         SetVertexAttribute(0, 3, sizeof(SpriteVertices), (void*)offsetof(SpriteVertices, Position));
         SetVertexAttribute(1, 4, sizeof(SpriteVertices), (void*)offsetof(SpriteVertices, Color));
         SetVertexAttribute(2, 2, sizeof(SpriteVertices), (void*)offsetof(SpriteVertices, TexCoords));
+        SetVertexAttribute(3, 1, sizeof(SpriteVertices), (void*)offsetof(SpriteVertices, TexIndex));
 
         n_Data.SpriteQuadShader = LoadShaders("assets/shaders/default.glsl");
         UseShaderProgram(n_Data.SpriteQuadShader.ProgramID);
@@ -104,16 +110,20 @@ namespace Simulacra
             BindVertexArrayBuffer(n_Data.QuadArray.RendererID);
             BufferSubVertexBuffer(0, dataSize, n_Data.Sprites);
 
+            for (uint32_t i = 0; i < n_Data.TextureSlotIndex; i++)
+                BindTexture(i, n_Data.Textures[i].TextureID);
+
             UseShaderProgram(n_Data.SpriteQuadShader.ProgramID);
             DrawIndices(n_Data.IndexCount);
         }
-
     }
 
     void StartBatch()
     {
         n_Data.IndexCount = 0;
         n_Data.SpritePtr = n_Data.Sprites;
+
+        n_Data.TextureSlotIndex = 0;
     }
 
     void NextBatch()
@@ -135,6 +145,7 @@ namespace Simulacra
     // For rendering the screen quad
     void DrawQuad(const Texture& texture)
     {
+        float textureIndex = 0.0f;
 		const glm::vec2 textureCoords[] = { 
             { 1.0f, 1.0f }, 
             { 1.0f, 0.0f }, 
@@ -159,6 +170,7 @@ namespace Simulacra
             n_Data.SpritePtr->Position = FlipQuadPositions[i];
             n_Data.SpritePtr->Color = tintColor;
             n_Data.SpritePtr->TexCoords = textureCoords[i];
+            n_Data.SpritePtr->TexIndex = textureIndex;
             n_Data.SpritePtr++;
         }
 
@@ -168,16 +180,37 @@ namespace Simulacra
     void DrawQuad(const Texture& texture, const glm::mat4 transform)
     {
 		const glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
-        const glm::vec4 tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+        const glm::vec4 tintColor = glm::vec4(1.0f);
 
         if (n_Data.IndexCount >= RendererData::MAX_INDICES)
             NextBatch();
+
+        float textureIndex = 0.0f;
+        for (uint32_t i = 0; i < n_Data.TextureSlotIndex; i++)
+        {
+            if (n_Data.Textures[i].TextureID == texture.TextureID)
+            {
+                textureIndex = (float)i;
+                break;
+            }
+        }
+
+        if (textureIndex == 0.0f)
+        {
+            if (n_Data.TextureSlotIndex >= n_Data.MAX_TEXTURES)
+                NextBatch();
+
+            textureIndex = (float)n_Data.TextureSlotIndex;
+            n_Data.Textures[n_Data.TextureSlotIndex] = texture;
+            n_Data.TextureSlotIndex++;
+        }
 
         for (size_t i = 0; i < n_Data.QuadPositions.size(); i++)
         {
             n_Data.SpritePtr->Position = transform * n_Data.QuadPositions[i];
             n_Data.SpritePtr->Color = tintColor;
             n_Data.SpritePtr->TexCoords = textureCoords[i];
+            n_Data.SpritePtr->TexIndex = textureIndex;
             n_Data.SpritePtr++;
         }
 
