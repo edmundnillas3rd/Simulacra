@@ -15,22 +15,39 @@ namespace Simulacra
         Texture texture = { 0 };
 
         int n = 0;
-        int forceChannels = 4;
-        texture.Data = stbi_load(fullPath.c_str(), &texture.Width, &texture.Height, &n, forceChannels);
+        texture.Data = stbi_load(fullPath.c_str(), &texture.Width, &texture.Height, &n, 0);
+
         if (!texture.Data)
         {
             std::cout << "Error: Could not load " + path << std::endl;
         }
+        
+        GLenum internalFormat = 0, dataFormat = 0;
+        if (n == 4)
+        {
+            internalFormat = GL_RGBA8;
+            dataFormat = GL_RGBA;
+        }
+        else if (n == 3)
+        {
+            internalFormat = GL_RGB8;
+            dataFormat = GL_RGB;
+        }
 
         stbi_set_flip_vertically_on_load(1);
 
-        glGenTextures(1, &texture.TextureID);
+        // glGenTextures(1, &texture.TextureID);
+        glCreateTextures(GL_TEXTURE_2D, 1, &texture.TextureID);
+        // glBindTexture(GL_TEXTURE_2D, texture.TextureID);
+        glTextureStorage2D(texture.TextureID, 1, internalFormat, texture.Width, texture.Height);
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.Width, texture.Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture.Data);
+        // glTexImage2D(GL_TEXTURE_2D, 0, dataFormat, texture.Width, texture.Height, 0, dataFormat, GL_UNSIGNED_BYTE, texture.Data);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        glTextureSubImage2D(texture.TextureID, 0, 0, 0, texture.Width, texture.Height, dataFormat, GL_UNSIGNED_BYTE, texture.Data);
 
         stbi_image_free(texture.Data);
 
@@ -78,8 +95,8 @@ namespace Simulacra
         glActiveTexture(GL_TEXTURE0 + index);
     }
 
-    void BindTexture(uint32_t texture)
+    void BindTexture(uint32_t slot, uint32_t texture)
     {
-        glBindTexture(GL_TEXTURE_2D, texture);
+        glBindTextureUnit(slot, texture);
     }
 }

@@ -20,7 +20,7 @@ namespace Simulacra
     Texture LoadTexture(const std::string& path);
     Texture CreateTexture(int32_t width, int32_t height);
     Texture CreateImageTexture(int32_t width, int32_t height);
-    void BindTexture(uint32_t texture = 0);
+    void BindTexture(uint32_t slot, uint32_t texture);
 
     void SetActiveTexture(uint32_t index);
 }
