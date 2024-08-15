@@ -6,10 +6,10 @@ layout (location = 1) in vec4 aColor;
 layout (location = 2) in vec2 aTex;
 layout (location = 3) in float aTexIndex;
 
-// layout (std140) uniform ViewProjMat
-// {
-//     mat4 ViewProjectionMatrix;
-// };
+layout (std140, binding = 0) uniform Camera
+{
+    mat4 u_ViewProjectionMatrix;
+};
 
 out Tex_Data
 {
@@ -19,13 +19,15 @@ out Tex_Data
     float TexIndex;
 } tex_out;
 
+// uniform mat4 u_ViewProjectionMat;
+
 void main()
 {
-    gl_Position = vec4(aPos, 1.0);
-    
     tex_out.Color = aColor;
     tex_out.TexCoord = aTex;
     tex_out.TexIndex = aTexIndex;
+    
+    gl_Position = u_ViewProjectionMatrix * vec4(aPos.xy, 0.0, 1.0);
 }
 
 #shader fragment

@@ -2,8 +2,6 @@
 
 #include <Simulacra.h>
 
-#include <glm/glm.hpp>
-
 struct Player
 {
     glm::vec3 Pos;
@@ -22,6 +20,7 @@ public:
     void OnEvent(Simulacra::Event& event);
 
 private:
+    Simulacra::OrthographicCamera m_Camera;
     Simulacra::Texture m_ContainerTexture;
     Simulacra::Texture m_WallTexture;
     Simulacra::Texture m_FaceTexture;
