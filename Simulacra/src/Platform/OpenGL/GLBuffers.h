@@ -19,6 +19,11 @@ namespace Simulacra
         uint32_t RendererID;
     };
 
+    struct UniformBuffer
+    {
+        uint32_t RendererID;
+    };
+
 
     VertexBuffer CreateVertexBuffer();
     void BindVertexBuffer(uint32_t buffer);
@@ -37,4 +42,6 @@ namespace Simulacra
 
     void SetVertexAttribute(uint32_t index, int size, int stride, void* pointer);
 
+    UniformBuffer CreateUniformBuffer(uint32_t size, uint32_t binding);
+    void BufferUniformBuffer(uint32_t buffer, uint32_t offset, uint32_t size, const void *data);
 }

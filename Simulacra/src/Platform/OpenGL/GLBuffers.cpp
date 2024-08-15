@@ -81,4 +81,20 @@ namespace Simulacra
         glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, stride, (void*)pointer);
         glEnableVertexAttribArray(index);
     }
+
+    UniformBuffer CreateUniformBuffer(uint32_t size, uint32_t binding)
+    {
+        UniformBuffer buffer;
+
+        glCreateBuffers(1, &buffer.RendererID);
+        glNamedBufferData(buffer.RendererID, size, nullptr, GL_DYNAMIC_DRAW);
+        glBindBufferBase(GL_UNIFORM_BUFFER, binding, buffer.RendererID);
+
+        return buffer;
+    }
+
+    void BufferUniformBuffer(uint32_t buffer, uint32_t offset, uint32_t size, const void *data)
+    {
+        glNamedBufferSubData(buffer, offset, size, data);
+    }
 }
