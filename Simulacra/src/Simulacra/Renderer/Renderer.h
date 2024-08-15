@@ -4,6 +4,7 @@
 
 #include <glm/glm.hpp>
 
+#include "src/Simulacra/Camera.h"
 #include "src/Platform/OpenGL/GLRenderer.h"
 
 namespace Simulacra
@@ -18,6 +19,7 @@ namespace Simulacra
     
     // For 2D Rendering
     void BeginRender();
+    void BeginRender(const OrthographicCamera& camera);
     void EndRender();
 
     void DrawQuad(const Texture& texture);

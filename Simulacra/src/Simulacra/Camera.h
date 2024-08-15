@@ -8,14 +8,15 @@
 
 namespace Simulacra
 {
-    const float YAW         = -90.0f;
-    const float PITCH       =  0.0f;
-    const float SPEED       =  2.5f;
-    const float SENSITIVITY =  0.1f;
-    const float ZOOM        =  45.0f;
-
     struct Camera
     {
+        static inline float YAW         = -90.0f;
+        static inline float PITCH       =  0.0f;
+        static inline float SPEED       =  2.5f;
+        static inline float SENSITIVITY =  0.1f;
+        static inline float ZOOM        =  45.0f;
+
+        Camera() = default;
         Camera(uint32_t width, uint32_t height, glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
         {
             Width = width;
@@ -46,4 +47,18 @@ namespace Simulacra
     glm::mat4 GetViewMatrix(Camera& camera);
     void UpdateCamera(Camera& camera, float velocity);
     void OnEventCamera(Camera& camera, Event& event);
+
+    struct OrthographicCamera
+    {
+        OrthographicCamera() = default;
+        OrthographicCamera(float left, float right, float bottom, float top)
+            : ProjectionMatrix(glm::ortho(left, right, bottom, top, -1.0f, 1.0f))
+        {}
+
+        glm::mat4 ProjectionMatrix;
+        glm::mat4 ViewMatrix;
+    };
+
+    void SetOrthoCameraPosition(OrthographicCamera& camera, const glm::vec3 &position);
+    glm::mat4 CalculateViewProjectionMatrix(const OrthographicCamera& camera);
 }

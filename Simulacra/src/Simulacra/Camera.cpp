@@ -87,4 +87,16 @@ namespace Simulacra
         camera.Right = glm::normalize(glm::cross(camera.Front, camera.WorldUp));
         camera.Up = glm::normalize(glm::cross(camera.Right, camera.Front));
     }
+
+    // Orthographic Camera
+    void SetOrthoCameraPosition(OrthographicCamera& camera, const glm::vec3 &position)
+    {
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), position);
+        camera.ViewMatrix = glm::inverse(transform);
+    }
+
+    glm::mat4 CalculateViewProjectionMatrix(const OrthographicCamera &camera)
+    {
+        return camera.ProjectionMatrix * camera.ViewMatrix;
+    }
 }

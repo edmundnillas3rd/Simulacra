@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "src/Simulacra/Window.h"
 
 namespace Simulacra
 {
@@ -50,6 +51,14 @@ namespace Simulacra
 
         std::array<Texture, MAX_TEXTURES> Textures;
         uint32_t TextureSlotIndex = 0;
+        
+        struct CameraData
+        {
+            glm::mat4 ViewProjection;
+        };
+
+        CameraData SceneCamera;
+        UniformBuffer CameraBuffer;
     };
 
     RendererData n_Data;
@@ -95,6 +104,9 @@ namespace Simulacra
 
         n_Data.SpriteQuadShader = LoadShaders("assets/shaders/default.glsl");
         UseShaderProgram(n_Data.SpriteQuadShader.ProgramID);
+
+        auto window = GetCurrentWindow();
+        n_Data.CameraBuffer = CreateUniformBuffer(sizeof(RendererData::CameraData), 0);
     }
 
     void DestroyRenderer()
@@ -134,6 +146,14 @@ namespace Simulacra
 
     void BeginRender()
     {
+        StartBatch();
+    }
+
+    void BeginRender(const OrthographicCamera &camera)
+    {
+        n_Data.SceneCamera.ViewProjection = CalculateViewProjectionMatrix(camera);
+        BufferUniformBuffer(n_Data.CameraBuffer.RendererID, 0, sizeof(RendererData::CameraData), (void*)&n_Data.SceneCamera);
+
         StartBatch();
     }
 
@@ -219,7 +239,8 @@ namespace Simulacra
 
     void DrawSprite(const Texture& texture, glm::vec3 position)
     {
-        glm::mat4 transform = glm::translate(glm::mat4(1.0f), position);
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f));
+        transform = glm::scale(transform, glm::vec3(texture.Width, texture.Height, 0.0f));
         DrawQuad(texture, transform);
     }
 }
