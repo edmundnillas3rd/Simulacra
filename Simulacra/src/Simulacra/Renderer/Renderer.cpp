@@ -103,7 +103,7 @@ namespace Simulacra
         SetVertexAttribute(3, 1, sizeof(SpriteVertices), (void*)offsetof(SpriteVertices, TexIndex));
 
         n_Data.SpriteQuadShader = LoadShaders("assets/shaders/default.glsl");
-        UseShaderProgram(n_Data.SpriteQuadShader.ProgramID);
+        UseShaderProgram(n_Data.SpriteQuadShader);
 
         auto window = GetCurrentWindow();
         n_Data.CameraBuffer = CreateUniformBuffer(sizeof(RendererData::CameraData), 0);
@@ -125,7 +125,7 @@ namespace Simulacra
             for (uint32_t i = 0; i < n_Data.TextureSlotIndex; i++)
                 BindTexture(i, n_Data.Textures[i].TextureID);
 
-            UseShaderProgram(n_Data.SpriteQuadShader.ProgramID);
+            UseShaderProgram(n_Data.SpriteQuadShader);
             DrawIndices(n_Data.IndexCount);
         }
     }
