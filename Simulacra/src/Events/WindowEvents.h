@@ -13,7 +13,6 @@ namespace Simulacra
         explicit WindowCloseEvent()
             : Event(EventType::WINDOW_CLOSED, "Window Closed")
         {
-            std::cout << m_Name << std::endl;
         }
         virtual ~WindowCloseEvent() = default;
 
@@ -44,7 +43,6 @@ namespace Simulacra
         {
             Width = w;
             Height = h;
-            std::cout << m_Name << std::endl;
         }
         virtual ~WindowResizeEvent() = default;
 

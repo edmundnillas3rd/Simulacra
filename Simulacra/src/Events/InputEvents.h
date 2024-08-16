@@ -12,7 +12,6 @@ namespace Simulacra
         explicit KeyPressedDownEvent(VKEY key)
             : Event(EventType::KEY_PRESSED, "Key Pressed"), m_Key(key)
         {
-            std::cout << m_Name << std::endl;
         }
         virtual ~KeyPressedDownEvent() = default;
 
@@ -44,7 +43,6 @@ namespace Simulacra
         explicit KeyPressedUpEvent(VKEY key)
             : Event(EventType::KEY_RELEASED, "Key Released"), m_Key(key)
         {
-            std::cout << m_Name << std::endl;
         }
         virtual ~KeyPressedUpEvent() = default;
 
