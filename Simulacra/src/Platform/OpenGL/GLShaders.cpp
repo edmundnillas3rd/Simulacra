@@ -139,9 +139,9 @@ namespace Simulacra
         };
     }
 
-    void UseShaderProgram(uint32_t program)
+    void UseShaderProgram(const Shader& shader)
     {
-        glUseProgram(program);
+        glUseProgram(shader.ProgramID);
     }
 
     void SetIntUniform(const Shader& shader, const std::string& location, int i)

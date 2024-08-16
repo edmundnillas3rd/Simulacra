@@ -18,7 +18,7 @@ namespace Simulacra
     Shader LoadShaders(const std::string& path);
     Shader LoadComputeShader(const std::string& path);
 
-    void UseShaderProgram(uint32_t program);
+    void UseShaderProgram(const Shader& shader);
 
     void SetIntUniform(const Shader& shader, const std::string& location, int i);
     void SetIntUniform(const Shader& shader, const std::string& location, int i, int j);
