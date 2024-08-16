@@ -197,7 +197,7 @@ namespace Simulacra
         n_Data.IndexCount += 6;
     }
 
-    void DrawQuad(const Texture& texture, const glm::mat4 transform)
+    void DrawQuad(const Texture& texture, const glm::mat4& transform)
     {
 		const glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
         const glm::vec4 tintColor = glm::vec4(1.0f);
@@ -237,7 +237,7 @@ namespace Simulacra
         n_Data.IndexCount += 6;
     }
 
-    void DrawSprite(const Texture& texture, glm::vec3 position)
+    void DrawSprite(const Texture &texture, const glm::vec3& position)
     {
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f));
         transform = glm::scale(transform, glm::vec3(texture.Width, texture.Height, 0.0f));
