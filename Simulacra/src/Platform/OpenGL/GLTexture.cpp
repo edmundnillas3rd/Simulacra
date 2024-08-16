@@ -11,7 +11,7 @@ namespace Simulacra
 
     Texture LoadTexture(const std::string& path)
     {
-        const std::string fullPath = FileManager.CurrenWorkingDirectory + path;
+        const std::string fullPath = FormatFilepathPlatform(path);
         Texture texture = { 0 };
 
         int n = 0;
@@ -36,12 +36,9 @@ namespace Simulacra
 
         stbi_set_flip_vertically_on_load(1);
 
-        // glGenTextures(1, &texture.TextureID);
         glCreateTextures(GL_TEXTURE_2D, 1, &texture.TextureID);
-        // glBindTexture(GL_TEXTURE_2D, texture.TextureID);
         glTextureStorage2D(texture.TextureID, 1, internalFormat, texture.Width, texture.Height);
 
-        // glTexImage2D(GL_TEXTURE_2D, 0, dataFormat, texture.Width, texture.Height, 0, dataFormat, GL_UNSIGNED_BYTE, texture.Data);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

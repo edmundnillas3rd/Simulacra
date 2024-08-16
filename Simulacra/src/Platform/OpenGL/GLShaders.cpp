@@ -13,7 +13,7 @@ namespace Simulacra
 
     Shader LoadShaders(const std::string& path)
     {
-        const auto fullPath = FileManager.CurrenWorkingDirectory + path;
+        const auto fullPath = FormatFilepathPlatform(path);
         std::fstream shaderFile(fullPath.c_str(), std::ios::in | std::ios::binary);
         std::stringstream ss;
 
