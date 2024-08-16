@@ -12,4 +12,5 @@ namespace Simulacra
     extern FileSystem FileManager;
 
     void InitializeFilesystem(Window window);
+    std::string FormatFilepathPlatform(const std::string &path);
 }
