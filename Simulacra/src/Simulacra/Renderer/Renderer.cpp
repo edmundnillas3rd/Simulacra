@@ -92,9 +92,9 @@ namespace Simulacra
 
         BufferElementBuffer(n_Data.MAX_INDICES, Indices.data());
 
-        n_Data.QuadPositions[0] = {  0.5f,  0.5f, 0.0f, 1.0f };
+        n_Data.QuadPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
         n_Data.QuadPositions[1] = {  0.5f, -0.5f, 0.0f, 1.0f };
-        n_Data.QuadPositions[2] = { -0.5f, -0.5f, 0.0f, 1.0f };
+        n_Data.QuadPositions[2] = {  0.5f,  0.5f, 0.0f, 1.0f };
         n_Data.QuadPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
 
         SetVertexAttribute(0, 3, sizeof(SpriteVertices), (void*)offsetof(SpriteVertices, Position));
@@ -197,9 +197,26 @@ namespace Simulacra
         n_Data.IndexCount += 6;
     }
 
-    void DrawQuad(const Texture& texture, const glm::mat4& transform)
+    void DrawQuad(const Texture& texture, const glm::mat4& transform, float spriteWidth, float spriteHeight, float col, float row)
     {
-		const glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
+		glm::vec2 textureCoords[] = { 
+            { 0.0f, 0.0f },
+            { 1.0f, 0.0f },
+            { 1.0f, 1.0f },
+            { 0.0f, 1.0f }
+        };
+
+        if (spriteWidth > 0.0f || spriteHeight > 0.0f)
+        {
+            float textureWidth = texture.Width, textureHeight = texture.Height;
+
+            textureCoords[0] = { (col * spriteWidth) / textureWidth,  (row * spriteHeight) / textureHeight };
+            textureCoords[1] = { ((col + 1) * spriteWidth) / textureWidth, (row  * spriteHeight) / textureHeight };
+            textureCoords[2] = { ((col + 1) * spriteWidth) / textureWidth, ((row + 1) * spriteHeight) / textureHeight};
+            textureCoords[3] = { (col * spriteWidth) / textureWidth, ((row + 1) * spriteHeight) / textureHeight };
+        }
+
+
         const glm::vec4 tintColor = glm::vec4(1.0f);
 
         if (n_Data.IndexCount >= RendererData::MAX_INDICES)
@@ -237,10 +254,18 @@ namespace Simulacra
         n_Data.IndexCount += 6;
     }
 
-    void DrawSprite(const Texture &texture, const glm::vec3& position)
+    void DrawSprite(const Texture& texture, const glm::vec3& position, float spriteWidth, float spriteHeight, float col, float row)
     {
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f));
-        transform = glm::scale(transform, glm::vec3(texture.Width, texture.Height, 0.0f));
-        DrawQuad(texture, transform);
+        if (spriteWidth > 0.0f || spriteHeight > 0.0f)
+        {
+            transform = glm::scale(transform, glm::vec3(spriteWidth, spriteHeight, 0.0f));
+        }
+        else
+        {
+            transform = glm::scale(transform, glm::vec3(texture.Width, texture.Height, 0.0f));
+        }
+
+        DrawQuad(texture, transform, spriteWidth, spriteHeight, col, row);
     }
 }

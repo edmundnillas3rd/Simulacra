@@ -34,7 +34,7 @@ namespace Simulacra
             dataFormat = GL_RGB;
         }
 
-        stbi_set_flip_vertically_on_load(1);
+        // stbi_set_flip_vertically_on_load(1);
 
         glCreateTextures(GL_TEXTURE_2D, 1, &texture.TextureID);
         glTextureStorage2D(texture.TextureID, 1, internalFormat, texture.Width, texture.Height);

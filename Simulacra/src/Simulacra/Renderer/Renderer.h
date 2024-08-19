@@ -23,7 +23,7 @@ namespace Simulacra
     void EndRender();
 
     void DrawQuad(const Texture& texture);
-    void DrawQuad(const Texture& texture, const glm::mat4& transform);
+    void DrawQuad(const Texture& texture, const glm::mat4& transform, float spriteWidth = 0, float spriteHeight = 0, float col = 0, float row = 0);
 
-    void DrawSprite(const Texture& texture, const glm::vec3& position);
+    void DrawSprite(const Texture& texture, const glm::vec3& position, float spriteWidth = 0, float spriteHeight = 0, float col = 0, float row = 0);
 }
