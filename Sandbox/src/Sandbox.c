@@ -8,10 +8,10 @@ void Sandbox()
 	printf("Hello World, this was called in the Simulacra.exe itself not the library\n");
 }
 
-void create_application(struct application_specs* specs)
+void simulacra_create_application(struct simulacra_window* win_props, void* args)
 {
-	specs->props.title = L"Simulacra";
-	specs->props.width = 1280;
-	specs->props.height = 768;
-	specs->run_application = &Sandbox;
+	win_props->title = L"Simulacra";
+	win_props->width = 1280;
+	win_props->height = 768;
+	win_props->run_application = &Sandbox;
 }

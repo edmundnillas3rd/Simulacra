@@ -1,34 +1,16 @@
-#include "application.h"
+#include "window.h"
 
-struct application_state
+#ifdef _WIN32
+#include "platform/simulacra_win32.h"
+#endif
+
+void simulacra_start_application(struct simulacra_window* win_props, void* data)
 {
-	int running;
-	ARGS_TYPE* args;
-	struct application_specs specs;
-};
-
-static struct application_state state;
-
-void start_application()
-{
-	struct application_specs specs;
-
-	create_application(&specs);
-
-	state.specs = specs;
-
-	start_window(ARGS(state.args), specs.props.title, specs.props.width, specs.props.height);
-
-	state.running = 1;
+	simulacra_create_window(win_props, data);
 }
 
-void run_application(ARGS_TYPE* args)
+void simulacra_run_application(struct simulacra_window* win_props, void* data)
 {
-	state.args = args;
-	start_application();
-
-	state.specs.run_application();
-	update_window();
-
-	state.running = 0;
+	simulacra_start_application(win_props, data);
+	simulacra_update_window();
 }

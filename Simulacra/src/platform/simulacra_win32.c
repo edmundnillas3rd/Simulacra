@@ -1,14 +1,17 @@
 #include "simulacra_win32.h"
 
+#include "src/window.h"
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-void start_window(struct win32_app_args* args, const wchar_t* title, int width, int height)
+void simulacra_create_window(struct simulacra_window* win_props, void* data)
 {
+	struct simulacra_win32_args* args = (struct simulacra_win32_args*)data;	
+	
 	const wchar_t CLASS_NAME[] = L"SimulacraWindow";
 
 	WNDCLASS wc = {0};
-
+	
 	wc.lpfnWndProc = WindowProc;
 	wc.hInstance = args->hInstance;
 	wc.lpszClassName = CLASS_NAME;
@@ -18,60 +21,52 @@ void start_window(struct win32_app_args* args, const wchar_t* title, int width, 
 	HWND hwnd = CreateWindowEx(
 		0,
 		CLASS_NAME,
-		title,
-		WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, CW_USEDEFAULT, width, height,
+		win_props->title,
+		WS_OVERLAPPEDWINDOW,	
+		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 		NULL,
 		NULL,
 		args->hInstance,
 		NULL
 	);
 
-	if (hwnd == NULL) // If window is not created sucessfully
+	if (hwnd == NULL)
 		return;
 
 	ShowWindow(hwnd, args->nCmdShow);
-	
 }
 
-void update_window()
+void simulacra_update_window()
 {
 	MSG msg = {0};
-	while (GetMessage(&msg, NULL, 0, 0) > 0)
+	while (GetMessage(&msg, NULL, 0, 0))
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
 }
 
-
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (uMsg)
-	{
-	case WM_CLOSE:
-		{
-			if (MessageBox(hwnd, L"Really Quit?", L"Simulacra", MB_OKCANCEL) == IDOK)
-			{
-				DestroyWindow(hwnd);
-			}
-		}
-		return 0;
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		return 0;
-	case WM_PAINT:
-		{
-			PAINTSTRUCT ps;
-			HDC hdc = BeginPaint(hwnd, &ps);
+    switch (uMsg)
+    {
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        return 0;
 
-			FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
+    case WM_PAINT:
+        {
+            PAINTSTRUCT ps;
+            HDC hdc = BeginPaint(hwnd, &ps);
 
-			EndPaint(hwnd, &ps);
-		}
-		return 0;
-	};
+            // All painting occurs here, between BeginPaint and EndPaint.
 
-	return DefWindowProc(hwnd, uMsg, wParam, lParam);
+            FillRect(hdc, &ps.rcPaint, (HBRUSH) (COLOR_WINDOW+1));
+
+            EndPaint(hwnd, &ps);
+        }
+        return 0;
+
+    }
+    return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
-

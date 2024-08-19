@@ -7,15 +7,13 @@
 
 #include <windows.h>
 
-struct win32_app_args
-{
-	HINSTANCE hInstance;
-	HINSTANCE hPrevInstance;
-	PWSTR	  pCmdLine;
-	int	  nCmdShow;
-};
 
-void start_window(struct win32_app_args* args, const wchar_t* title, int width, int height);
-void update_window();
+struct simulacra_win32_args
+{
+	HINSTANCE 	hInstance;
+	HINSTANCE 	hPrevInstance;
+	PWSTR		pCmdLine;
+	int		nCmdShow;
+};
 
 #endif
