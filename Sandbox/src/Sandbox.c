@@ -10,7 +10,7 @@ void Sandbox()
 
 void create_application(struct application_specs* specs)
 {
-	strcpy(specs->props.title, "Simulacra\0");
+	specs->props.title = L"Simulacra";
 	specs->props.width = 1280;
 	specs->props.height = 768;
 	specs->run_application = &Sandbox;
