@@ -16,14 +16,6 @@ namespace Simulacra
         glm::vec3 Position;
         glm::vec4 Color;
 
-        // NOTE(Edmund): Supposedly, it should be vec4 instead of vec2, but
-        // I've tried to seperate the texture offset properties in order to maintain
-        // the struct according to the opengl data format for drawing quads
-
-        // [0]: the x position of the texture rect
-        // [1]: the y position of the texture rect
-        // [2]: the width of the texture rect
-        // [3]: the height of the texture rect
         glm::vec2 TexCoords;
         float TexIndex;
     };
@@ -36,6 +28,7 @@ namespace Simulacra
         static const uint32_t MAX_TEXTURES = 8;
 
         uint32_t IndexCount;
+        uint32_t QuadCount;
 
         Shader SpriteQuadShader;
 
@@ -66,6 +59,8 @@ namespace Simulacra
     void CreateRenderer()
     {
         n_Data.IndexCount = 0;
+        n_Data.QuadCount = 0;
+
         n_Data.QuadArray = CreateVertexArrayBuffer();
 
         n_Data.QuadBuffer = CreateVertexBuffer();
@@ -116,11 +111,11 @@ namespace Simulacra
 
     void Flush()
     {
-        if (n_Data.IndexCount)
+        if (n_Data.QuadCount)
         {
-            uint32_t dataSize = (uint32_t)((uint8_t*)n_Data.SpritePtr - (uint8_t*)n_Data.Sprites);
+            // uint32_t dataSize = (uint32_t)((uint8_t*)n_Data.SpritePtr - (uint8_t*)n_Data.Sprites);
             BindVertexArrayBuffer(n_Data.QuadArray.RendererID);
-            BufferSubVertexBuffer(0, dataSize, n_Data.Sprites);
+            BufferSubVertexBuffer(0, sizeof(SpriteVertices) * n_Data.QuadCount, n_Data.Sprites);
 
             for (uint32_t i = 0; i < n_Data.TextureSlotIndex; i++)
                 BindTexture(i, n_Data.Textures[i].TextureID);
@@ -133,6 +128,7 @@ namespace Simulacra
     void StartBatch()
     {
         n_Data.IndexCount = 0;
+        n_Data.QuadCount = 0;
         n_Data.SpritePtr = n_Data.Sprites;
 
         n_Data.TextureSlotIndex = 0;
@@ -252,6 +248,7 @@ namespace Simulacra
         }
 
         n_Data.IndexCount += 6;
+        n_Data.QuadCount += 4;
     }
 
     void DrawSprite(const Texture& texture, const glm::vec3& position, float spriteWidth, float spriteHeight, float col, float row)
