@@ -10,6 +10,6 @@ namespace Simulacra
         uint32_t Height;
     };
 
-    void CreateApplication(const std::string& title, uint32_t width, uint32_t height);
+    void CreateApplication(const std::string& title = "", uint32_t width = 0, uint32_t height = 0);
     void RunApplication();
 }
