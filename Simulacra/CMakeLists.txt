@@ -6,19 +6,7 @@ set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 set(BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 
 set(SOURCE_FILES
-    "${API_DIR}/src/Simulacra/Application.cpp"
-    "${API_DIR}/src/Simulacra/Input.cpp"
-    "${API_DIR}/src/Simulacra/Filesystem.cpp"
-    "${API_DIR}/src/Simulacra/Camera.cpp"
-    "${API_DIR}/src/Simulacra/Renderer/Renderer.cpp"
-    "${API_DIR}/src/Platform/Windows/SDL2Windows.cpp"
-    "${API_DIR}/src/Platform/Windows/SDL2WindowsTime.cpp"
-    "${API_DIR}/src/Platform/OpenGL/GLShaders.cpp"
-    "${API_DIR}/src/Platform/OpenGL/GLBuffers.cpp"
-    "${API_DIR}/src/Platform/OpenGL/GLTexture.cpp"
-    "${API_DIR}/src/Platform/OpenGL/GLRenderer.cpp"
-    "${API_DIR}/src/Platform/OpenGL/GLFramebuffer.cpp"
-    "${API_DIR}/spch.cpp"
+    "${SRC_DIR}/Application.cpp"
 )
 
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui")
