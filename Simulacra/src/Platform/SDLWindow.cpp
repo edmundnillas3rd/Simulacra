@@ -22,4 +22,9 @@ namespace Simulacra
             return;
         }
     }
+
+    void DestroyPlatformWindow()
+    {
+        SDL_DestroyWindow(s_Window);
+    }
 }

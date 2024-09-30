@@ -15,4 +15,5 @@ namespace Simulacra
 
     // NOTE(Edmund): Interface for platform implementation
     void CreatePlatformWindow(const char* title, uint32_t width, uint32_t height);
+    void DestroyPlatformWindow();
 }

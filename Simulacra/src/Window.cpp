@@ -7,4 +7,8 @@ namespace Simulacra
         CreatePlatformWindow(props.Title.c_str(), props.Width, props.Height);
     }
 
+    void ShutdownWindowSubsystem()
+    {
+        DestroyPlatformWindow();
+    }
 }
