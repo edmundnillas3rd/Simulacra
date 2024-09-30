@@ -1,5 +1,7 @@
 #include "Application.h"
 
+#include "Window.h"
+
 namespace Simulacra
 {
     static Application s_App;
@@ -36,7 +38,7 @@ namespace Simulacra
 
     void StartApplicationSubsystems()
     {
-        // StartWindowSubsystem();
+        StartWindowSubsystem();
         // StartRenderingSubsystem();
         // StartLoggerSubsystem();
         // StartFileSubsystem();

@@ -7,6 +7,8 @@ set(BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 
 set(SOURCE_FILES
     "${SRC_DIR}/Application.cpp"
+    "${SRC_DIR}/Window.cpp"
+    "${SRC_DIR}/Platform/SDLWindow.cpp"
 )
 
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui")
