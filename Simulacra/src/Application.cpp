@@ -1,47 +1,30 @@
 #include "Application.h"
 
+#include <glad/glad.h>
+
 #include "Window.h"
+
 
 namespace Simulacra
 {
+    static void StartApplicationSubsystems();
+    static void ShutdownApplicationSubsystems();
+
+    struct Application
+    {
+        WindowProps WinProps;
+    };
+
     static Application s_App;
     static bool s_Running;
 
     void CreateApplication(const std::string& title, uint32_t width, uint32_t height)
     {
-        s_Running = false;
+        s_App.WinProps.Title = title;
+        s_App.WinProps.Width = width;
+        s_App.WinProps.Height = height;
 
-        s_App.Title = title;
-        s_App.Width = width;
-        s_App.Height = height;
-
-        if (!s_App.Title.empty())
-        {
-            s_Running = true;
-        }
-        else
-        {
-            // TODO(Edmund): Logged no title, string should not be empty
-            return;
-        }
-
-        if (s_App.Width > 0 && s_App.Height > 0)
-        {
-            s_Running = true;
-        }
-        else
-        {
-            // TODO(Edmund): Logged no size, always set size > 0
-            return;
-        }
-    }
-
-    void StartApplicationSubsystems()
-    {
-        StartWindowSubsystem();
-        // StartRenderingSubsystem();
-        // StartLoggerSubsystem();
-        // StartFileSubsystem();
+        s_Running = true;
     }
 
     void RunApplication()
@@ -50,9 +33,22 @@ namespace Simulacra
 
         while (s_Running)
         {
-            // UpdateApplication();
-            // RenderApplication();
+            UpdateWindow();
         }
+
+        ShutdownApplicationSubsystems();
     }
 
+    static void StartApplicationSubsystems()
+    {
+        // StartLoggerSubsystem();
+        StartWindowSubsystem(s_App.WinProps);
+        // StartRenderingSubsystem();
+        // StartFileSubsystem();
+    }
+
+    static void ShutdownApplicationSubsystems()
+    {
+
+    }
 }

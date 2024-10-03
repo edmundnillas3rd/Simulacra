@@ -3,13 +3,6 @@
 
 namespace Simulacra 
 {
-    struct Application
-    {
-        std::string Title;
-        uint32_t Width;
-        uint32_t Height;
-    };
-
-    void CreateApplication(const std::string& title = "", uint32_t width = 0, uint32_t height = 0);
+    void CreateApplication(const std::string& title = "Untitled", uint32_t width = 1366, uint32_t height = 768);
     void RunApplication();
 }
