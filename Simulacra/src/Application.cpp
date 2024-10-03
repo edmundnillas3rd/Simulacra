@@ -2,8 +2,8 @@
 
 #include <glad/glad.h>
 
+#include "Logger.h"
 #include "Window.h"
-
 
 namespace Simulacra
 {
@@ -41,7 +41,7 @@ namespace Simulacra
 
     static void StartApplicationSubsystems()
     {
-        // StartLoggerSubsystem();
+        StartLoggerSubsystem();
         StartWindowSubsystem(s_App.WinProps);
         // StartRenderingSubsystem();
         // StartFileSubsystem();
@@ -49,6 +49,7 @@ namespace Simulacra
 
     static void ShutdownApplicationSubsystems()
     {
-
+        ShutdownWindowSubsystem();
+        ShutdownLoggerSubsystem();
     }
 }

@@ -8,6 +8,7 @@ set(BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 set(SOURCE_FILES
     "${SRC_DIR}/Application.cpp"
     "${SRC_DIR}/Window.cpp"
+    "${SRC_DIR}/Logger.cpp"
     "${SRC_DIR}/Platform/Windows/SDLWindow.cpp"
 )
 
