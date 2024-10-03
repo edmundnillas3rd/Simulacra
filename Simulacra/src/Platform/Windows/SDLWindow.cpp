@@ -1,8 +1,10 @@
 #include "SDLWindow.h"
-#include "Window.h"
 
 #include <glad/glad.h>
-#include <SDL.h>
+#include <SDL2/SDL.h>
+
+#include "Window.h"
+#include "Logger.h"
 
 namespace Simulacra
 {
@@ -15,6 +17,8 @@ namespace Simulacra
 
         if (SDL_Init(SDL_INIT_VIDEO) < 0)
         {
+            ConsoleError("Failed to initialized SDL");
+            ConsoleError("SDL ERROR: {}", SDL_GetError());
             return;
         }
 
@@ -23,6 +27,7 @@ namespace Simulacra
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
         int flags = 0;
@@ -33,6 +38,8 @@ namespace Simulacra
 
         if (!s_Window)
         {
+            ConsoleError("Failed to create window");
+            ConsoleError("SDL ERROR: {}", SDL_GetError());
             return;
         }
 
@@ -42,11 +49,12 @@ namespace Simulacra
 
         if (!s_GLContext)
         {
+            ConsoleError("Failed to create OpenGL Context");
+            ConsoleError("SDL ERROR: {}", SDL_GetError());
             return;
         }
 
         gladLoadGLLoader(SDL_GL_GetProcAddress);
-
     }
 
     void UpdateWindow()
