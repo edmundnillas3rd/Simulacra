@@ -1,26 +1,36 @@
 #include "Logger.h"
 
+#include <vector>
+
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
 namespace Simulacra
 {
-    std::shared_ptr<spdlog::logger> s_EngineFileLogger;
     std::shared_ptr<spdlog::logger> s_EngineCoutLogger;
-
+    
     void StartLoggerSubsystem()
     {
-        s_EngineCoutLogger = spdlog::stdout_color_mt("Simulacra");
-        s_EngineFileLogger = spdlog::basic_logger_mt("Simulacra Logs", "SimulacraEngine.log");
+        std::vector<spdlog::sink_ptr> s_Sinks;
+        s_Sinks.emplace_back(std::make_shared<spdlog::sinks::stdout_color_sink_mt>());
+        s_Sinks.emplace_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>("SimulacraEngine.log", true));
 
-        s_EngineCoutLogger->set_pattern("(%n) [%l] %v");
-        s_EngineFileLogger->set_pattern("");
+        s_Sinks[0]->set_pattern("%n %l %v");
+        s_Sinks[1]->set_pattern("%n %l %v");
+
+        s_EngineCoutLogger = std::make_shared<spdlog::logger>("SIMULACRA", std::begin(s_Sinks), std::end(s_Sinks));
+        spdlog::register_logger(s_EngineCoutLogger);
+        s_EngineCoutLogger->set_level(spdlog::level::trace);
+        s_EngineCoutLogger->flush_on(spdlog::level::trace);
     }
 
     void ShutdownLoggerSubsystem()
     {
-        spdlog::drop("Simulacra Logs");
-        spdlog::drop("Simulacra");
         spdlog::shutdown();
+    }
+
+    std::shared_ptr<spdlog::logger>& GetCoreLogger()
+    {
+        return s_EngineCoutLogger;
     }
 }
