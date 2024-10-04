@@ -9,7 +9,8 @@ set(SOURCE_FILES
     "${SRC_DIR}/Application.cpp"
     "${SRC_DIR}/Window.cpp"
     "${SRC_DIR}/Logger.cpp"
-    "${SRC_DIR}/Platform/Windows/SDLWindow.cpp"
+    "${SRC_DIR}/Platform/Windows/Win32Window.cpp"
+    "${SRC_DIR}/Platform/OpenGL/OpenGLDebug.cpp"
 )
 
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui")
