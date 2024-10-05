@@ -16,8 +16,8 @@ class CompressorRecipe(ConanFile):
         self.requires("stb/cci.20240213")
 
     def configure(self):
-        self.options['glad'].gl_profile = 'core'
-        self.options['glad'].gl_version = '4.6'
+        self.options["glad"].gl_profile = "core"
+        self.options["glad"].gl_version = "4.6"
 
     def build_requirements(self):
         if self.settings.os != "Windows":
@@ -29,3 +29,5 @@ class CompressorRecipe(ConanFile):
     def validate(self):
         if self.settings.os == "Macos":
             raise ConanInvalidConfiguration("MacOS is not supported")
+        elif self.settings.os == "Linux":
+            raise ConanInvalidConfiguration("Linux is not supported yet")
