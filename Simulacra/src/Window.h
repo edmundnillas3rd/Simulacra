@@ -9,7 +9,6 @@ namespace Simulacra
         uint32_t Height;
     };
 
-
     void StartWindowSubsystem(const WindowProps& props);
     void ShutdownWindowSubsystem();
 
