@@ -8,7 +8,7 @@ A in-house rendering engine for the playing around with ideas. Mostly used for g
 
 ## Prerequisites
 * **[Conan](https://conan.io/downloads)**
-* **[CMake](https://cmake.org/download/)**
+* **[CMake](https://cmake.org/download)**
 
 ## Required IDEs / Compilers
 * **[Visual Studio Community / MSVC](https://visualstudio.microsoft.com/downloads/)**
