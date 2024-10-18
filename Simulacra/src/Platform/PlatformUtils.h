@@ -1,9 +1,9 @@
 #pragma once
 
-#ifdef _WIN32 && DEBUG 
-    #define WIN32_LEAN_AND_MEAN   
-    #define NOCOMM
+#ifdef _WIN32
+
     #include <windows.h>
 
-    #define SetBreakpoint() DebugBreak()
+    #define AddBreakpoint() DebugBreak()
+
 #endif
