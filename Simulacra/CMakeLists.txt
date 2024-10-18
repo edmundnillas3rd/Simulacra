@@ -9,8 +9,15 @@ set(SOURCE_FILES
     "${SRC_DIR}/Application.cpp"
     "${SRC_DIR}/Window.cpp"
     "${SRC_DIR}/Logger.cpp"
+    "${SRC_DIR}/FileManager.cpp"
+    "${SRC_DIR}/Serialization.cpp"
     "${SRC_DIR}/Platform/Windows/Win32Window.cpp"
+    "${SRC_DIR}/Platform/Windows/Win32FileManager.cpp"
     "${SRC_DIR}/Platform/OpenGL/OpenGLDebug.cpp"
+    "${SRC_DIR}/Platform/OpenGL/OpenGLBuffer.cpp"
+    "${SRC_DIR}/Platform/OpenGL/OpenGLShader.cpp"
+    "${SRC_DIR}/Platform/OpenGL/OpenGLTexture.cpp"
+    "${SRC_DIR}/Renderer/Renderer2D.cpp"
 )
 
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui")
