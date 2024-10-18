@@ -10,7 +10,6 @@ set(SOURCE_FILES
     "${SRC_DIR}/Window.cpp"
     "${SRC_DIR}/Logger.cpp"
     "${SRC_DIR}/FileManager.cpp"
-    "${SRC_DIR}/Serialization.cpp"
     "${SRC_DIR}/Platform/Windows/Win32Window.cpp"
     "${SRC_DIR}/Platform/Windows/Win32FileManager.cpp"
     "${SRC_DIR}/Platform/OpenGL/OpenGLDebug.cpp"
