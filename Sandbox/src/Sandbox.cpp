@@ -1,9 +1,36 @@
 #include <Simulacra.h>
 
-int main()
+class Sandbox : public Simulacra::ApplicationLayer
 {
-    Simulacra::CreateApplication("Simulacra", 1280, 768);
-    // Simulacra::SubmitLayer(EditorLayer());
+public:
+    Sandbox()
+    {
+
+    }
+
+    ~Sandbox()
+    {
+
+    }
+
+    static void OnStart()
+    {
+
+    }
+
+    static void OnEvent()
+    {
+
+    }
+
+    static void OnUpdate(float deltaTime)
+    {
+    }
+};
+
+int main(int argc, char* argv[])
+{
+    Simulacra::CreateApplication("Simulacra", 1280, 768, { new Sandbox() });
     Simulacra::RunApplication();
     return 0;
 }

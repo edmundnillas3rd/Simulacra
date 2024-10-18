@@ -8,7 +8,6 @@ set(SOURCE_FILES
     "${SRC_DIR}/Sandbox.cpp"
 )
 
-
 add_executable(
     ${PROJECT_NAME}
     ${SOURCE_FILES}
