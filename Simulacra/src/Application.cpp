@@ -1,9 +1,12 @@
 #include "Application.h"
 
-#include <glad/glad.h>
 
 #include "Logger.h"
 #include "Window.h"
+#include "FileManager.h"
+#include "Renderer/Renderer2D.h"
+
+#include "Platform/OpenGL/OpenGLShader.h"
 
 namespace Simulacra
 {
@@ -13,16 +16,18 @@ namespace Simulacra
     struct Application
     {
         WindowProps WinProps;
+        std::vector<ApplicationLayer*> Layers;
     };
 
     static Application s_App;
     static bool s_Running;
 
-    void CreateApplication(const std::string& title, uint32_t width, uint32_t height)
+    void CreateApplication(const std::string& title, uint32_t width, uint32_t height, const std::vector<ApplicationLayer*>& layers) 
     {
         s_App.WinProps.Title = title;
         s_App.WinProps.Width = width;
         s_App.WinProps.Height = height;
+        s_App.Layers = layers;
 
         s_Running = true;
     }
@@ -31,8 +36,17 @@ namespace Simulacra
     {
         StartApplicationSubsystems();
 
+        for (const auto& layer : s_App.Layers)
+            layer->OnStart();
+
         while (s_Running)
         {
+            for (const auto& layer : s_App.Layers)
+                layer->OnEvent();
+
+            for (const auto& layer : s_App.Layers)
+                layer->OnUpdate(0.5f);
+
             UpdateWindow();
         }
 
@@ -43,8 +57,8 @@ namespace Simulacra
     {
         StartLoggerSubsystem();
         StartWindowSubsystem(s_App.WinProps);
-        // StartRenderingSubsystem();
-        // StartFileSubsystem();
+        StartFileSubsystem();
+        StartRendererSubsystem();
     }
 
     static void ShutdownApplicationSubsystems()
