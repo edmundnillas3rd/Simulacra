@@ -13,6 +13,17 @@ add_executable(
     ${SOURCE_FILES}
 )
 
+target_link_options(
+    ${PROJECT_NAME} PRIVATE
+    /debug:fastlink
+    /incremental
+)
+
+target_compile_options(
+    ${PROJECT_NAME} PRIVATE
+    /MP4
+)
+
 set_target_properties(
     ${PROJECT_NAME}
     PROPERTIES
