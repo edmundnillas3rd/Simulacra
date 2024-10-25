@@ -1,8 +1,8 @@
 import os
 
-from conan import ConanFile
-from conan.errors import ConanInvalidConfiguration
-from conan.tools.cmake import cmake_layout
+from conan import ConanFile # type: ignore
+from conan.errors import ConanInvalidConfiguration # type: ignore
+from conan.tools.cmake import cmake_layout # type: ignore
 
 class CompressorRecipe(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
@@ -14,6 +14,7 @@ class CompressorRecipe(ConanFile):
         self.requires("glm/cci.20230113")
         self.requires("glad/0.1.36")
         self.requires("stb/cci.20240213")
+        self.requires("lua/5.4.7")
 
     def configure(self):
         self.options["glad"].gl_profile = "core"
