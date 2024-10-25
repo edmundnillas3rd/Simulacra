@@ -1,6 +1,5 @@
 #include "Application.h"
 
-
 #include "Logger.h"
 #include "Window.h"
 #include "FileManager.h"
@@ -22,6 +21,14 @@ namespace Simulacra
     static Application s_App;
     static bool s_Running;
 
+    void AppplicationWindowCallbackfn(Event event)
+    {
+        if (event.Type == EventType::WINDOW_CLOSE)
+        {
+            s_Running = false;
+        }
+    }
+
     void CreateApplication(const std::string& title, uint32_t width, uint32_t height, const std::vector<ApplicationLayer*>& layers) 
     {
         s_App.WinProps.Title = title;
@@ -30,6 +37,7 @@ namespace Simulacra
         s_App.Layers = layers;
 
         s_Running = true;
+        SubmitCallback(AppplicationWindowCallbackfn);
     }
 
     void RunApplication()
@@ -41,6 +49,8 @@ namespace Simulacra
 
         while (s_Running)
         {
+            PollEvents();
+
             for (const auto& layer : s_App.Layers)
                 layer->OnEvent();
 

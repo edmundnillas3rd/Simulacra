@@ -1,10 +1,12 @@
-#include "Win32Window.h"
-
 #include <glad/glad.h>
 #include <SDL2/SDL.h>
 
 #include "Window.h"
 #include "Logger.h"
+
+#include "Events/Event.h"
+#include "Events/KeyEvents.h"
+#include "Events/MouseEvents.h"
 
 #include "Platform/OpenGL/OpenGLDebug.h"
 
@@ -12,6 +14,60 @@ namespace Simulacra
 {
     static SDL_Window* s_Window;
     static SDL_GLContext s_GLContext;
+
+    struct WindowPointerData
+    {
+        EventCallbackfn WindowCallbackfn;
+    };
+
+    static WindowPointerData s_WindowPointerData;
+
+    static int SDLEventFilter(void* userdata, SDL_Event* event) 
+    {
+        switch (event->type)
+        {
+        case SDL_MOUSEBUTTONDOWN:
+            {
+
+            }
+            break;
+        case SDL_MOUSEBUTTONUP:
+            {
+
+            }
+            break;
+        case SDL_KEYDOWN:
+            {
+                auto* data = (WindowPointerData*)SDL_GetWindowData(s_Window, "WindowData");
+                EventType type = EventType::KEY_PRESSED_DOWN;
+                Event event = { "Key Down", type };
+                data->WindowCallbackfn(event);
+            }
+            break;
+        case SDL_KEYUP:
+            {
+                auto* data = (WindowPointerData*)SDL_GetWindowData(s_Window, "WindowData");
+                EventType type = EventType::KEY_PRESSED_UP;
+                Event event = { "Key Up", type };
+                data->WindowCallbackfn(event);
+            }
+            break;
+        case SDL_QUIT:
+            {
+                auto* data = (WindowPointerData*)SDL_GetWindowData(s_Window, "WindowData");
+                EventType type = EventType::WINDOW_CLOSE;
+                Event event = { "Quit", type };
+                data->WindowCallbackfn(event);
+            } 
+            break;
+        }
+        return 0;
+    }
+
+    void SubmitCallback(const EventCallbackfn& fn)
+    {
+        s_WindowPointerData.WindowCallbackfn = fn;
+    }
 
     void CreatePlatformWindow(const char *title, uint32_t width, uint32_t height)
     {
@@ -62,6 +118,14 @@ namespace Simulacra
         glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
         glDebugMessageCallback(glDebugOutput, nullptr);
         glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+    
+        SDL_SetWindowData(s_Window, "WindowData", &s_WindowPointerData);
+        SDL_SetEventFilter(SDLEventFilter, nullptr);
+    }
+
+    void PollEvents()
+    {
+        while (SDL_PollEvent(nullptr) != 0);
     }
 
     void UpdateWindow()
