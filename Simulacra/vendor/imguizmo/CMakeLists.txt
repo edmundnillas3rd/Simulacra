@@ -15,6 +15,17 @@ target_link_libraries(
     imgui
 )
 
+target_link_options(
+    ${PROJECT_NAME} PRIVATE
+    /incremental
+    /debug:fastlink
+)
+
+target_compile_options(
+    ${PROJECT_NAME} PRIVATE
+    /MP4
+)
+
 target_include_directories(
     ${PROJECT_NAME} SYSTEM
     PUBLIC 

@@ -27,6 +27,7 @@ find_package(glad CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 find_package(stb CONFIG REQUIRED)
+find_package(lua CONFIG REQUIRED)
 
 add_library(
     ${PROJECT_NAME} STATIC
@@ -56,6 +57,7 @@ set(LIBRARIES
     spdlog::spdlog
     glm::glm
     stb::stb
+    lua::lua
 
     # Header libraries
     imgui
@@ -63,7 +65,19 @@ set(LIBRARIES
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LIBRARIES})
+
+target_link_options(
+    ${PROJECT_NAME} PRIVATE
+    /incremental
+    /debug:fastlink
+)
+
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+
+target_compile_options(
+    ${PROJECT_NAME} PRIVATE
+    /MP4
+)
 
 target_precompile_headers(
     ${PROJECT_NAME}
