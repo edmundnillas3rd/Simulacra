@@ -74,4 +74,9 @@ namespace Simulacra
     {
         glUseProgram(shader.ProgramID);
     }
+
+    void SetShaderIntUniform(const Shader& shader, const std::string &name, int value)
+    {
+        glUniform1i(glGetUniformLocation(shader.ProgramID, name.c_str()), value);
+    }
 }
