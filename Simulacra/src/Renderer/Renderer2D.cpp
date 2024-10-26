@@ -4,7 +4,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Logger.h"
+#include "src/Logger.h"
 
 #include "Platform/OpenGL/OpenGLBuffer.h"
 #include "Platform/OpenGL/OpenGLShader.h"
@@ -127,6 +127,12 @@ namespace Simulacra
 
     void BeginScene()
     {
+        StartBatch();
+    }
+
+    void BeginScene(const OrthographicCamera& camera)
+    {
+        SetShaderMat4Uniform(s_Renderer.SceneShader, "u_ViewProjMat", CalculateViewProj(camera));
         StartBatch();
     }
 
