@@ -19,10 +19,10 @@ namespace Simulacra
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        stbi_set_flip_vertically_on_load(1);
-
         int n = 0;
         texture.Data = stbi_load(path.c_str(), &texture.Width, &texture.Height, &n, 0);
+
+        stbi_set_flip_vertically_on_load(1);
 
         GLenum format = 0, dataFormat = 0;
         
