@@ -89,3 +89,4 @@ Sandbox.exe # to run the program
 ## Articles
 * [Implementing a simple event system in C++11](https://bastian.rieck.me/blog/2015/event_system_cxx11)
 * [A Tiny OpenGL 2D Batch Renderer](https://jasonliang.js.org/batch-renderer.html)
+* [OpenGL sprite sheet aka texture atlas](https://devcry.heiho.net/html/2017/20170930-opengl-spritesheet.html)
