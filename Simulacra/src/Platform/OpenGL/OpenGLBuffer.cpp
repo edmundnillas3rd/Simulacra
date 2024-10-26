@@ -27,6 +27,11 @@ namespace Simulacra
         glBindBuffer(GL_ARRAY_BUFFER, buffer.BufferID);
     }
 
+    void BindIndexBuffer(const Buffer& buffer)
+    {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.BufferID);
+    }
+
     void BindVertexArray(const Buffer& buffer)
     {
         glBindVertexArray(buffer.BufferID);
@@ -40,6 +45,11 @@ namespace Simulacra
     void WriteData(uint32_t offset, size_t size, const void* data)
     {
         glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
+    }
+
+    void WriteIndexData(size_t size, const void* data)
+    {
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
     }
 
     void ReadData(uint32_t offset, size_t size, void *data)
