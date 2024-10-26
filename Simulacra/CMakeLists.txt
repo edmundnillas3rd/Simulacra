@@ -12,6 +12,7 @@ set(SOURCE_FILES
     "${SRC_DIR}/FileManager.cpp"
     "${SRC_DIR}/Platform/Windows/Win32Window.cpp"
     "${SRC_DIR}/Platform/Windows/Win32FileManager.cpp"
+    "${SRC_DIR}/Platform/OpenGL/OpenGLRenderer.cpp"
     "${SRC_DIR}/Platform/OpenGL/OpenGLDebug.cpp"
     "${SRC_DIR}/Platform/OpenGL/OpenGLBuffer.cpp"
     "${SRC_DIR}/Platform/OpenGL/OpenGLShader.cpp"
