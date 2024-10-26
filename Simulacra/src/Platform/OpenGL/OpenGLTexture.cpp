@@ -14,10 +14,10 @@ namespace Simulacra
         glGenTextures(1, &texture.TextureID);
         glBindTexture(GL_TEXTURE_2D, texture.TextureID);
 
-        glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
         stbi_set_flip_vertically_on_load(1);
 
@@ -49,6 +49,6 @@ namespace Simulacra
 
     void SetActiveTexture(uint32_t index)
     {
-        glActiveTexture(GL_TEXTURE + index);
+        glActiveTexture(GL_TEXTURE0 + index);
     }
 }
