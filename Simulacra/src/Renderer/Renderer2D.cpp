@@ -16,6 +16,7 @@ namespace Simulacra
     {
         glm::vec3 Position;
         glm::vec2 TexCoord;
+        float TexIndex;
     };
 
     struct RendererData
@@ -29,8 +30,6 @@ namespace Simulacra
         Buffer QuadVertexBuffer;
         Buffer QuadIndexBuffer;
         std::array<Sprite, MAX_QUAD> QuadVertices;
-
-        Sprite* QuadVerticesPtr;
 
         std::array<glm::vec4, 4> QuadPositions;
 
@@ -88,6 +87,7 @@ namespace Simulacra
 
         SetVertexAttrib(0, 3, sizeof(Sprite), (void*)offsetof(Sprite, Position));
         SetVertexAttrib(1, 2, sizeof(Sprite), (void*)offsetof(Sprite, TexCoord));
+        SetVertexAttrib(2, 1, sizeof(Sprite), (void*)offsetof(Sprite, TexIndex));
 
         s_Renderer.SceneShader = LoadShaders({
             "Sandbox/assets/shaders/main.vert",
@@ -120,7 +120,7 @@ namespace Simulacra
         s_Renderer.QuadCount = 0;
         s_Renderer.IndexCount = 0;
 
-        s_Renderer.QuadVerticesPtr = {};
+        s_Renderer.QuadVertices.fill({});
 
         s_Renderer.TextureSlotIndex = 0;
     }
@@ -198,8 +198,10 @@ namespace Simulacra
         float halfPy = py * 0.5f;
 
         float sprites[4]= {
-            xoffset * px - halfPx,
-            yoffset * py - halfPy,
+            // xoffset * px - halfPx,
+            // yoffset * py - halfPy,
+            xoffset * px - px,
+            yoffset * py - py,
             spriteWidth * px + px,
             spriteHeight * py + py
         };
@@ -207,10 +209,10 @@ namespace Simulacra
         // NOTE(Edmund): Magmahay ko og taman ani pag abot sa panahon
         // ako ra nag hatag kalisod sa akong kaugalingon
         const glm::vec2 texCoords[4] = {
-            { sprites[0] + sprites[2], sprites[1] + sprites[3] },
-            { sprites[0] + sprites[2], sprites[1] },
-            { sprites[0], sprites[1] },
-            { sprites[0], sprites[1] + sprites[3] },
+            { sprites[0] + sprites[2],  sprites[1] + sprites[3] },
+            { sprites[0] + sprites[2],  sprites[1]              },
+            { sprites[0],  sprites[1]                           },
+            { sprites[0],  sprites[1] + sprites[3]              },
         };
 
         if (s_Renderer.IndexCount >= RendererData::MAX_INDICES)
@@ -241,6 +243,7 @@ namespace Simulacra
             uint32_t currentVertCount = s_Renderer.QuadCount + i;
             s_Renderer.QuadVertices[currentVertCount].Position = transform * s_Renderer.QuadPositions[i];
             s_Renderer.QuadVertices[currentVertCount].TexCoord = texCoords[i];
+            s_Renderer.QuadVertices[currentVertCount].TexIndex = textureIndex;
         }
 
         s_Renderer.IndexCount += 6;
