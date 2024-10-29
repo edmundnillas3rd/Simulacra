@@ -229,7 +229,7 @@ namespace Simulacra
         if (textureIndex == 0.0f)
         {
             if (s_Renderer.TextureSlotIndex >= RendererData::MAX_TEXTURE_SLOTS)
-                Flush();
+                NextBatch();
 
             textureIndex = (float)s_Renderer.TextureSlotIndex;
             s_Renderer.Textures[s_Renderer.TextureSlotIndex] = texture;
