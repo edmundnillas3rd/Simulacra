@@ -138,4 +138,10 @@ namespace Simulacra
     {
         SDL_DestroyWindow(s_Window);
     }
+
+    void GetCurrentWindowSize(int& w, int& h)
+    {
+        SDL_Window* window = SDL_GL_GetCurrentWindow();
+        SDL_GetWindowSize(window, &w, &h);
+    }
 }

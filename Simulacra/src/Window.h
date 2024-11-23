@@ -24,4 +24,6 @@ namespace Simulacra
     void PollEvents();
     void UpdateWindow();
     void DestroyPlatformWindow();
+
+    void GetCurrentWindowSize(int& w, int& h);
 }
