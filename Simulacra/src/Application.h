@@ -4,6 +4,8 @@
 #include <vector>
 #include <functional>
 
+#include "Events/Event.h"
+
 namespace Simulacra 
 {
     class ApplicationLayer
@@ -13,7 +15,7 @@ namespace Simulacra
         ~ApplicationLayer() = default;
 
         virtual void OnStart() {}
-        virtual void OnEvent() {}
+        virtual void OnEvent(Event event) {}
         virtual void OnUpdate(float deltaTime) {}
     };
 

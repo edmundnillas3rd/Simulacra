@@ -23,6 +23,9 @@ namespace Simulacra
 
     void AppplicationWindowCallbackfn(Event event)
     {
+        for (const auto& layer : s_App.Layers)
+            layer->OnEvent(event);
+
         if (event.Type == EventType::WINDOW_CLOSE)
         {
             s_Running = false;
@@ -50,9 +53,6 @@ namespace Simulacra
         while (s_Running)
         {
             PollEvents();
-
-            for (const auto& layer : s_App.Layers)
-                layer->OnEvent();
 
             for (const auto& layer : s_App.Layers)
                 layer->OnUpdate(0.5f);
