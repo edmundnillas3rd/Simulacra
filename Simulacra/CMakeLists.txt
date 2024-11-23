@@ -29,7 +29,6 @@ find_package(glad CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 find_package(stb CONFIG REQUIRED)
-find_package(lua CONFIG REQUIRED)
 
 add_library(
     ${PROJECT_NAME} STATIC
@@ -59,7 +58,6 @@ set(LIBRARIES
     spdlog::spdlog
     glm::glm
     stb::stb
-    lua::lua
 
     # Header libraries
     imgui
