@@ -6,6 +6,8 @@ set(BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 
 set(SOURCE_FILES
     "${SRC_DIR}/Sandbox.cpp"
+    "${SRC_DIR}/Terrain/Terrain.cpp"
+    "${SRC_DIR}/Terrain/CellularAutomataGen.cpp"
 )
 
 add_executable(
