@@ -21,18 +21,19 @@ namespace Simulacra
 
     struct RendererData
     {
-        static const uint32_t MAX_VERTICES = 5000;
-        static const uint32_t MAX_INDICES = MAX_VERTICES * 6;
-        static const uint32_t MAX_QUAD = MAX_VERTICES * 4;
+        static const uint32_t MAX_QUADS = 20000;
+        static const uint32_t MAX_VERTICES = MAX_QUADS * 4;
+        static const uint32_t MAX_INDICES = MAX_QUADS * 6;
         static const uint32_t MAX_TEXTURE_SLOTS = 16;
 
         Buffer QuadArrayBuffer;
         Buffer QuadVertexBuffer;
         Buffer QuadIndexBuffer;
-        std::array<Sprite, MAX_QUAD> QuadVertices;
+        std::array<Sprite, MAX_VERTICES> QuadVertices;
 
         std::array<glm::vec4, 4> QuadPositions;
 
+        Texture DefaultWhiteTex;
         std::array<Texture, MAX_TEXTURE_SLOTS> Textures;
         uint32_t TextureSlotIndex;
 
@@ -48,14 +49,6 @@ namespace Simulacra
     {
         s_Renderer.QuadCount = 0;
         s_Renderer.IndexCount = 0;
-        s_Renderer.TextureSlotIndex = 0;
-
-        s_Renderer.QuadVertices.fill({ glm::vec3(0.0f), glm::vec2(0.0f) });
-
-        s_Renderer.QuadPositions[0] = {  0.5f,  0.5f, 0.0f, 1.0f }; // Top right
-        s_Renderer.QuadPositions[1] = {  0.5f, -0.5f, 0.0f, 1.0f }; // Bottom right
-        s_Renderer.QuadPositions[2] = { -0.5f, -0.5f, 0.0f, 1.0f }; // Bottom left
-        s_Renderer.QuadPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f }; // Top left
 
         s_Renderer.QuadArrayBuffer = CreateVertexArray();
         BindVertexArray(s_Renderer.QuadArrayBuffer);
@@ -89,28 +82,48 @@ namespace Simulacra
         SetVertexAttrib(1, 2, sizeof(Sprite), (void*)offsetof(Sprite, TexCoord));
         SetVertexAttrib(2, 1, sizeof(Sprite), (void*)offsetof(Sprite, TexIndex));
 
+        s_Renderer.DefaultWhiteTex = CreateTexture();
+        uint32_t whiteTextureData = 0xffffffff;
+        WriteTexture(s_Renderer.DefaultWhiteTex, &whiteTextureData);
+
         s_Renderer.SceneShader = LoadShaders({
             "Sandbox/assets/shaders/main.vert",
             "Sandbox/assets/shaders/main.frag"
         });
+
         UseShader(s_Renderer.SceneShader);
+
+        s_Renderer.Textures[0] = s_Renderer.DefaultWhiteTex;
+
+        s_Renderer.TextureSlotIndex = 1;
+
+        s_Renderer.QuadPositions[0] = {  0.5f,  0.5f, 0.0f, 1.0f }; // Top right
+        s_Renderer.QuadPositions[1] = {  0.5f, -0.5f, 0.0f, 1.0f }; // Bottom right
+        s_Renderer.QuadPositions[2] = { -0.5f, -0.5f, 0.0f, 1.0f }; // Bottom left
+        s_Renderer.QuadPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f }; // Top left
+
+        int samples[RendererData::MAX_TEXTURE_SLOTS];
+
+        // NOTE(Edmund): On some systems this may not work
+        for (uint32_t i = 0; i < RendererData::MAX_TEXTURE_SLOTS; i++)
+            SetShaderIntUniform(s_Renderer.SceneShader, "u_TextureSlots[" + std::to_string(i) + "]", i);
+
     }
 
     static void Flush()
     {
-        if (s_Renderer.QuadCount)
+        if (s_Renderer.IndexCount)
         {
             BindVertexArray(s_Renderer.QuadArrayBuffer);
             WriteData(0, sizeof(Sprite) * s_Renderer.QuadCount, s_Renderer.QuadVertices.data());
 
-            UseShader(s_Renderer.SceneShader);
-
-            for (size_t i = 0; i < s_Renderer.TextureSlotIndex; i++)
+            for (uint32_t i = 0; i < s_Renderer.TextureSlotIndex; i++)
             {
-                BindTexture(s_Renderer.Textures[i]);
                 SetActiveTexture(i);
-                SetShaderIntUniform(s_Renderer.SceneShader, "s_TextureSlots" + std::to_string(i), 1);
+                BindTexture(s_Renderer.Textures[i]);
             }
+
+            UseShader(s_Renderer.SceneShader);
             DrawIndex(s_Renderer.IndexCount);
         }
     }
@@ -122,7 +135,7 @@ namespace Simulacra
 
         s_Renderer.QuadVertices.fill({});
 
-        s_Renderer.TextureSlotIndex = 0;
+        s_Renderer.TextureSlotIndex = 1;
     }
 
     void BeginScene()
@@ -159,31 +172,12 @@ namespace Simulacra
         if (s_Renderer.IndexCount >= RendererData::MAX_INDICES)
             NextBatch();
 
-        float textureIndex = 0.0f;
-        for (uint32_t i = 0; i < s_Renderer.TextureSlotIndex; i++)
-        {
-            if (s_Renderer.Textures[i].TextureID == texture.TextureID)
-            {
-                textureIndex = (float)i;
-                break;
-            }
-        }
-
-        if (textureIndex == 0.0f)
-        {
-            if (s_Renderer.TextureSlotIndex >= RendererData::MAX_TEXTURE_SLOTS)
-                Flush();
-
-            textureIndex = (float)s_Renderer.TextureSlotIndex;
-            s_Renderer.Textures[s_Renderer.TextureSlotIndex] = texture;
-            s_Renderer.TextureSlotIndex++;
-        }
-
         for (size_t i = 0; i < 4; i++)
         {
             uint32_t currentVertCount = s_Renderer.QuadCount + i;
             s_Renderer.QuadVertices[currentVertCount].Position = transform * s_Renderer.QuadPositions[i];
             s_Renderer.QuadVertices[currentVertCount].TexCoord = texCoords[i];
+            s_Renderer.QuadVertices[currentVertCount].TexIndex = 0.0f;
         }
 
         s_Renderer.IndexCount += 6;
@@ -219,7 +213,7 @@ namespace Simulacra
             NextBatch();
 
         float textureIndex = 0.0f;
-        for (uint32_t i = 0; i < s_Renderer.TextureSlotIndex; i++)
+        for (uint32_t i = 1; i < s_Renderer.TextureSlotIndex; i++)
         {
             if (s_Renderer.Textures[i].TextureID == texture.TextureID)
             {
