@@ -57,7 +57,7 @@ public:
         for (const auto& terrain : m_Terrain)
         {
             glm::mat4 transform = glm::mat4(1.0f);
-            transform = glm::translate(transform, glm::vec3(terrain.Collider.Position.x, terrain.Collider.Position.y, 0.0f));
+            transform = glm::translate(transform, glm::vec3(terrain.Position.x, terrain.Position.y, 0.0f));
 
             if (terrain.Type == TerrainType::FLOOR)
             {
