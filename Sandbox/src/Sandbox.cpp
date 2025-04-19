@@ -12,7 +12,6 @@ class Sandbox : public Simulacra::ApplicationLayer
 public:
     Sandbox()
     {
-
     }
 
     ~Sandbox()
@@ -54,7 +53,17 @@ public:
         
         Simulacra::UpdateCamera2D(m_Camera, m_Camera.Position);
 
-        for (const auto& terrain : m_Terrain)
+        std::vector<Terrain> terrains;
+
+        std::copy_if(m_Terrain.begin(), m_Terrain.end(), std::back_inserter(terrains), [this](Terrain terrain) {
+            return (terrain.Position.x - m_Camera.Position.x >= m_Camera.Frustum.Left
+                && terrain.Position.x + terrain.Width - m_Camera.Position.x <= m_Camera.Frustum.Right
+                && terrain.Position.y - m_Camera.Position.y >= m_Camera.Frustum.Top
+                && terrain.Position.y + terrain.Height - m_Camera.Position.y <= m_Camera.Frustum.Bottom
+            );
+        });
+
+        for (const auto& terrain : terrains)
         {
             glm::mat4 transform = glm::mat4(1.0f);
             transform = glm::translate(transform, glm::vec3(terrain.Position.x, terrain.Position.y, 0.0f));
@@ -69,6 +78,8 @@ public:
             }
         }
 
+        Simulacra::ConsoleLog("Number of drawn objects inside the frustum: {}", terrains.size());
+
         Simulacra::EndScene();
     }
 
@@ -80,7 +91,8 @@ private:
 
 int main(int argc, char* argv[])
 {
-    Simulacra::CreateApplication("Simulacra", 1280, 720, { new Sandbox() });
+    Simulacra::CreateApplication("Simulacra", 1280, 720);
+    Simulacra::PushApplicationLayer(new Sandbox());
     Simulacra::RunApplication();
     return 0;
 }

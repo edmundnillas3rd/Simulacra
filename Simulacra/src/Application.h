@@ -19,6 +19,8 @@ namespace Simulacra
         virtual void OnUpdate(float deltaTime) {}
     };
 
-    void CreateApplication(const std::string& title = "Untitled", uint32_t width = 1366, uint32_t height = 768, const std::vector<ApplicationLayer*>& layers = {});
+    void CreateApplication(const std::string& title = "Untitled", uint32_t width = 1366, uint32_t height = 768);
     void RunApplication();
+
+    void PushApplicationLayer(ApplicationLayer* layer);
 }

@@ -21,6 +21,11 @@ namespace Simulacra
     static Application s_App;
     static bool s_Running;
 
+    void PushApplicationLayer(ApplicationLayer* layer)
+    {
+        s_App.Layers.push_back(layer);
+    }
+
     void AppplicationWindowCallbackfn(Event event)
     {
         for (const auto& layer : s_App.Layers)
@@ -32,12 +37,11 @@ namespace Simulacra
         }
     }
 
-    void CreateApplication(const std::string& title, uint32_t width, uint32_t height, const std::vector<ApplicationLayer*>& layers) 
+    void CreateApplication(const std::string& title, uint32_t width, uint32_t height) 
     {
         s_App.WinProps.Title = title;
         s_App.WinProps.Width = width;
         s_App.WinProps.Height = height;
-        s_App.Layers = layers;
 
         s_Running = true;
         SubmitCallback(AppplicationWindowCallbackfn);
