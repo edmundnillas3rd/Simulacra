@@ -1,14 +1,7 @@
 cmake_minimum_required(VERSION 3.26)
 project(Sandbox)
 
-set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
-set(BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
-
-set(SOURCE_FILES
-    "${SRC_DIR}/Sandbox.cpp"
-    "${SRC_DIR}/Terrain/Terrain.cpp"
-    "${SRC_DIR}/Terrain/CellularAutomataGen.cpp"
-)
+file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h")
 
 add_executable(
     ${PROJECT_NAME}
@@ -24,12 +17,6 @@ target_link_options(
 target_compile_options(
     ${PROJECT_NAME} PRIVATE
     /MP4
-)
-
-set_target_properties(
-    ${PROJECT_NAME}
-    PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${BIN_DIR}/$<CONFIG>"
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC Simulacra)

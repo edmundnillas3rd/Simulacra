@@ -17,7 +17,7 @@ namespace Simulacra
     void CreateFilePlatformSubsystem()
     {
         // TODO(Edmund): To refactor to account user config path
-        std::filesystem::current_path("../..");
+        std::filesystem::current_path("../../..");
         s_FileManager.WorkingDirectory= std::filesystem::current_path().string();
         ConsoleLog("Current Working Directory: {}", s_FileManager.WorkingDirectory);
     }
