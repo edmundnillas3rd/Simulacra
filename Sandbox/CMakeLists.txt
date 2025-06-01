@@ -8,18 +8,13 @@ add_executable(
     ${SOURCE_FILES}
 )
 
-target_link_options(
-    ${PROJECT_NAME} PRIVATE
-    /debug:fastlink
-    /incremental
-)
-
-target_compile_options(
-    ${PROJECT_NAME} PRIVATE
-    /MP4
-)
+target_link_options(${PROJECT_NAME} PRIVATE /debug:fastlink)
+target_link_options(${PROJECT_NAME} PRIVATE /incremental)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC Simulacra)
-target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+
+target_compile_options(${PROJECT_NAME} PRIVATE /MP4)
 target_compile_options(${PROJECT_NAME} PRIVATE /wd4312)
+
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 target_include_directories(${PROJECT_NAME} PUBLIC ${SRC_DIR})
