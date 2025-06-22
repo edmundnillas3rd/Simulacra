@@ -1,10 +1,10 @@
-#include "FileManager.h"
+#include "Core/FileManager.h"
 
 #include <filesystem>
 
 // TODO(Edmund): For window file manager prompt
 #include "Platform/PlatformUtils.h"
-#include "Logger.h"
+#include "Core/Logger.h"
 
 namespace Simulacra
 {

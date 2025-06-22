@@ -1,8 +1,8 @@
 #include <glad/glad.h>
 #include <SDL2/SDL.h>
 
-#include "Window.h"
-#include "Logger.h"
+#include "Core/Window.h"
+#include "Core/Logger.h"
 
 #include "Events/Event.h"
 #include "Events/KeyEvents.h"
