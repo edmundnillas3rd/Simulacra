@@ -95,22 +95,14 @@ namespace Simulacra
         s_Window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
         if (!s_Window)
-        {
-            ConsoleError("Failed to create window");
-            ConsoleError("SDL ERROR: {}", SDL_GetError());
             return;
-        }
 
         s_GLContext = SDL_GL_CreateContext(s_Window);
         SDL_GL_MakeCurrent(s_Window, s_GLContext);
         SDL_GL_SetSwapInterval(1);
 
         if (!s_GLContext)
-        {
-            ConsoleError("Failed to create OpenGL Context");
-            ConsoleError("SDL ERROR: {}", SDL_GetError());
             return;
-        }
 
         gladLoadGLLoader(SDL_GL_GetProcAddress);
 
