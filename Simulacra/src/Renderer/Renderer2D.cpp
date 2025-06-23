@@ -4,11 +4,11 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "src/Core/Logger.h"
+#include "../Core/Logger.h"
 
-#include "Platform/OpenGL/OpenGLBuffer.h"
-#include "Platform/OpenGL/OpenGLShader.h"
-#include "Platform/OpenGL/OpenGLRenderer.h"
+#include "../Platform/OpenGL/OpenGLBuffer.h"
+#include "../Platform/OpenGL/OpenGLShader.h"
+#include "../Platform/OpenGL/OpenGLRenderer.h"
 
 namespace Simulacra
 {

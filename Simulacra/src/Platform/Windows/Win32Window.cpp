@@ -1,14 +1,14 @@
 #include <glad/glad.h>
 #include <SDL2/SDL.h>
 
-#include "Core/Window.h"
-#include "Core/Logger.h"
+#include "../../Core/Window.h"
+#include "../../Core/Logger.h"
 
-#include "Events/Event.h"
-#include "Events/KeyEvents.h"
-#include "Events/MouseEvents.h"
+#include "../../Events/Event.h"
+#include "../../Events/KeyEvents.h"
+#include "../../Events/MouseEvents.h"
 
-#include "Platform/OpenGL/OpenGLDebug.h"
+#include "../OpenGL/OpenGLDebug.h"
 
 namespace Simulacra
 {

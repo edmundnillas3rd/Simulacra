@@ -1,7 +1,7 @@
 #include "OpenGLDebug.h"
 
-#include "Core/Logger.h"
-#include "Platform/PlatformUtils.h"
+#include "../../Core/Logger.h"
+#include "../PlatformUtils.h"
 
 namespace Simulacra
 {

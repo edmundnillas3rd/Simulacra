@@ -4,7 +4,7 @@
 
 #include "OrthographicCamera.h"
 
-#include "Platform/OpenGL/OpenGLTexture.h"
+#include "../Platform/OpenGL/OpenGLTexture.h"
 
 namespace Simulacra
 {

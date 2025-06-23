@@ -4,8 +4,8 @@
 
 #include <fstream>
 
-#include "Core/FileManager.h"
-#include "Core/Logger.h"
+#include "../../Core/FileManager.h"
+#include "../../Core/Logger.h"
 
 namespace Simulacra
 {

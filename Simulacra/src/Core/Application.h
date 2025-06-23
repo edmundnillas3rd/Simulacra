@@ -4,7 +4,7 @@
 #include <vector>
 #include <functional>
 
-#include "Events/Event.h"
+#include "../Events/Event.h"
 
 namespace Simulacra 
 {
