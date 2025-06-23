@@ -3725,7 +3725,7 @@ void ImGui::Shutdown()
         SaveIniSettingsToDisk(g.IO.IniFilename);
 
     // Destroy platform windows
-    DestroyPlatformWindows();
+    ShutdownWindowSubsystems();
 
     // Shutdown extensions
     DockContextShutdown(&g);
@@ -13987,8 +13987,8 @@ void ImGui::LocalizeRegisterEntries(const ImGuiLocEntry* entries, int count)
 // - FindPlatformMonitorForPos() [Internal]
 // - FindPlatformMonitorForRect() [Internal]
 // - UpdateViewportPlatformMonitor() [Internal]
-// - DestroyPlatformWindow() [Internal]
-// - DestroyPlatformWindows()
+// - ShutdownWindowSubsystem() [Internal]
+// - ShutdownWindowSubsystems()
 //-----------------------------------------------------------------------------
 
 ImGuiViewport* ImGui::GetMainViewport()
@@ -14478,7 +14478,7 @@ static void ImGui::DestroyViewport(ImGuiViewportP* viewport)
 
     // Destroy
     IMGUI_DEBUG_LOG_VIEWPORT("[viewport] Delete Viewport %08X '%s'\n", viewport->ID, viewport->Window ? viewport->Window->Name : "n/a");
-    DestroyPlatformWindow(viewport); // In most circumstances the platform window will already be destroyed here.
+    ShutdownWindowSubsystem(viewport); // In most circumstances the platform window will already be destroyed here.
     IM_ASSERT(g.PlatformIO.Viewports.contains(viewport) == false);
     IM_ASSERT(g.Viewports[viewport->Idx] == viewport);
     g.Viewports.erase(g.Viewports.Data + viewport->Idx);
@@ -14730,13 +14730,13 @@ void ImGui::UpdatePlatformWindows()
         ImGuiViewportP* viewport = g.Viewports[i];
 
         // Destroy platform window if the viewport hasn't been submitted or if it is hosting a hidden window
-        // (the implicit/fallback Debug##Default window will be registering its viewport then be disabled, causing a dummy DestroyPlatformWindow to be made each frame)
+        // (the implicit/fallback Debug##Default window will be registering its viewport then be disabled, causing a dummy ShutdownWindowSubsystem to be made each frame)
         bool destroy_platform_window = false;
         destroy_platform_window |= (viewport->LastFrameActive < g.FrameCount - 1);
         destroy_platform_window |= (viewport->Window && !IsWindowActiveAndVisible(viewport->Window));
         if (destroy_platform_window)
         {
-            DestroyPlatformWindow(viewport);
+            ShutdownWindowSubsystem(viewport);
             continue;
         }
 
@@ -14911,7 +14911,7 @@ const ImGuiPlatformMonitor* ImGui::GetViewportPlatformMonitor(ImGuiViewport* vie
     return &g.FallbackMonitor;
 }
 
-void ImGui::DestroyPlatformWindow(ImGuiViewportP* viewport)
+void ImGui::ShutdownWindowSubsystem(ImGuiViewportP* viewport)
 {
     ImGuiContext& g = *GImGui;
     if (viewport->PlatformWindowCreated)
@@ -14936,7 +14936,7 @@ void ImGui::DestroyPlatformWindow(ImGuiViewportP* viewport)
     viewport->ClearRequestFlags();
 }
 
-void ImGui::DestroyPlatformWindows()
+void ImGui::ShutdownWindowSubsystems()
 {
     // We call the destroy window on every viewport (including the main viewport, index 0) to give a chance to the backend
     // to clear any data they may have stored in e.g. PlatformUserData, RendererUserData.
@@ -14946,7 +14946,7 @@ void ImGui::DestroyPlatformWindows()
     // crashing if it doesn't have data stored.
     ImGuiContext& g = *GImGui;
     for (ImGuiViewportP* viewport : g.Viewports)
-        DestroyPlatformWindow(viewport);
+        ShutdownWindowSubsystem(viewport);
 }
 
 

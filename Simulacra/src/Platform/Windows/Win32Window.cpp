@@ -69,7 +69,7 @@ namespace Simulacra
         s_WindowPointerData.WindowCallbackfn = fn;
     }
 
-    void CreatePlatformWindow(const char *title, uint32_t width, uint32_t height)
+    void StartWindowSubsystem(const WindowProps& props)
     {
         s_Window = nullptr;
 
@@ -92,7 +92,7 @@ namespace Simulacra
         flags |= SDL_WINDOW_RESIZABLE;
         flags |= SDL_WINDOW_OPENGL;
         
-        s_Window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+        s_Window = SDL_CreateWindow(props.Title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, props.Width, props.Height, flags);
 
         if (!s_Window)
             return;
@@ -126,7 +126,7 @@ namespace Simulacra
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    void DestroyPlatformWindow()
+    void ShutdownWindowSubsystem()
     {
         SDL_DestroyWindow(s_Window);
     }

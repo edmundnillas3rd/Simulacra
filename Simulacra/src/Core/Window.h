@@ -16,14 +16,14 @@ namespace Simulacra
     using EventCallbackfn = std::function<void(Event)>;
 
     void SubmitCallback(const EventCallbackfn& fn);
-    void StartWindowSubsystem(const WindowProps& props);
-    void ShutdownWindowSubsystem();
 
-    // NOTE(Edmund): Interface for platform implementation
-    void CreatePlatformWindow(const char* title, uint32_t width, uint32_t height);
+    void StartWindowSubsystem(const WindowProps& props);
+
     void PollEvents();
+
     void UpdateWindow();
-    void DestroyPlatformWindow();
+
+    void ShutdownWindowSubsystem();
 
     void GetCurrentWindowSize(int& w, int& h);
 }
