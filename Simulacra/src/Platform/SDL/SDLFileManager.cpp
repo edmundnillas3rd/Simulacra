@@ -2,7 +2,6 @@
 
 #include <filesystem>
 
-// TODO(Edmund): For window file manager prompt
 #include "../PlatformUtils.h"
 #include "../../Core/Logger.h"
 

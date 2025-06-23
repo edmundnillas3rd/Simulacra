@@ -12,8 +12,8 @@ set(SOURCE_FILES
     "src/Platform/OpenGL/OpenGLShader.cpp" 
     "src/Platform/OpenGL/OpenGLTexture.cpp" 
 
-    "src/Platform/Windows/Win32FileManager.cpp" 
-    "src/Platform/Windows/Win32Window.cpp" 
+    "src/Platform/SDL/SDLFileManager.cpp" 
+    "src/Platform/SDL/SDLWindow.cpp" 
 
     "src/Renderer/OrthographicCamera.cpp"
     "src/Renderer/Renderer2D.cpp"
