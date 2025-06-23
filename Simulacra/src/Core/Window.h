@@ -24,6 +24,4 @@ namespace Simulacra
     void UpdateWindow();
 
     void ShutdownWindowSubsystem();
-
-    void GetCurrentWindowSize(int& w, int& h);
 }
