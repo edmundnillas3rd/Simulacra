@@ -1,7 +1,7 @@
 #pragma once
 
-#include "src/Application.h"
-#include "src/Logger.h"
+#include "src/Core/Application.h"
+#include "src/Core/Logger.h"
 
 #include "src/Events/Event.h"
 #include "src/Events/MouseEvents.h"
