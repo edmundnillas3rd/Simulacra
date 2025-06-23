@@ -17,7 +17,7 @@ namespace Simulacra
 
     struct WindowPointerData
     {
-        EventCallbackfn WindowCallbackfn;
+        WindowEventCallbackfn WindowCallbackfn;
     };
 
     static WindowPointerData s_WindowPointerData;
@@ -64,7 +64,7 @@ namespace Simulacra
         return 0;
     }
 
-    void SubmitCallback(const EventCallbackfn& fn)
+    void SubmitWindowEventCallback(const WindowEventCallbackfn& fn)
     {
         s_WindowPointerData.WindowCallbackfn = fn;
     }
@@ -115,7 +115,7 @@ namespace Simulacra
         SDL_SetEventFilter(SDLEventFilter, nullptr);
     }
 
-    void PollEvents()
+    void PollWindowEvents()
     {
         while (SDL_PollEvent(nullptr) != 0);
     }

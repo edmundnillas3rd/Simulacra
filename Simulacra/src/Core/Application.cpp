@@ -44,7 +44,7 @@ namespace Simulacra
         s_App.WinProps.Height = height;
 
         s_Running = true;
-        SubmitCallback(AppplicationWindowCallbackfn);
+        SubmitWindowEventCallback(AppplicationWindowCallbackfn);
     }
 
     void RunApplication()
@@ -56,7 +56,7 @@ namespace Simulacra
 
         while (s_Running)
         {
-            PollEvents();
+            PollWindowEvents();
 
             for (const auto& layer : s_App.Layers)
                 layer->OnUpdate(0.5f);

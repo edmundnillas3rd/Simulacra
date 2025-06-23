@@ -13,13 +13,13 @@ namespace Simulacra
         uint32_t Height;
     };
 
-    using EventCallbackfn = std::function<void(Event)>;
+    using WindowEventCallbackfn = std::function<void(Event)>;
 
-    void SubmitCallback(const EventCallbackfn& fn);
+    void SubmitWindowEventCallback(const WindowEventCallbackfn& fn);
 
     void StartWindowSubsystem(const WindowProps& props);
 
-    void PollEvents();
+    void PollWindowEvents();
 
     void UpdateWindow();
 
