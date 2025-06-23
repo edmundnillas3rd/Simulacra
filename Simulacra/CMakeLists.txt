@@ -12,9 +12,6 @@ set(SOURCE_FILES
     "src/Platform/OpenGL/OpenGLShader.cpp" 
     "src/Platform/OpenGL/OpenGLTexture.cpp" 
 
-    "src/Platform/SDL/SDLFileManager.cpp" 
-    "src/Platform/SDL/SDLWindow.cpp" 
-
     "src/Renderer/OrthographicCamera.cpp"
     "src/Renderer/Renderer2D.cpp"
 )
@@ -22,11 +19,22 @@ set(SOURCE_FILES
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/imguizmo")
 
-find_package(SDL2 CONFIG REQUIRED)
-find_package(glad CONFIG REQUIRED)
+find_package(SDL2   CONFIG REQUIRED)
+find_package(glad   CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
-find_package(glm CONFIG REQUIRED)
-find_package(stb CONFIG REQUIRED)
+find_package(glm    CONFIG REQUIRED)
+find_package(stb    CONFIG REQUIRED)
+
+if (SDL2_FOUND)
+    set(SOURCE_FILES 
+        ${SOURCE_FILES}
+        "src/Platform/SDL/SDLFileManager.cpp" 
+        "src/Platform/SDL/SDLWindow.cpp" 
+
+    )
+else()
+    message(ERROR "Platform not supported!")
+endif()
 
 add_library(
     ${PROJECT_NAME} STATIC
