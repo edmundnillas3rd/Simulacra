@@ -3,7 +3,6 @@ project(Simulacra)
 
 set(SOURCE_FILES 
     "src/Core/Application.cpp"
-    "src/Core/FileManager.cpp"
     "src/Core/Logger.cpp"
 
     "src/Platform/OpenGL/OpenGLBuffer.cpp" 

@@ -13,7 +13,7 @@ namespace Simulacra
     };
 
     static FileManager s_FileManager; 
-    void CreateFilePlatformSubsystem()
+    void StartFileSubsystem()
     {
         // TODO(Edmund): To refactor to account user config path
         std::filesystem::current_path("../../..");
