@@ -1,7 +1,23 @@
 cmake_minimum_required(VERSION 3.26)
 project(Simulacra)
 
-file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/**/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/**/*.h")
+set(SOURCE_FILES 
+    "src/Core/Application.cpp"
+    "src/Core/FileManager.cpp"
+    "src/Core/Logger.cpp"
+
+    "src/Platform/OpenGL/OpenGLBuffer.cpp" 
+    "src/Platform/OpenGL/OpenGLDebug.cpp" 
+    "src/Platform/OpenGL/OpenGLRenderer.cpp" 
+    "src/Platform/OpenGL/OpenGLShader.cpp" 
+    "src/Platform/OpenGL/OpenGLTexture.cpp" 
+
+    "src/Platform/Windows/Win32FileManager.cpp" 
+    "src/Platform/Windows/Win32Window.cpp" 
+
+    "src/Renderer/OrthographicCamera.cpp"
+    "src/Renderer/Renderer2D.cpp"
+)
 
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/imguizmo")
@@ -15,14 +31,6 @@ find_package(stb CONFIG REQUIRED)
 add_library(
     ${PROJECT_NAME} STATIC
     ${SOURCE_FILES}
-)
-        
-target_include_directories(
-    ${PROJECT_NAME} 
-    SYSTEM
-    PUBLIC 
-    "${CMAKE_CURRENT_SOURCE_DIR}"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src"
 )
 
 set(LIBRARIES
