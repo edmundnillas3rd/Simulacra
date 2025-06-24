@@ -23,4 +23,4 @@ target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2 SDL2::SDL2main)
 
 target_compile_options(${PROJECT_NAME} PRIVATE /MP4)
 
-target_include_directories(${PROJECT_NAME} PRIVATE "glad/include" "stb" "imgui" "imgui/backends")
+target_include_directories(${PROJECT_NAME} PUBLIC "glad/include" "stb" "imgui" "imgui/backends")
