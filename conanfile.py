@@ -12,8 +12,6 @@ class CompressorRecipe(ConanFile):
         self.requires("sdl/2.24.0")
         self.requires("spdlog/1.12.0")
         self.requires("glm/cci.20230113")
-        self.requires("glad/0.1.36")
-        self.requires("stb/cci.20240213")
 
     def configure(self):
         self.options["glad"].gl_profile = "core"

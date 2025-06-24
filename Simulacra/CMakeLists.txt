@@ -13,14 +13,11 @@ set(SOURCE_FILES
     "src/Platform/OpenGL/OpenGLTexture.cpp" 
 )
 
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui")
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/imguizmo")
+add_subdirectory("vendor")
 
 find_package(SDL2   CONFIG REQUIRED)
-find_package(glad   CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(glm    CONFIG REQUIRED)
-find_package(stb    CONFIG REQUIRED)
 
 if (SDL2_FOUND)
     set(SOURCE_FILES 
@@ -38,17 +35,12 @@ add_library(
 )
 
 set(LIBRARIES
-    # Static libraries
     SDL2::SDL2
     SDL2::SDL2main
-    glad::glad
     spdlog::spdlog
     glm::glm
-    stb::stb
 
-    # Header libraries
-    imgui
-    imguizmo
+    ProjectDeps_Lib
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LIBRARIES})
