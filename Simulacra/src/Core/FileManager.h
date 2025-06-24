@@ -1,10 +1,10 @@
 #pragma once
 
-#include <string>
+#include <filesystem>
 
 namespace Simulacra
 {
-    void StartFileSubsystem();
+    void StartFileSubsystem(std::filesystem::path path = "");
 
-    std::string FormatFilepath(const std::string& path);
+    std::filesystem::path FormatFilepath(std::filesystem::path path);
 }
