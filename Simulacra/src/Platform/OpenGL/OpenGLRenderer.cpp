@@ -8,4 +8,9 @@ namespace Simulacra
     {
         glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
     }
+
+    void DrawArrays(size_t count)
+    {
+        glDrawArrays(GL_TRIANGLES, 0, count);
+    }
 }
