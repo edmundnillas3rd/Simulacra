@@ -11,11 +11,3 @@
 
 # Conan Files
 CMakeUserPresets.json
-
-# Files
-**/*.exe
-**/*.lib
-**/*.dll
-**/*.pdb
-**/*.txt
-**/*.aseprite
