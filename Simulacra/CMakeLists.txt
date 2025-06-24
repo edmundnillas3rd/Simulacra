@@ -4,6 +4,7 @@ project(Simulacra)
 set(SOURCE_FILES 
     "src/Core/Application.cpp"
     "src/Core/Logger.cpp"
+    "src/Core/FileManager.cpp" 
 
     "src/Platform/OpenGL/OpenGLBuffer.cpp" 
     "src/Platform/OpenGL/OpenGLDebug.cpp" 
@@ -27,7 +28,6 @@ find_package(stb    CONFIG REQUIRED)
 if (SDL2_FOUND)
     set(SOURCE_FILES 
         ${SOURCE_FILES}
-        "src/Platform/SDL/SDLFileManager.cpp" 
         "src/Platform/SDL/SDLWindow.cpp" 
 
     )
