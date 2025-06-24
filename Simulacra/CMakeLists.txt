@@ -11,9 +11,6 @@ set(SOURCE_FILES
     "src/Platform/OpenGL/OpenGLRenderer.cpp" 
     "src/Platform/OpenGL/OpenGLShader.cpp" 
     "src/Platform/OpenGL/OpenGLTexture.cpp" 
-
-    "src/Renderer/OrthographicCamera.cpp"
-    "src/Renderer/Renderer2D.cpp"
 )
 
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui")
