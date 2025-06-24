@@ -17,7 +17,8 @@ namespace Simulacra
 
     void BindVertexArray(const Buffer& buffer);
 
-    void AllocateSizeBuffer(size_t size);
+    void AllocateBufferSize(size_t size);
+    void StreamBuffer(size_t size, void* data);
 
     void WriteData(uint32_t offset, size_t size, const void* data);
     void WriteIndexData(size_t size, const void* data);

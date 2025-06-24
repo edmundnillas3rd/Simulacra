@@ -37,9 +37,14 @@ namespace Simulacra
         glBindVertexArray(buffer.BufferID);
     }
 
-    void AllocateSizeBuffer(size_t size)
+    void AllocateBufferSize(size_t size)
     {
         glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+    }
+
+    void StreamBuffer(size_t size, void* data)
+    {
+        glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
     }
 
     void WriteData(uint32_t offset, size_t size, const void* data)
