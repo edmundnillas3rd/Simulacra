@@ -3,7 +3,6 @@
 #include "Logger.h"
 #include "Window.h"
 #include "FileManager.h"
-#include "../Renderer/Renderer2D.h"
 
 #include "../Platform/OpenGL/OpenGLShader.h"
 
@@ -72,7 +71,6 @@ namespace Simulacra
         StartLoggerSubsystem();
         StartWindowSubsystem(s_App.WinProps);
         StartFileSubsystem();
-        StartRendererSubsystem();
     }
 
     static void ShutdownApplicationSubsystems()
