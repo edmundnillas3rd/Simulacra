@@ -27,7 +27,5 @@ class CompressorRecipe(ConanFile):
         cmake_layout(self)
 
     def validate(self):
-        if self.settings.os == "Macos":
-            raise ConanInvalidConfiguration("MacOS is not supported")
-        elif self.settings.os == "Linux":
-            raise ConanInvalidConfiguration("Linux is not supported yet")
+        if self.settings.os != "Windows":
+            raise ConanInvalidConfiguration(f"{self.settings.os} is not supported")
