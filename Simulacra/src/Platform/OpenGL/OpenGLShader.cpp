@@ -12,16 +12,17 @@ namespace Simulacra
     // NOTE(Edmund): Path should always be in this order when listed
     // [0]: Vertex Shader
     // [1]: Fragment Shader
-    Shader LoadShaders(const std::vector<std::string>& paths)
+    Shader LoadShaders(const std::vector<std::filesystem::path>& paths)
     {
         Shader shader;
         static const uint8_t MAX_SHADER_STAGES = 5;
 
-        auto ext = std::filesystem::path(paths[0]);
-        if (ext.extension() != ".vert")
+        auto extVertShader = paths[0];
+        auto extFragShader = paths[1];
+        if (extVertShader.extension() != ".vert" || extFragShader.extension() != ".frag") 
         {
             ConsoleError("Invalid File Extension for shaders");
-            ConsoleError("Invalid path name: {}", paths[0]);
+            ConsoleError("Invalid path name: {}, {}", paths[0].string(), paths[1].string());
             return {};
         }
 
@@ -40,14 +41,8 @@ namespace Simulacra
 
         }
 
-        enum SHADER_TYPE : uint32_t
-        {
-            VERTEX = 0,
-            FRAGMENT = 1,
-        };
-
-        const char* vertexSource = shaderStr[SHADER_TYPE::VERTEX].c_str();
-        const char* fragmentSource = shaderStr[SHADER_TYPE::FRAGMENT].c_str();
+        const char* vertexSource = shaderStr[0].c_str();
+        const char* fragmentSource = shaderStr[1].c_str();
 
         uint32_t vertex = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vertex, 1, &vertexSource, nullptr);

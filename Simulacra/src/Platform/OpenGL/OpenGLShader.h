@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <filesystem>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -14,7 +15,7 @@ namespace Simulacra
         uint32_t ProgramID;
     };
 
-    Shader LoadShaders(const std::vector<std::string>& paths);
+    Shader LoadShaders(const std::vector<std::filesystem::path>& paths);
     void UseShader(const Shader& shader);
 
     void SetShaderIntUniform(const Shader& shader, const std::string& name, int value);
