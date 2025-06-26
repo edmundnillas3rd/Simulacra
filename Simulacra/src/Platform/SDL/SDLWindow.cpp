@@ -17,7 +17,7 @@ namespace Simulacra
 
     struct WindowPointerData
     {
-        WindowEventCallbackfn WindowCallbackfn;
+        WindowProps::WindowEventCallbackfn WindowCallbackfn;
     };
 
     static WindowPointerData s_WindowPointerData;
@@ -64,11 +64,6 @@ namespace Simulacra
         return 0;
     }
 
-    void SubmitWindowEventCallback(const WindowEventCallbackfn& fn)
-    {
-        s_WindowPointerData.WindowCallbackfn = fn;
-    }
-
     void StartWindowSubsystem(const WindowProps& props)
     {
         s_Window = nullptr;
@@ -94,8 +89,7 @@ namespace Simulacra
         
         s_Window = SDL_CreateWindow(props.Title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, props.Width, props.Height, flags);
 
-        if (!s_Window)
-            return;
+        s_WindowPointerData.WindowCallbackfn = props.EventCallbackfn;
 
         s_GLContext = SDL_GL_CreateContext(s_Window);
         SDL_GL_MakeCurrent(s_Window, s_GLContext);
