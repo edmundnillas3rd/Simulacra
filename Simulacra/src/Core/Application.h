@@ -8,19 +8,24 @@
 
 namespace Simulacra 
 {
-    class ApplicationLayer
+    class Application
     {
     public:
-        ApplicationLayer() = default;
-        ~ApplicationLayer() = default;
+        bool CreateApplication(const std::string& title, uint32_t width, uint32_t height);
+        void RunApplication();
 
-        virtual void OnStart() {}
-        virtual void OnEvent(Event event) {}
-        virtual void OnUpdate(float deltaTime) {}
+        virtual void OnStart() {};
+        virtual void OnUpdate(float delta) {};
+    private:
+        void StartApplicationSubsystems();
+        void ShutdownApplicationSubsystems();
+
+        void WindowCallbackfn(Event event);
+
+    private:
+        std::string Title;
+        uint32_t Width;
+        uint32_t Height;
+        bool Running;
     };
-
-    void CreateApplication(const std::string& title = "Untitled", uint32_t width = 1366, uint32_t height = 768);
-    void RunApplication();
-
-    void PushApplicationLayer(ApplicationLayer* layer);
 }

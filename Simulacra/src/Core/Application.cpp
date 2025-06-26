@@ -8,57 +8,27 @@
 
 namespace Simulacra
 {
-    static void StartApplicationSubsystems();
-    static void ShutdownApplicationSubsystems();
-
-    struct Application
+    bool Application::CreateApplication(const std::string& title, uint32_t width, uint32_t height) 
     {
-        WindowProps WinProps;
-        std::vector<ApplicationLayer*> Layers;
-    };
+        Title = title;
+        Width = width;
+        Height = height;
+        Running = true;
 
-    static Application s_App;
-    static bool s_Running;
-
-    void PushApplicationLayer(ApplicationLayer* layer)
-    {
-        s_App.Layers.push_back(layer);
+        return true;
     }
 
-    void AppplicationWindowCallbackfn(Event event)
-    {
-        for (const auto& layer : s_App.Layers)
-            layer->OnEvent(event);
-
-        if (event.Type == EventType::WINDOW_CLOSE)
-        {
-            s_Running = false;
-        }
-    }
-
-    void CreateApplication(const std::string& title, uint32_t width, uint32_t height) 
-    {
-        s_App.WinProps.Title = title;
-        s_App.WinProps.Width = width;
-        s_App.WinProps.Height = height;
-
-        s_Running = true;
-        SubmitWindowEventCallback(AppplicationWindowCallbackfn);
-    }
-
-    void RunApplication()
+    void Application::RunApplication()
     {
         StartApplicationSubsystems();
 
-        for (const auto& layer : s_App.Layers)
-            layer->OnStart();
+        OnStart();
 
-        while (s_Running)
+        while (Running)
         {
             PollWindowEvents();
 
-            for (const auto& layer : s_App.Layers)
-                layer->OnUpdate(0.5f);
+            OnUpdate(0.5f);
 
             UpdateWindow();
         }
@@ -66,16 +36,25 @@ namespace Simulacra
         ShutdownApplicationSubsystems();
     }
 
-    static void StartApplicationSubsystems()
+    void Application::StartApplicationSubsystems()
     {
         StartLoggerSubsystem();
-        StartWindowSubsystem(s_App.WinProps);
+        StartWindowSubsystem({ Title.c_str(), Width, Height, std::bind(&Application::WindowCallbackfn, this, std::placeholders::_1) });
         StartFileSubsystem();
     }
 
-    static void ShutdownApplicationSubsystems()
+    void Application::ShutdownApplicationSubsystems()
     {
         ShutdownWindowSubsystem();
         ShutdownLoggerSubsystem();
     }
+
+    void Application::WindowCallbackfn(Event event)
+    {
+        if (event.Type == EventType::WINDOW_CLOSE)
+        {
+            Running = false;
+        }
+    }
+
 }
