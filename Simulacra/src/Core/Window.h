@@ -11,11 +11,11 @@ namespace Simulacra
         std::string Title;
         uint32_t Width;
         uint32_t Height;
+
+        using WindowEventCallbackfn = std::function<void(Event)>;
+        
+        WindowEventCallbackfn EventCallbackfn;
     };
-
-    using WindowEventCallbackfn = std::function<void(Event)>;
-
-    void SubmitWindowEventCallback(const WindowEventCallbackfn& fn);
 
     void StartWindowSubsystem(const WindowProps& props);
 
