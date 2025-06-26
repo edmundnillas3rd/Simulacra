@@ -9,7 +9,8 @@ namespace Simulacra
     {
         if (id == 131169 || id == 131185 || id == 131218 || id == 131204) return;
 
-        AddBreakpoint();
+        ConsoleLog("ID: {}", id);
+        ConsoleLog("Message: {}", message);
 
         switch (source)
         {
@@ -41,5 +42,7 @@ namespace Simulacra
             case GL_DEBUG_SEVERITY_LOW:                             ConsoleLog("Severity: Low"); break;
             case GL_DEBUG_SEVERITY_NOTIFICATION:                    ConsoleLog("Severity: Notification"); break;
         }
+
+        AddBreakpoint();
     }
 }
