@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <vector>
 #include <functional>
 
 #include "../Events/Event.h"
@@ -11,7 +10,18 @@ namespace Simulacra
     class Application
     {
     public:
-        bool CreateApplication(const std::string& title, uint32_t width, uint32_t height);
+        struct ApplicationProps
+        {
+            std::string Title;
+            uint32_t Width;
+            uint32_t Height;
+
+        };
+    public:
+        Application() = default;
+        virtual ~Application() = default;
+
+        bool CreateApplication(const ApplicationProps& props);
         void RunApplication();
 
         virtual void OnStart() {};
@@ -23,9 +33,7 @@ namespace Simulacra
         void WindowCallbackfn(Event event);
 
     private:
-        std::string Title;
-        uint32_t Width;
-        uint32_t Height;
-        bool Running;
+        ApplicationProps m_Props;
+        bool m_Running;
     };
 }

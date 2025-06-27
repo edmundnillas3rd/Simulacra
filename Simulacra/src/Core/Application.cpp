@@ -8,12 +8,12 @@
 
 namespace Simulacra
 {
-    bool Application::CreateApplication(const std::string& title, uint32_t width, uint32_t height) 
+    bool Application::CreateApplication(const ApplicationProps& props)
     {
-        Title = title;
-        Width = width;
-        Height = height;
-        Running = true;
+        m_Props.Title = props.Title;
+        m_Props.Width = props.Width;
+        m_Props.Height = props.Height;
+        m_Running = true;
 
         return true;
     }
@@ -24,7 +24,7 @@ namespace Simulacra
 
         OnStart();
 
-        while (Running)
+        while (m_Running)
         {
             PollWindowEvents();
 
@@ -39,8 +39,8 @@ namespace Simulacra
     void Application::StartApplicationSubsystems()
     {
         StartLoggerSubsystem();
-        StartWindowSubsystem({ Title.c_str(), Width, Height, std::bind(&Application::WindowCallbackfn, this, std::placeholders::_1) });
-        StartFileSubsystem();
+        StartWindowSubsystem({ m_Props.Title.c_str(), m_Props.Width, m_Props.Height, std::bind(&Application::WindowCallbackfn, this, std::placeholders::_1) });
+        StartFileSubsystem("../../..");
     }
 
     void Application::ShutdownApplicationSubsystems()
@@ -53,7 +53,7 @@ namespace Simulacra
     {
         if (event.Type == EventType::WINDOW_CLOSE)
         {
-            Running = false;
+            m_Running = false;
         }
     }
 
