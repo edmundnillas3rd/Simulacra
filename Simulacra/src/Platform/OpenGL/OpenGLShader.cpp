@@ -9,40 +9,26 @@
 
 namespace Simulacra
 {
-    // NOTE(Edmund): Path should always be in this order when listed
-    // [0]: Vertex Shader
-    // [1]: Fragment Shader
-    Shader LoadShaders(const std::vector<std::filesystem::path>& paths)
+    Shader LoadShaders(const std::map<std::string, std::filesystem::path>& paths)
     {
         Shader shader;
-        static const uint8_t MAX_SHADER_STAGES = 5;
 
-        auto extVertShader = paths[0];
-        auto extFragShader = paths[1];
-        if (extVertShader.extension() != ".vert" || extFragShader.extension() != ".frag") 
-        {
-            ConsoleError("Invalid File Extension for shaders");
-            ConsoleError("Invalid path name: {}, {}", paths[0].string(), paths[1].string());
-            return {};
-        }
-
-        std::stringstream shaderSS[MAX_SHADER_STAGES];
-        std::string shaderStr[MAX_SHADER_STAGES];
+        std::map<std::string, std::stringstream> shaderSS;
+        std::map<std::string, std::string> shaderStr;
         std::fstream fileStream;
 
-        for (size_t i = 0; i < paths.size(); i++)
+        for (const auto& [key, value] : paths)
         {
-            fileStream.open(FormatFilepath(paths[i]), std::ios::in | std::ios::binary);
+            fileStream.open(FormatFilepath(value), std::ios::in | std::ios::binary);
 
-            shaderSS[i] << fileStream.rdbuf();
-            shaderStr[i] = shaderSS[i].str();
+            shaderSS[key] << fileStream.rdbuf();
+            shaderStr[key] = shaderSS[key].str();
 
             fileStream.close();
-
         }
 
-        const char* vertexSource = shaderStr[0].c_str();
-        const char* fragmentSource = shaderStr[1].c_str();
+        const char* vertexSource = shaderStr["VERTEX"].c_str();
+        const char* fragmentSource = shaderStr["FRAGMENT"].c_str();
 
         uint32_t vertex = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vertex, 1, &vertexSource, nullptr);

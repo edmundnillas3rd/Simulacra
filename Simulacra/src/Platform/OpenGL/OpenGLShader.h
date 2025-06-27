@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <filesystem>
 
 #include <glm/glm.hpp>
@@ -15,7 +16,7 @@ namespace Simulacra
         uint32_t ProgramID;
     };
 
-    Shader LoadShaders(const std::vector<std::filesystem::path>& paths);
+    Shader LoadShaders(const std::map<std::string, std::filesystem::path>& paths);
     void UseShader(const Shader& shader);
 
     void SetShaderIntUniform(const Shader& shader, const std::string& name, int value);
