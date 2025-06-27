@@ -4,6 +4,7 @@
 #include "Window.h"
 #include "FileManager.h"
 
+#include "../Renderer/RendererAPI.h"
 #include "../Platform/OpenGL/OpenGLShader.h"
 
 namespace Simulacra
@@ -41,12 +42,14 @@ namespace Simulacra
         StartLoggerSubsystem();
         StartWindowSubsystem({ m_Props.Title.c_str(), m_Props.Width, m_Props.Height, std::bind(&Application::WindowCallbackfn, this, std::placeholders::_1) });
         StartFileSubsystem("../../..");
+        StartRendererSubsystem(RendererEngine::OPENGL);
     }
 
     void Application::ShutdownApplicationSubsystems()
     {
-        ShutdownWindowSubsystem();
+        ShutdownRendererSubsystem();
         ShutdownLoggerSubsystem();
+        ShutdownWindowSubsystem();
     }
 
     void Application::WindowCallbackfn(Event event)
