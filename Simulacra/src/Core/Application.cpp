@@ -28,8 +28,11 @@ namespace Simulacra
         while (m_Running)
         {
             PollWindowEvents();
-
             OnUpdate(0.5f);
+
+            ImGuiBeginRender();
+                OnImGuiRender();
+            ImGuiEndRender();
 
             UpdateWindow();
         }

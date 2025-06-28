@@ -23,5 +23,8 @@ namespace Simulacra
 
     void UpdateWindow();
 
+    void ImGuiBeginRender();
+    void ImGuiEndRender();
+
     void ShutdownWindowSubsystem();
 }

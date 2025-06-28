@@ -1,3 +1,7 @@
+#include <imgui.h>
+#include <imgui_impl_opengl3.h>
+#include <imgui_impl_sdl2.h>
+
 #include <glad/glad.h>
 #include <SDL2/SDL.h>
 
@@ -61,7 +65,7 @@ namespace Simulacra
             } 
             break;
         }
-        return 0;
+        return 1;
     }
 
     void StartWindowSubsystem(const WindowProps& props)
@@ -104,24 +108,55 @@ namespace Simulacra
         glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
         glDebugMessageCallback(glDebugOutput, nullptr);
         glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+        glViewport(0, 0, props.Width, props.Height);
     
         SDL_SetWindowData(s_Window, "WindowData", &s_WindowPointerData);
         SDL_SetEventFilter(SDLEventFilter, nullptr);
+
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO(); (void)io;
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+
+        ImGui::StyleColorsDark();
+
+        ImGui_ImplSDL2_InitForOpenGL(s_Window, s_GLContext);
+        ImGui_ImplOpenGL3_Init("#version 460");
     }
 
     void PollWindowEvents()
     {
-        while (SDL_PollEvent(nullptr) != 0);
+        SDL_Event event;
+        while (SDL_PollEvent(&event) != 0)
+            ImGui_ImplSDL2_ProcessEvent(&event);
+    }
+
+    void ImGuiBeginRender()
+    {
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplSDL2_NewFrame();
+        ImGui::NewFrame();
+    }
+
+    void ImGuiEndRender()
+    {
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
     void UpdateWindow()
     {
         SDL_GL_SwapWindow(s_Window);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT);
     }
 
     void ShutdownWindowSubsystem()
     {
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplSDL2_Shutdown();
+        ImGui::DestroyContext();
+
         SDL_DestroyWindow(s_Window);
     }
 }
