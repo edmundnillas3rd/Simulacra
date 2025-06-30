@@ -1,7 +1,7 @@
-#include "FileManager.h"
+#include "FileSystem.h"
 
-#include "../Platform/PlatformUtils.h"
-#include "Logger.h"
+#include "PlatformUtils.h"
+#include "../Core/Logger.h"
 
 namespace Simulacra
 {
