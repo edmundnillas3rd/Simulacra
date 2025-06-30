@@ -4,6 +4,7 @@ project(Simulacra)
 set(SOURCE_FILES 
     "src/Core/Application.cpp"
     "src/Core/Logger.cpp"
+    "src/Core/Window.cpp"
     "src/Renderer/RendererAPI.cpp"
 
     "src/Platform/FileSystem.cpp" 

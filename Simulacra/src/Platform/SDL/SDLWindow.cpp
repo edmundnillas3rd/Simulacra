@@ -1,3 +1,5 @@
+#include "SDLWindow.h"
+
 #include <imgui.h>
 #include <imgui_impl_opengl3.h>
 #include <imgui_impl_sdl2.h>
@@ -26,49 +28,7 @@ namespace Simulacra
 
     static WindowPointerData s_WindowPointerData;
 
-    static int SDLEventFilter(void* userdata, SDL_Event* event) 
-    {
-        switch (event->type)
-        {
-        case SDL_MOUSEBUTTONDOWN:
-            {
-
-            }
-            break;
-        case SDL_MOUSEBUTTONUP:
-            {
-
-            }
-            break;
-        case SDL_KEYDOWN:
-            {
-                auto* data = (WindowPointerData*)SDL_GetWindowData(s_Window, "WindowData");
-                EventType type = EventType::KEY_PRESSED_DOWN;
-                Event event = { "Key Down", type };
-                data->WindowCallbackfn(event);
-            }
-            break;
-        case SDL_KEYUP:
-            {
-                auto* data = (WindowPointerData*)SDL_GetWindowData(s_Window, "WindowData");
-                EventType type = EventType::KEY_PRESSED_UP;
-                Event event = { "Key Up", type };
-                data->WindowCallbackfn(event);
-            }
-            break;
-        case SDL_QUIT:
-            {
-                auto* data = (WindowPointerData*)SDL_GetWindowData(s_Window, "WindowData");
-                EventType type = EventType::WINDOW_CLOSE;
-                Event event = { "Quit", type };
-                data->WindowCallbackfn(event);
-            } 
-            break;
-        }
-        return 1;
-    }
-
-    void StartWindowSubsystem(const WindowProps& props)
+    void CreatePlatformWindow(const WindowProps& props)
     {
         s_Window = nullptr;
 
@@ -111,7 +71,46 @@ namespace Simulacra
         glViewport(0, 0, props.Width, props.Height);
     
         SDL_SetWindowData(s_Window, "WindowData", &s_WindowPointerData);
-        SDL_SetEventFilter(SDLEventFilter, nullptr);
+        SDL_SetEventFilter([](void* userdata, SDL_Event* event) -> int {
+            switch (event->type)
+            {
+            case SDL_MOUSEBUTTONDOWN:
+                {
+
+                }
+                break;
+            case SDL_MOUSEBUTTONUP:
+                {
+
+                }
+                break;
+            case SDL_KEYDOWN:
+                {
+                    auto* data = (WindowPointerData*)SDL_GetWindowData(s_Window, "WindowData");
+                    EventType type = EventType::KEY_PRESSED_DOWN;
+                    Event event = { "Key Down", type };
+                    data->WindowCallbackfn(event);
+                }
+                break;
+            case SDL_KEYUP:
+                {
+                    auto* data = (WindowPointerData*)SDL_GetWindowData(s_Window, "WindowData");
+                    EventType type = EventType::KEY_PRESSED_UP;
+                    Event event = { "Key Up", type };
+                    data->WindowCallbackfn(event);
+                }
+                break;
+            case SDL_QUIT:
+                {
+                    auto* data = (WindowPointerData*)SDL_GetWindowData(s_Window, "WindowData");
+                    EventType type = EventType::WINDOW_CLOSE;
+                    Event event = { "Quit", type };
+                    data->WindowCallbackfn(event);
+                } 
+                break;
+            }
+            return 1;
+        }, nullptr);
 
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
@@ -125,33 +124,33 @@ namespace Simulacra
         ImGui_ImplOpenGL3_Init("#version 460");
     }
 
-    void PollWindowEvents()
+    void SDLPollWindowEvents()
     {
         SDL_Event event;
         while (SDL_PollEvent(&event) != 0)
             ImGui_ImplSDL2_ProcessEvent(&event);
     }
 
-    void ImGuiBeginRender()
+    void SDLImGuiBeginRender()
     {
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
     }
 
-    void ImGuiEndRender()
+    void SDLImGuiEndRender()
     {
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
-    void UpdateWindow()
+    void SDLUpdateWindow()
     {
         SDL_GL_SwapWindow(s_Window);
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
-    void ShutdownWindowSubsystem()
+    void DestroyPlatformWindow()
     {
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplSDL2_Shutdown();

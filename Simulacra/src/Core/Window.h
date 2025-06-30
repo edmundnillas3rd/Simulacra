@@ -18,13 +18,11 @@ namespace Simulacra
     };
 
     void StartWindowSubsystem(const WindowProps& props);
+    void ShutdownWindowSubsystem();
 
     void PollWindowEvents();
-
     void UpdateWindow();
 
     void ImGuiBeginRender();
     void ImGuiEndRender();
-
-    void ShutdownWindowSubsystem();
 }
