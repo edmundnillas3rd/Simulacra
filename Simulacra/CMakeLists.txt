@@ -8,6 +8,7 @@ set(SOURCE_FILES
     "src/Renderer/RendererAPI.cpp"
 
     "src/Platform/FileSystem.cpp" 
+    "src/Platform/Windows/WinFileSystem.cpp" 
     "src/Platform/OpenGL/OpenGLRenderer.cpp" 
     "src/Platform/OpenGL/OpenGLShader.cpp" 
     "src/Platform/OpenGL/OpenGLTexture.cpp" 
@@ -43,6 +44,7 @@ set(LIBRARIES
     ProjectDeps_Lib
 )
 
+target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LIBRARIES})
 target_link_options(${PROJECT_NAME} PRIVATE /incremental /debug:fastlink)
 
