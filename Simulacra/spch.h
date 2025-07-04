@@ -5,12 +5,20 @@
 #include <sstream>
 #include <string>
 #include <filesystem>
+#include <memory>
+#include <functional>
+#include <thread>
+
 #include <algorithm>
 #include <map>
 #include <unordered_map>
 #include <unordered_set>
-#include <functional>
 #include <vector>
-#include <memory>
+
 #include <cstdint>
 #include <cmath>
+#include <cstdlib>
+
+#ifdef _WIN32
+#include <windows.h>
+#endif
