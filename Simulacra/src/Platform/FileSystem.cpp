@@ -1,18 +1,19 @@
 #include "FileSystem.h"
 
-#include "PlatformUtils.h"
+#include "spch.h"
+
 #include "../Core/Logger.h"
 
 namespace Simulacra
 {
-    struct FileManagerProps
+    struct FileSystemProps
     {
         std::filesystem::path WorkingDirectory;
     };
 
-    static FileManagerProps s_FileManager; 
+    static FileSystemProps s_FileManager; 
 
-    void StartFileSubsystem(std::filesystem::path path)
+    void StartFileSubsystem(const std::filesystem::path& path)
     {
         if (!path.empty())
             std::filesystem::current_path(path);
@@ -25,5 +26,17 @@ namespace Simulacra
     std::filesystem::path FormatFilepath(std::filesystem::path path)
     {
         return s_FileManager.WorkingDirectory /  path.make_preferred();
+    }
+
+    FileSystemAttr WatchDirectoryChanges(const std::filesystem::path &path)
+    {
+        FileSystemAttr attr = {0};
+        attr.SystemFileHandle = WatchWindowsDirectory(FormatFilepath(path));
+        return attr;
+    }
+
+    bool CheckDirectoryChanges(FileSystemAttr attr)
+    {
+        return CheckWindowsDirectoryChanges(attr.SystemFileHandle);
     }
 }
