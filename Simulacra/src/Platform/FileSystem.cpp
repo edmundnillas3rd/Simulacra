@@ -27,16 +27,4 @@ namespace Simulacra
     {
         return s_FileManager.WorkingDirectory /  path.make_preferred();
     }
-
-    FileSystemAttr WatchDirectoryChanges(const std::filesystem::path &path)
-    {
-        FileSystemAttr attr = {0};
-        attr.SystemFileHandle = WatchWindowsDirectory(FormatFilepath(path));
-        return attr;
-    }
-
-    bool CheckDirectoryChanges(FileSystemAttr attr)
-    {
-        return CheckWindowsDirectoryChanges(attr.SystemFileHandle);
-    }
 }

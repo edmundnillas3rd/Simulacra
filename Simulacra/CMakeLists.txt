@@ -8,7 +8,6 @@ set(SOURCE_FILES
     "src/Renderer/RendererAPI.cpp"
 
     "src/Platform/FileSystem.cpp" 
-    "src/Platform/Windows/WinFileSystem.cpp" 
     "src/Platform/OpenGL/OpenGLRenderer.cpp" 
     "src/Platform/OpenGL/OpenGLShader.cpp" 
     "src/Platform/OpenGL/OpenGLTexture.cpp" 
