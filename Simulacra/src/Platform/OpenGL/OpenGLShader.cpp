@@ -51,6 +51,19 @@ namespace Simulacra
 
     }
 
+    Shader ReloadShader(const Shader& shader, std::map<std::string, std::filesystem::path> paths)
+    {
+        Shader s;
+
+        glDeleteProgram(shader.ProgramID);
+        s = LoadShaders({
+            { "VERTEX",     paths["VERTEX"] },
+            { "FRAGMENT",   paths["FRAGMENT"] },
+        });
+
+        return s;
+    }
+
     void UseShader(const Shader& shader)
     {
         glUseProgram(shader.ProgramID);
