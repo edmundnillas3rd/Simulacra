@@ -108,47 +108,6 @@ namespace Simulacra
         glViewport(0, 0, props.Width, props.Height);
     
         SDL_SetWindowData(s_Window, "WindowData", &s_WindowPointerData);
-        SDL_SetEventFilter([](void* userdata, SDL_Event* event) -> int {
-            switch (event->type)
-            {
-            case SDL_MOUSEBUTTONDOWN:
-                {
-
-                }
-                break;
-            case SDL_MOUSEBUTTONUP:
-                {
-
-                }
-                break;
-            case SDL_KEYDOWN:
-                {
-                    auto* data = (WindowPointerData*)SDL_GetWindowData(s_Window, "WindowData");
-                    EventType type = EventType::KEY_PRESSED_DOWN;
-                    Event event = { "Key Down", type };
-                    data->WindowCallbackfn(event);
-                }
-                break;
-            case SDL_KEYUP:
-                {
-                    auto* data = (WindowPointerData*)SDL_GetWindowData(s_Window, "WindowData");
-                    EventType type = EventType::KEY_PRESSED_UP;
-                    Event event = { "Key Up", type };
-                    data->WindowCallbackfn(event);
-                }
-                break;
-            case SDL_QUIT:
-                {
-                    auto* data = (WindowPointerData*)SDL_GetWindowData(s_Window, "WindowData");
-                    EventType type = EventType::WINDOW_CLOSE;
-                    Event event = { "Quit", type };
-                    data->WindowCallbackfn(event);
-                } 
-                break;
-            }
-            return 1;
-        }, nullptr);
-
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -165,7 +124,46 @@ namespace Simulacra
     {
         SDL_Event event;
         while (SDL_PollEvent(&event) != 0)
+        {
             ImGui_ImplSDL2_ProcessEvent(&event);
+            switch (event.type)
+            {
+            case SDL_MOUSEBUTTONDOWN:
+                {
+
+                }
+                break;
+            case SDL_MOUSEBUTTONUP:
+                {
+
+                }
+                break;
+            case SDL_KEYDOWN:
+                {
+                    auto* data = (WindowPointerData*)SDL_GetWindowData(s_Window, "WindowData");
+                    EventType type = EventType::KEY_PRESSED_DOWN;
+                    Event e = { "Key Down", type, static_cast<VKEY>(event.key.keysym.scancode) };
+                    data->WindowCallbackfn(e);
+                }
+                break;
+            case SDL_KEYUP:
+                {
+                    auto* data = (WindowPointerData*)SDL_GetWindowData(s_Window, "WindowData");
+                    EventType type = EventType::KEY_PRESSED_UP;
+                    Event e = { "Key Up", type, static_cast<VKEY>(event.key.keysym.scancode) };
+                    data->WindowCallbackfn(e);
+                }
+                break;
+            case SDL_QUIT:
+                {
+                    auto* data = (WindowPointerData*)SDL_GetWindowData(s_Window, "WindowData");
+                    EventType type = EventType::WINDOW_CLOSE;
+                    Event e = { "Quit", type,  static_cast<VKEY>(0) };
+                    data->WindowCallbackfn(e);
+                } 
+                break;
+            }
+        }
     }
 
     void SDLImGuiBeginRender()
