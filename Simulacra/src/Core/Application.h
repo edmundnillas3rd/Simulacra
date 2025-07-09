@@ -27,6 +27,7 @@ namespace Simulacra
         virtual void OnStart() {};
         virtual void OnUpdate(float delta) {};
         virtual void OnImGuiRender() {};
+        virtual void OnEvent(Event event) {};
     private:
         void StartApplicationSubsystems();
         void ShutdownApplicationSubsystems();

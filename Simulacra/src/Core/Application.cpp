@@ -60,7 +60,10 @@ namespace Simulacra
         if (event.Type == EventType::WINDOW_CLOSE)
         {
             m_Running = false;
+            return;
         }
+
+        OnEvent(event);
     }
 
 }
