@@ -1,5 +1,7 @@
 #pragma once
 
+#include "KeyEvents.h"
+
 #include <string>
 #include <cstdint>
 
@@ -14,7 +16,8 @@ namespace Simulacra
 
     struct Event
     {
-        std::string UUID;
-        EventType Type;
+        std::string     UUID;
+        EventType       Type;
+        VKEY            Key;
     };
 };
