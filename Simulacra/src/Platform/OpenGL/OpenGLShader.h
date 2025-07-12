@@ -14,10 +14,12 @@ namespace Simulacra
     struct Shader
     {
         uint32_t ProgramID;
+
+        std::map<std::string, std::filesystem::path> Filepaths;
     };
 
     Shader LoadShaders(const std::map<std::string, std::filesystem::path>& paths);
-    Shader ReloadShader(const Shader& shader, std::map<std::string, std::filesystem::path> paths);
+    void ReloadShader(Shader& shader);
     void UseShader(const Shader& shader);
 
     void SetShaderIntUniform(const Shader& shader, const std::string& name, int value);

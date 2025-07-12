@@ -9,6 +9,9 @@
 
 namespace Simulacra
 {
+    static uint32_t CreateAndLinkShaderProgram(std::map<std::string, uint32_t> shaders);
+    static uint32_t CompileShader(const char* shaderSource, const std::string& shaderType);
+
     Shader LoadShaders(const std::map<std::string, std::filesystem::path>& paths)
     {
         Shader shader;
@@ -19,6 +22,8 @@ namespace Simulacra
 
         for (const auto& [key, value] : paths)
         {
+            shader.Filepaths[key] = value;
+
             fileStream.open(FormatFilepath(value), std::ios::in | std::ios::binary);
 
             shaderSS[key] << fileStream.rdbuf();
@@ -30,38 +35,50 @@ namespace Simulacra
         const char* vertexSource = shaderStr["VERTEX"].c_str();
         const char* fragmentSource = shaderStr["FRAGMENT"].c_str();
 
-        uint32_t vertex = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vertex, 1, &vertexSource, nullptr);
-        glCompileShader(vertex);
+        uint32_t vertex = CompileShader(vertexSource, "VERTEX");
+        uint32_t fragment = CompileShader(fragmentSource, "FRAGMENT");
 
-        uint32_t fragment = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fragment, 1, &fragmentSource, nullptr);
-        glCompileShader(fragment);
-
-        shader.ProgramID = glCreateProgram();
-
-        glAttachShader(shader.ProgramID, vertex);
-        glAttachShader(shader.ProgramID, fragment);
-        glLinkProgram(shader.ProgramID);
-
-        glDeleteShader(vertex);
-        glDeleteShader(fragment);
+        shader.ProgramID = CreateAndLinkShaderProgram({
+            { "VERTEX", vertex },
+            { "FRAGMENT", fragment }
+        });
 
         return shader;
 
     }
 
-    Shader ReloadShader(const Shader& shader, std::map<std::string, std::filesystem::path> paths)
+    uint32_t CompileShader(const char* shaderSource, const std::string& shaderType)
     {
-        Shader s;
+        uint32_t shader = 0;
+        if (shaderType == "VERTEX")                 shader = glCreateShader(GL_VERTEX_SHADER);
+        else if (shaderType == "FRAGMENT")          shader = glCreateShader(GL_FRAGMENT_SHADER);
+        glShaderSource(shader, 1, &shaderSource, nullptr);
+        glCompileShader(shader);
+        return shader;
+    }
 
-        glDeleteProgram(shader.ProgramID);
-        s = LoadShaders({
-            { "VERTEX",     paths["VERTEX"] },
-            { "FRAGMENT",   paths["FRAGMENT"] },
-        });
+    uint32_t CreateAndLinkShaderProgram(std::map<std::string, uint32_t> shaders)
+    {
+        uint32_t program = glCreateProgram();
+        glAttachShader(program, shaders["VERTEX"]);
+        glAttachShader(program, shaders["FRAGMENT"]);
+        glLinkProgram(program);
 
-        return s;
+        glDeleteShader(shaders["VERTEX"]);
+        glDeleteShader(shaders["FRAGMENT"]);
+
+        return program;
+    }
+
+    void ReloadShader(Shader& shader)
+    {
+        Shader reloadedShader = LoadShaders(shader.Filepaths);
+
+        if (reloadedShader.ProgramID)
+        {
+            glDeleteProgram(shader.ProgramID);
+            shader = reloadedShader;
+        }
     }
 
     void UseShader(const Shader& shader)
