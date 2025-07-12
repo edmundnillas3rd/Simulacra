@@ -32,7 +32,7 @@ namespace Simulacra
     template<typename... F>
     void ConsoleError(const std::string& msg, F... fmt)
     {
-        GetCoreLogger()->warn(msg, fmt...);
+        GetCoreLogger()->error(msg, fmt...);
     }
 
     // template<typename... F>
