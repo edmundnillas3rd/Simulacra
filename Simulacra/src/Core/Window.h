@@ -22,6 +22,7 @@ namespace Simulacra
 
     void PollWindowEvents();
     void UpdateWindow();
+    void MakeContextCurrent();
 
     void ImGuiBeginRender();
     void ImGuiEndRender();

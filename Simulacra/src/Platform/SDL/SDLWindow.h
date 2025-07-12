@@ -8,6 +8,7 @@ namespace Simulacra
 
     void SDLPollWindowEvents();
     void SDLUpdateWindow();
+    void SDLGLMakeContextCurrent();
 
     void SDLImGuiBeginRender();
     void SDLImGuiEndRender();

@@ -185,6 +185,17 @@ namespace Simulacra
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
+    void SDLGLMakeContextCurrent()
+    {
+        s_GLContext = SDL_GL_GetCurrentContext();
+        if (!s_GLContext)
+        {
+            ConsoleError("Failed to get the current context {}", SDL_GetError());
+            return; 
+        }
+        SDL_GL_MakeCurrent(s_Window, s_GLContext);
+    }
+
     void DestroyPlatformWindow()
     {
         ImGui_ImplOpenGL3_Shutdown();

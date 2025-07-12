@@ -27,6 +27,11 @@ namespace Simulacra
         SDLUpdateWindow();
     }
 
+    void MakeContextCurrent()
+    {
+        SDLGLMakeContextCurrent();
+    }
+
     void ImGuiBeginRender()
     {
         SDLImGuiBeginRender();
