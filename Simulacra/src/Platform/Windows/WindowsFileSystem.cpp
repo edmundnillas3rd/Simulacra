@@ -114,6 +114,8 @@ namespace Simulacra
             }
 
             Overlapped.hEvent = Event;
+
+            Sleep(5000);
         }
         while (keepRunning);
 
