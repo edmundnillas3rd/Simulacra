@@ -5,7 +5,7 @@ class Game : public Simulacra::Application
 {
 public:
     Game()
-        : m_WindowFlags(0)
+        : m_WindowFlags(0), m_Modified(false), m_Shaders({0})
     {
 
     }
@@ -15,6 +15,7 @@ public:
 
     }
 
+public:
     virtual void OnStart() override
     {
         m_WindowFlags |= ImGuiWindowFlags_MenuBar;
@@ -23,10 +24,20 @@ public:
             { "VERTEX",     "Sandbox/assets/shaders/main.vert" },
             { "FRAGMENT",   "Sandbox/assets/shaders/main.frag" }
         });
+
+        Simulacra::WatchDirectory("Sandbox/assets/shaders", [this](void) -> void {
+            m_Modified = true;
+        });
     }
 
     virtual void OnUpdate(float delta) override
     {
+        if (m_Modified)
+        {
+            Simulacra::ReloadShader(m_Shaders);
+            m_Modified = false;
+        }
+
         Simulacra::BeginRender(m_Shaders);
             Simulacra::DrawVertices();
         Simulacra::EndRender();
@@ -59,7 +70,16 @@ public:
         ImGui::End();
     }
 
+    virtual void OnEvent(Simulacra::Event event) override
+    {
+        if (event.Type == Simulacra::EventType::KEY_PRESSED_UP && event.Key == Simulacra::VKEY::SCANCODE_F5)
+        {
+            Simulacra::ReloadShader(m_Shaders);
+        }
+    }
+
 private:
+    bool m_Modified;
     ImGuiWindowFlags m_WindowFlags;
     Simulacra::Shader m_Shaders;
 
