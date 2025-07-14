@@ -5,19 +5,13 @@
 
 namespace Simulacra
 {
-    void WatchWindowsDirectory(const std::filesystem::path& path, const std::function<void(void)>& callback)
+    ObserveData CreateWindowsFileHandle(const std::filesystem::path& path)
     {
+        ObserveData data;
         HANDLE Handle;
         HANDLE Event;
-        OVERLAPPED Overlapped;
-        char Buffer[1024];
-
-        // std::filesystem::path formattedPath = FormatFilepath(path);
-        // std::wstring widestr = std::wstring(formattedPath.string().begin(), formattedPath.string().end());
-        // const wchar_t* widecstrPath = widestr.c_str();
 
         Handle = CreateFileW(
-            // widecstrPath,
             (wchar_t*)FormatFilepath(path).c_str(),
             FILE_LIST_DIRECTORY | GENERIC_READ,
             FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
@@ -30,31 +24,33 @@ namespace Simulacra
         if (Handle == INVALID_HANDLE_VALUE)
         {
             ConsoleError("Message: {}", GetLastError());
-            return;
+            return {0};
         }
 
         Event = CreateEvent(nullptr, TRUE, FALSE, nullptr);
-        Overlapped.hEvent = Event;
 
+        data.Event = Event;
+        data.Handle = Handle;
+
+        return data;
+    }
+
+    void WatchWindowsDirectory(const ObserveData& data, const std::function<void(void)>& callback)
+    {
         DWORD bytesReturned = 0;
-        ReadDirectoryChangesW(
-            Handle,
-            &Buffer,
-            sizeof(Buffer),
-            TRUE,
-            FILE_NOTIFY_CHANGE_LAST_WRITE,
-            &bytesReturned,
-            &Overlapped,
-            nullptr
-        );
-
+        OVERLAPPED Overlapped = {0};
+        char Buffer[1024 * 64];
         bool keepRunning = true;
         bool pending = false;
 
+        Overlapped.hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
+
+        HANDLE h[2] = { Overlapped.hEvent, data.Event };
+
         do
         {
-            keepRunning = ReadDirectoryChangesW(
-                Handle,
+            pending = ReadDirectoryChangesW(
+                data.Handle,
                 &Buffer,
                 sizeof(Buffer),
                 TRUE,
@@ -64,12 +60,11 @@ namespace Simulacra
                 nullptr
             );
 
-            HANDLE h[2] = { Overlapped.hEvent, Event };
 
             switch (WaitForMultipleObjects(2, h, FALSE, INFINITE))
             {
             case WAIT_OBJECT_0: {
-                if (GetOverlappedResult(Handle, &Overlapped, &bytesReturned, TRUE))
+                if (GetOverlappedResult(data.Handle, &Overlapped, &bytesReturned, TRUE))
                 {
                     pending = false;
 
@@ -113,18 +108,16 @@ namespace Simulacra
             } break;
             }
 
-            Overlapped.hEvent = Event;
-
-            Sleep(5000);
+            Overlapped.hEvent = data.Event;
         }
         while (keepRunning);
 
         if (pending)
         {
-            CancelIo(Handle);
-            GetOverlappedResult(Handle, &Overlapped, &bytesReturned, TRUE);
+            CancelIo(data.Handle);
+            GetOverlappedResult(data.Handle, &Overlapped, &bytesReturned, TRUE);
         }
 
-        CloseHandle(Handle);
+        CloseHandle(data.Handle);
     }
 }

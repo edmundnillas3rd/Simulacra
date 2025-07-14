@@ -29,9 +29,9 @@ namespace Simulacra
 
     void WatchDirectory(const std::filesystem::path& path, const std::function<void(void)>& callback)
     {
-        // s_FileManager.WorkingThreads.emplace_back(std::thread(WatchWindowsDirectory, std::cref(path), std::cref(callback)));
-        s_FileManager.WorkingThreads.emplace_back(std::thread([path, callback]() { 
-            WatchWindowsDirectory(path, callback);
+        ObserveData data = CreateWindowsFileHandle(path);
+        s_FileManager.WorkingThreads.emplace_back(std::thread([data, callback]() { 
+            WatchWindowsDirectory(data, callback);
         }));
         s_FileManager.WorkingThreads.back().detach();
     }

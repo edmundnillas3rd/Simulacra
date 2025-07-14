@@ -3,5 +3,12 @@
 
 namespace Simulacra
 {
-    void WatchWindowsDirectory(const std::filesystem::path& path, const std::function<void(void)>& callback);
+    struct ObserveData
+    {
+        HANDLE Handle;
+        HANDLE Event;
+    };
+
+    ObserveData CreateWindowsFileHandle(const std::filesystem::path& path);
+    void WatchWindowsDirectory(const ObserveData& data, const std::function<void(void)>& callback);
 }
