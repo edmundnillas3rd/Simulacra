@@ -64,12 +64,6 @@ Sandbox.exe # to run the program
 1. `CTRL + SHIFT + P` and search for `C/C++: Select IntelliSense Configuration`
 2. Select `Use CMake Tools` to fix the path errors in the project
 
-### Roadmap
-- [ ] Multi-threading
-- [ ] Networking
-- [ ] Profiler & Built-in Debugger 
-- [ ] Physics Engine
-
 # References
 
 ## Graphics
