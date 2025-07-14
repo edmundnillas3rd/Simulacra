@@ -38,14 +38,13 @@ namespace Simulacra
             UpdateWindow();
         }
 
-        JoinThreads();
-
         ShutdownApplicationSubsystems();
     }
 
     void Application::StartApplicationSubsystems()
     {
         StartLoggerSubsystem();
+        StartThreadsSubsystem();
         StartWindowSubsystem({ m_Props.Title.c_str(), m_Props.Width, m_Props.Height, std::bind(&Application::WindowCallbackfn, this, std::placeholders::_1) });
         StartFileSubsystem("../../..");
         StartRendererSubsystem(RendererEngine::OPENGL);
@@ -54,8 +53,10 @@ namespace Simulacra
     void Application::ShutdownApplicationSubsystems()
     {
         ShutdownRendererSubsystem();
-        ShutdownLoggerSubsystem();
+        ShutdownFileSubsystem();
         ShutdownWindowSubsystem();
+        ShutdownThreadsSubsystem();
+        ShutdownLoggerSubsystem();
     }
 
     void Application::WindowCallbackfn(Event event)
