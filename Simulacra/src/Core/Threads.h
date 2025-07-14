@@ -4,9 +4,15 @@
 
 namespace Simulacra
 {
+    extern std::vector<std::thread> e_WorkingThreads;
+
     void StartThreadsSubsystem();
     void ShutdownThreadsSubsystem();
-    void SubmitThread(const std::function<void(void)>& threadFunction);
-    void SubmitDetachThread(const std::function<void(void)>& detachThreadFunction);
+
+    template<typename F>
+    void SubmitThread(const F& threadFunction)
+    {
+        e_WorkingThreads.emplace_back(threadFunction);
+    }
     void WaitAllThreads();
 }

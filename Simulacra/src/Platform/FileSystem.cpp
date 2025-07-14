@@ -11,7 +11,6 @@ namespace Simulacra
 {
     struct FileSystemAttr
     {
-        std::vector<std::thread> WorkingThreads;
         ObserveData WatchData;
     };
 
