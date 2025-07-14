@@ -2,6 +2,7 @@
 
 #include "Logger.h"
 #include "Window.h"
+#include "Threads.h"
 
 #include "../Renderer/RendererAPI.h"
 #include "../Platform/FileSystem.h"
@@ -36,6 +37,8 @@ namespace Simulacra
 
             UpdateWindow();
         }
+
+        JoinThreads();
 
         ShutdownApplicationSubsystems();
     }
