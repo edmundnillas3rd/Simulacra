@@ -10,8 +10,6 @@ namespace Simulacra
 {
     struct FileSystemProps
     {
-        std::filesystem::path WorkingDirectory;
-
         std::vector<std::thread> WorkingThreads;
     };
 
@@ -22,9 +20,7 @@ namespace Simulacra
         if (!path.empty())
             std::filesystem::current_path(path);
 
-        s_FileManager.WorkingDirectory = std::filesystem::current_path();
-
-        ConsoleLog("Current Working Directory: {}", s_FileManager.WorkingDirectory.string());
+        ConsoleLog("Current Working Directory: {}", std::filesystem::current_path().make_preferred().string());
     }
 
     void WatchDirectory(const std::filesystem::path& path, const std::function<void(void)>& callback)
@@ -38,6 +34,6 @@ namespace Simulacra
 
     std::filesystem::path FormatFilepath(std::filesystem::path path)
     {
-        return s_FileManager.WorkingDirectory /  path.make_preferred();
+        return std::filesystem::current_path() /  path.make_preferred();
     }
 }
