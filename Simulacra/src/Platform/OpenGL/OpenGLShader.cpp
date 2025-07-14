@@ -2,8 +2,6 @@
 
 #include <glad/glad.h>
 
-#include <fstream>
-
 #include "../../Platform/FileSystem.h"
 #include "../../Core/Logger.h"
 
