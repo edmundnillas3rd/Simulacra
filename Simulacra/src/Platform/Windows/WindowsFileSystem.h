@@ -11,4 +11,5 @@ namespace Simulacra
 
     ObserveData CreateWindowsFileHandle(const std::filesystem::path& path);
     void WatchWindowsDirectory(const ObserveData& data, const std::function<void(void)>& callback);
+    void CloseWatchWindowsDirectory(const ObserveData& data);
 }

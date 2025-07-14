@@ -118,4 +118,9 @@ namespace Simulacra
 
         CloseHandle(Overlapped.hEvent);
     }
+
+    void CloseWatchWindowsDirectory(const ObserveData& data)
+    {
+        SetEvent(data.Event);
+    }
 }
