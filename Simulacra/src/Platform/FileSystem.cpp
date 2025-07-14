@@ -9,12 +9,13 @@
 
 namespace Simulacra
 {
-    struct FileSystemProps
+    struct FileSystemAttr
     {
         std::vector<std::thread> WorkingThreads;
+        ObserveData WatchData;
     };
 
-    static FileSystemProps s_FileManager; 
+    static FileSystemAttr s_FileSystemHandler; 
 
     void StartFileSubsystem(const std::filesystem::path& path)
     {
@@ -24,16 +25,24 @@ namespace Simulacra
         ConsoleLog("Current Working Directory: {}", std::filesystem::current_path().make_preferred().string());
     }
 
+    void ShutdownFileSubsystem()
+    {
+        CloseWatchWindowsDirectory(s_FileSystemHandler.WatchData);
+    }
+
     void WatchDirectory(const std::filesystem::path& path, const std::function<void(void)>& callback)
     {
         ObserveData data = CreateWindowsFileHandle(path);
-        SubmitDetachThread([data, callback]() { 
+
+        SubmitThread([data, callback]() { 
             WatchWindowsDirectory(data, callback);
         });
+
+        s_FileSystemHandler.WatchData = data;
     }
 
     std::filesystem::path FormatFilepath(std::filesystem::path path)
     {
-        return std::filesystem::current_path() /  path.make_preferred();
+        return (std::filesystem::current_path() /  path).make_preferred();
     }
 }
