@@ -7,7 +7,6 @@
 #include <glad/glad.h>
 #include <SDL2/SDL.h>
 
-#include "../../Core/Window.h"
 #include "../../Core/Logger.h"
 
 #include "../../Events/Event.h"
