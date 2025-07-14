@@ -38,7 +38,7 @@ namespace Simulacra
     void WatchWindowsDirectory(const ObserveData& data, const std::function<void(void)>& callback)
     {
         DWORD bytesReturned = 0;
-        OVERLAPPED Overlapped = {0};
+        OVERLAPPED Overlapped{0};
         char Buffer[1024 * 64];
         bool keepRunning = true;
         bool pending = false;
@@ -107,8 +107,6 @@ namespace Simulacra
                 ConsoleLog("In default");
             } break;
             }
-
-            Overlapped.hEvent = data.Event;
         }
         while (keepRunning);
 
@@ -118,6 +116,6 @@ namespace Simulacra
             GetOverlappedResult(data.Handle, &Overlapped, &bytesReturned, TRUE);
         }
 
-        CloseHandle(data.Handle);
+        CloseHandle(Overlapped.hEvent);
     }
 }

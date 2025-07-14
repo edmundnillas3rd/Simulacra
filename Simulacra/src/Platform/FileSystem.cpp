@@ -5,6 +5,7 @@
 #include "spch.h"
 
 #include "../Core/Logger.h"
+#include "../Core/Threads.h"
 
 namespace Simulacra
 {
@@ -26,10 +27,9 @@ namespace Simulacra
     void WatchDirectory(const std::filesystem::path& path, const std::function<void(void)>& callback)
     {
         ObserveData data = CreateWindowsFileHandle(path);
-        s_FileManager.WorkingThreads.emplace_back(std::thread([data, callback]() { 
+        SubmitDetachThread([data, callback]() { 
             WatchWindowsDirectory(data, callback);
-        }));
-        s_FileManager.WorkingThreads.back().detach();
+        });
     }
 
     std::filesystem::path FormatFilepath(std::filesystem::path path)
