@@ -4,6 +4,15 @@ namespace Simulacra
 {
     static std::vector<std::thread> s_WorkingThreads;
 
+    void StartThreadsSubsystem()
+    {
+    }
+
+    void ShutdownThreadsSubsystem()
+    {
+        WaitAllThreads();
+    }
+
     void SubmitThread(const std::function<void(void)> &threadFunction)
     {
         s_WorkingThreads.emplace_back(threadFunction);
@@ -15,7 +24,7 @@ namespace Simulacra
         s_WorkingThreads.back().detach();
     }
 
-    void JoinThreads()
+    void WaitAllThreads()
     {
         for (auto& t : s_WorkingThreads)
         {
