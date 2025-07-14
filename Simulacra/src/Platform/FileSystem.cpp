@@ -29,13 +29,11 @@ namespace Simulacra
         CloseWatchWindowsDirectory(s_FileSystemHandler.WatchData);
     }
 
-    void WatchDirectory(const std::filesystem::path& path, const std::function<void(void)>& callback)
+    void WatchDirectory(std::filesystem::path path, const std::function<void(void)>& callback)
     {
         ObserveData data = CreateWindowsFileHandle(path);
 
-        SubmitThread([data, callback]() { 
-            WatchWindowsDirectory(data, callback);
-        });
+        SubmitThread(std::thread(WatchWindowsDirectory, data, callback));
 
         s_FileSystemHandler.WatchData = data;
     }

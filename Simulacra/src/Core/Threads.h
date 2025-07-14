@@ -10,9 +10,9 @@ namespace Simulacra
     void ShutdownThreadsSubsystem();
 
     template<typename F>
-    void SubmitThread(const F& threadFunction)
+    void SubmitThread(F threadFunction)
     {
-        e_WorkingThreads.emplace_back(threadFunction);
+        e_WorkingThreads.emplace_back(std::move(threadFunction));
     }
     void WaitAllThreads();
 }
