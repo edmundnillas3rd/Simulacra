@@ -18,6 +18,7 @@
 #include <cstdint>
 #include <cmath>
 #include <cstdlib>
+#include <cassert>
 
 #ifdef _WIN32
 #include <windows.h>
