@@ -7,9 +7,7 @@ namespace Simulacra
 {
     void StartWindowSubsystem(const WindowProps& props)
     {
-    #ifdef _WIN32
         CreatePlatformWindow(props);
-    #endif
     }
 
     void ShutdownWindowSubsystem()
