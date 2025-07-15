@@ -68,39 +68,41 @@ namespace Simulacra
         glDebugMessageCallback([](GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char *message, const void *userParam) {
             if (id == 131169 || id == 131185 || id == 131218 || id == 131204) return;
 
-            ConsoleLog("ID: {}", id);
-            ConsoleLog("Message: {}", message);
+            std::string msg;
+            msg += "ID: " + std::to_string(id) + " ";
+            msg += "Message: " + std::string(message) + " ";
 
             switch (source)
             {
-                case GL_DEBUG_SOURCE_API:                               ConsoleLog("Source: API"); break;
-                case GL_DEBUG_SOURCE_WINDOW_SYSTEM:                     ConsoleLog("Source: Window System"); break;
-                case GL_DEBUG_SOURCE_SHADER_COMPILER:                   ConsoleLog("Source: Shader Compiler"); break;
-                case GL_DEBUG_SOURCE_THIRD_PARTY:                       ConsoleLog("Source: Third Party"); break;
-                case GL_DEBUG_SOURCE_APPLICATION:                       ConsoleLog("Source: Application"); break;
-                case GL_DEBUG_SOURCE_OTHER:                             ConsoleLog("Source: Other"); break;
+                case GL_DEBUG_SOURCE_API:                               msg += "Source: API"; break;
+                case GL_DEBUG_SOURCE_WINDOW_SYSTEM:                     msg += "Source: Window System"; break;
+                case GL_DEBUG_SOURCE_SHADER_COMPILER:                   msg += "Source: Shader Compiler"; break;
+                case GL_DEBUG_SOURCE_THIRD_PARTY:                       msg += "Source: Third Party"; break;
+                case GL_DEBUG_SOURCE_APPLICATION:                       msg += "Source: Application"; break;
+                case GL_DEBUG_SOURCE_OTHER:                             msg += "Source: Other"; break;
             }
 
             switch (type)
             {
-                case GL_DEBUG_TYPE_ERROR:                               ConsoleLog("Type: Error"); break;
-                case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:                 ConsoleLog("Type: Deprecated Behavior"); break;
-                case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:                  ConsoleLog("Type: Undefined Behavior"); break;
-                case GL_DEBUG_TYPE_PORTABILITY:                         ConsoleLog("Type: Portability"); break;
-                case GL_DEBUG_TYPE_PERFORMANCE:                         ConsoleLog("Type: Performance"); break;
-                case GL_DEBUG_TYPE_MARKER:                              ConsoleLog("Type: Marker"); break;
-                case GL_DEBUG_TYPE_PUSH_GROUP:                          ConsoleLog("Type: Push Group"); break;
-                case GL_DEBUG_TYPE_POP_GROUP:                           ConsoleLog("Type: Pop Group"); break;
-                case GL_DEBUG_TYPE_OTHER:                               ConsoleLog("Type: Other"); break;
+                case GL_DEBUG_TYPE_ERROR:                               msg += "Type: Error"; break;
+                case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:                 msg += "Type: Deprecated Behavior"; break;
+                case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:                  msg += "Type: Undefined Behavior"; break;
+                case GL_DEBUG_TYPE_PORTABILITY:                         msg += "Type: Portability"; break;
+                case GL_DEBUG_TYPE_PERFORMANCE:                         msg += "Type: Performance"; break;
+                case GL_DEBUG_TYPE_MARKER:                              msg += "Type: Marker"; break;
+                case GL_DEBUG_TYPE_PUSH_GROUP:                          msg += "Type: Push Group"; break;
+                case GL_DEBUG_TYPE_POP_GROUP:                           msg += "Type: Pop Group"; break;
+                case GL_DEBUG_TYPE_OTHER:                               msg += "Type: Other"; break;
             }
 
             switch (severity)
             {
-                case GL_DEBUG_SEVERITY_HIGH:                            ConsoleLog("Severity: High"); break;
-                case GL_DEBUG_SEVERITY_MEDIUM:                          ConsoleLog("Severity: Medium"); break;
-                case GL_DEBUG_SEVERITY_LOW:                             ConsoleLog("Severity: Low"); break;
-                case GL_DEBUG_SEVERITY_NOTIFICATION:                    ConsoleLog("Severity: Notification"); break;
+                case GL_DEBUG_SEVERITY_HIGH:                            ConsoleError("{}Severity: High", msg); break;
+                case GL_DEBUG_SEVERITY_MEDIUM:                          ConsoleWarn("{}Severity: Medium", msg); break;
+                case GL_DEBUG_SEVERITY_LOW:                             ConsoleDebug("{}Severity: Low", msg); break;
+                case GL_DEBUG_SEVERITY_NOTIFICATION:                    ConsoleLog("{}Severity: Notification", msg); break;
             }
+
         }, nullptr);
     
         glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
