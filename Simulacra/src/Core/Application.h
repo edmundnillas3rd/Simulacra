@@ -10,18 +10,20 @@ namespace Simulacra
     class Application
     {
     public:
-        struct ApplicationProps
+        struct ApplicationConfig
         {
-            std::string Title;
-            uint32_t Width;
-            uint32_t Height;
+            std::string                         Title;
 
+            uint32_t                            Width;
+            uint32_t                            Height;
+
+            std::filesystem::path               WorkingDirectory;
         };
     public:
         Application() = default;
         virtual ~Application() = default;
 
-        bool CreateApplication(const ApplicationProps& props);
+        bool CreateApplication(const ApplicationConfig& props);
         void RunApplication();
 
         virtual void OnStart() {};
@@ -35,7 +37,7 @@ namespace Simulacra
         void WindowCallbackfn(Event event);
 
     private:
-        ApplicationProps m_Props;
+        ApplicationConfig m_Props;
         bool m_Running;
     };
 }

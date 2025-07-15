@@ -88,7 +88,13 @@ private:
 int main()
 {
     Game game;
-    if (game.CreateApplication({"The titled game", 1280, 680}))
+    Simulacra::Application::ApplicationConfig config;
+    config.Title                                    = "Sandbox";
+    config.Width                                    = 1280;
+    config.Height                                   = 640;
+    config.WorkingDirectory                         = "../../..";
+
+    if (game.CreateApplication(config));
         game.RunApplication();
 
     return 0;
