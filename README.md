@@ -17,12 +17,12 @@ A in-house rendering engine for the playing around with ideas. Mostly used for g
 ## Conan 2.0
 ```console
 # conanfile.txt
-conan install . --output-folder=build --settings=build_type=Debug --build=missing
+conan install . --output-folder=build --build=missing
 
 # or
 
 # conanfile.py
-conan install . --settings=build_type=Debug --build=missing
+conan install . --build=missing
 
 ```
 
