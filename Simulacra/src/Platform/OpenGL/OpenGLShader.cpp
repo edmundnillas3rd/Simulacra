@@ -36,10 +36,15 @@ namespace Simulacra
         uint32_t vertex = CompileShader(vertexSource, "VERTEX");
         uint32_t fragment = CompileShader(fragmentSource, "FRAGMENT");
 
-        shader.ProgramID = CreateAndLinkShaderProgram({
-            { "VERTEX", vertex },
-            { "FRAGMENT", fragment }
-        });
+        uint32_t program = glCreateProgram();
+        glAttachShader(program, vertex);
+        glAttachShader(program, fragment);
+        glLinkProgram(program);
+
+        glDeleteShader(vertex);
+        glDeleteShader(fragment);
+
+        shader.ProgramID = program;
 
         return shader;
 
@@ -52,20 +57,20 @@ namespace Simulacra
         else if (shaderType == "FRAGMENT")          shader = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(shader, 1, &shaderSource, nullptr);
         glCompileShader(shader);
+
+        int compiled;
+        glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
+
+        if (compiled != GL_TRUE)
+        {
+            int length;
+            char msg[2048];
+            glGetShaderInfoLog(shader, 2048, &length, msg);
+            ConsoleError("Failed to copmile shader: {}", msg);
+            return 0;
+        }
+
         return shader;
-    }
-
-    uint32_t CreateAndLinkShaderProgram(std::map<std::string, uint32_t> shaders)
-    {
-        uint32_t program = glCreateProgram();
-        glAttachShader(program, shaders["VERTEX"]);
-        glAttachShader(program, shaders["FRAGMENT"]);
-        glLinkProgram(program);
-
-        glDeleteShader(shaders["VERTEX"]);
-        glDeleteShader(shaders["FRAGMENT"]);
-
-        return program;
     }
 
     void ReloadShader(Shader& shader)
