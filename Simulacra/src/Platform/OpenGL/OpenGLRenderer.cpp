@@ -7,10 +7,16 @@
 
 namespace Simulacra
 {
+    struct Sprite
+    {
+        glm::vec3 Position;
+    };
+
     struct GLRenderer
     {
-        uint32_t Buffer;
         uint32_t VertexArrayBuffer;
+        uint32_t Buffer;
+        uint32_t IndexBuffer;
 
         static constexpr uint32_t MAX_QUADS = 40000;
         static constexpr uint32_t MAX_VERTICES = MAX_QUADS * 4;
@@ -18,9 +24,13 @@ namespace Simulacra
         static constexpr uint32_t MAX_TEXTURE_SLOTS = 16;
 
         uint32_t QuadCount;
+        std::array<glm::vec4, 4> QuadPositions;
 
-        std::array<float, MAX_VERTICES> Quads;
+        uint32_t QuadIndicesCount;
+
+        std::array<Sprite, MAX_VERTICES> Quads;
         Shader SceneShader;
+
     };
 
     static GLRenderer s_Renderer;
@@ -34,10 +44,39 @@ namespace Simulacra
         glGenBuffers(1, &s_Renderer.Buffer);
         glBindBuffer(GL_ARRAY_BUFFER, s_Renderer.Buffer);
 
-        glBufferData(GL_ARRAY_BUFFER, GLRenderer::MAX_VERTICES * sizeof(float), nullptr, GL_DYNAMIC_DRAW);
+        glGenBuffers(1, &s_Renderer.IndexBuffer);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, s_Renderer.IndexBuffer);
+
+        glBufferData(GL_ARRAY_BUFFER, GLRenderer::MAX_VERTICES * sizeof(Sprite), nullptr, GL_DYNAMIC_DRAW);
+
+        s_Renderer.QuadIndicesCount = 0;
+
+        std::array<uint32_t, GLRenderer::MAX_INDICES> QuadIndices;
+        uint32_t offset = 0;
+        for (size_t i  = 0; i < GLRenderer::MAX_INDICES; i += 6)
+        {
+            QuadIndices[i + 0] = offset + 0;
+            QuadIndices[i + 1] = offset + 1;
+            QuadIndices[i + 2] = offset + 2;
+
+            QuadIndices[i + 3] = offset + 2;
+            QuadIndices[i + 4] = offset + 3;
+            QuadIndices[i + 5] = offset + 0;
+            offset += 4;
+        }
+
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, GLRenderer::MAX_INDICES, QuadIndices.data(), GL_STATIC_DRAW);
 
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Sprite), (void*)offsetof(Sprite, Position));
+
+        s_Renderer.QuadPositions = {
+            glm::vec4( 0.5f,  0.5f, 0.0f, 1.0f),
+            glm::vec4( 0.5f, -0.5f, 0.0f, 1.0f),
+            glm::vec4(-0.5f, -0.5f, 0.0f, 1.0f),
+            glm::vec4(-0.5f,  0.5f, 0.0f, 1.0f)
+        };
+
     }
 
     void DestroyOpenGLRenderer()
@@ -47,7 +86,9 @@ namespace Simulacra
     void BeginRender()
     {
         s_Renderer.QuadCount = 0;
-        s_Renderer.Quads.fill(0.0f);
+        s_Renderer.Quads.fill({});
+
+        s_Renderer.QuadIndicesCount = 0;
     }
 
     void BeginRender(const Shader& shader)
@@ -55,32 +96,31 @@ namespace Simulacra
         s_Renderer.SceneShader = shader;
 
         s_Renderer.QuadCount = 0;
-        s_Renderer.Quads.fill(0.0f);
+        s_Renderer.Quads.fill({});
+
+        s_Renderer.QuadIndicesCount = 0;
     }
 
     void EndRender()
     {
-        glBindVertexArray(s_Renderer.VertexArrayBuffer);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * s_Renderer.QuadCount, s_Renderer.Quads.data());
+        if (s_Renderer.QuadIndicesCount)
+        {
+            glBindVertexArray(s_Renderer.VertexArrayBuffer);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Sprite) * s_Renderer.QuadCount, s_Renderer.Quads.data());
 
-        UseShader(s_Renderer.SceneShader);
-        glDrawArrays(GL_TRIANGLES, 0, s_Renderer.QuadCount);
+            UseShader(s_Renderer.SceneShader);
+            glDrawElements(GL_TRIANGLES, s_Renderer.QuadIndicesCount, GL_UNSIGNED_INT, nullptr);
+        }
     }
 
-    void DrawVertices()
+    void DrawVertices(const glm::mat4& Transform)
     {
-        s_Renderer.Quads[s_Renderer.QuadCount + 0] =  0.0f;
-        s_Renderer.Quads[s_Renderer.QuadCount + 1] =  0.5f;
-        s_Renderer.Quads[s_Renderer.QuadCount + 2] =  0.0f;
+        for (size_t i = 0; i < 4; i++)
+        {
+            s_Renderer.Quads[s_Renderer.QuadCount + i].Position = Transform * s_Renderer.QuadPositions[i];
+        }
 
-        s_Renderer.Quads[s_Renderer.QuadCount + 3] =  0.5f;
-        s_Renderer.Quads[s_Renderer.QuadCount + 4] = -0.5f;
-        s_Renderer.Quads[s_Renderer.QuadCount + 5] =  0.0f;
-
-        s_Renderer.Quads[s_Renderer.QuadCount + 6] = -0.5f;
-        s_Renderer.Quads[s_Renderer.QuadCount + 7] = -0.5f;
-        s_Renderer.Quads[s_Renderer.QuadCount + 8] =  0.0f;
-
-        s_Renderer.QuadCount += 8;
+        s_Renderer.QuadCount += 4;
+        s_Renderer.QuadIndicesCount += 6;
     }
 }
