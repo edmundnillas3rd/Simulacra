@@ -6,10 +6,10 @@ set(SOURCE_FILES
     "src/Core/Logger.cpp"
     "src/Core/Window.cpp"
     "src/Core/Threads.cpp"
+
     "src/Renderer/RendererAPI.cpp"
 
     "src/Platform/FileSystem.cpp" 
-    "src/Platform/Windows/WindowsFileSystem.cpp" 
     "src/Platform/OpenGL/OpenGLRenderer.cpp" 
     "src/Platform/OpenGL/OpenGLShader.cpp" 
     "src/Platform/OpenGL/OpenGLTexture.cpp" 
@@ -25,10 +25,16 @@ if (SDL2_FOUND)
     set(SOURCE_FILES 
         ${SOURCE_FILES}
         "src/Platform/SDL/SDLWindow.cpp" 
-
     )
 else()
     message(ERROR "Platform not supported!")
+endif()
+
+if (${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+    set(SOURCE_FILES
+        ${SOURCE_FILES}
+        "src/Platform/Windows/WindowsFileSystem.cpp" 
+    )
 endif()
 
 add_library(
