@@ -1,4 +1,5 @@
 #include "SDLWindow.h"
+#include "../Window.h"
 
 #include <imgui.h>
 #include <imgui_impl_opengl3.h>
@@ -8,8 +9,8 @@
 #include <SDL2/SDL.h>
 
 #include "../../Core/Logger.h"
+#include "../../Core/WindowManager.h"
 
-#include "../../Events/Event.h"
 #include "../../Events/KeyEvents.h"
 #include "../../Events/MouseEvents.h"
 
@@ -17,19 +18,23 @@
 
 namespace Simulacra
 {
-    static SDL_Window* s_Window;
-    static SDL_GLContext s_GLContext;
-
     struct WindowPointerData
     {
         WindowProps::WindowEventCallbackfn WindowCallbackfn;
     };
 
-    static WindowPointerData s_WindowPointerData;
-
-    void CreatePlatformWindow(const WindowProps& props)
+    struct PlatformWindow
     {
-        s_Window = nullptr;
+        SDL_Window* Window;
+        SDL_GLContext GLContext;
+    };
+
+    static WindowPointerData s_WindowPointerData;
+    static PlatformWindow s_PlatformWindow;
+
+    void CreatePlatformWindow(const std::string& title, uint32_t width, uint32_t height, const std::function<void(Event)>& eventCallbackfn)
+    {
+        s_PlatformWindow.Window = nullptr;
 
         if (SDL_Init(SDL_INIT_VIDEO) < 0)
         {
@@ -50,15 +55,15 @@ namespace Simulacra
         flags |= SDL_WINDOW_RESIZABLE;
         flags |= SDL_WINDOW_OPENGL;
         
-        s_Window = SDL_CreateWindow(props.Title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, props.Width, props.Height, flags);
+        s_PlatformWindow.Window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
-        s_WindowPointerData.WindowCallbackfn = props.EventCallbackfn;
+        s_WindowPointerData.WindowCallbackfn = eventCallbackfn;
 
-        s_GLContext = SDL_GL_CreateContext(s_Window);
-        SDL_GL_MakeCurrent(s_Window, s_GLContext);
+        s_PlatformWindow.GLContext = SDL_GL_CreateContext(s_PlatformWindow.Window);
+        SDL_GL_MakeCurrent(s_PlatformWindow.Window, s_PlatformWindow.GLContext);
         SDL_GL_SetSwapInterval(1);
 
-        if (!s_GLContext)
+        if (!s_PlatformWindow.GLContext)
             return;
 
         gladLoadGLLoader(SDL_GL_GetProcAddress);
@@ -106,9 +111,9 @@ namespace Simulacra
         }, nullptr);
     
         glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
-        glViewport(0, 0, props.Width, props.Height);
+        glViewport(0, 0, width, height);
     
-        SDL_SetWindowData(s_Window, "WindowData", &s_WindowPointerData);
+        SDL_SetWindowData(s_PlatformWindow.Window, "WindowData", &s_WindowPointerData);
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -117,11 +122,20 @@ namespace Simulacra
 
         ImGui::StyleColorsDark();
 
-        ImGui_ImplSDL2_InitForOpenGL(s_Window, s_GLContext);
+        ImGui_ImplSDL2_InitForOpenGL(s_PlatformWindow.Window, s_PlatformWindow.GLContext);
         ImGui_ImplOpenGL3_Init("#version 460");
     }
 
-    void SDLPollWindowEvents()
+    void DestroyPlatformWindow()
+    {
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplSDL2_Shutdown();
+        ImGui::DestroyContext();
+
+        SDL_DestroyWindow(s_PlatformWindow.Window);
+    }
+
+    void PollWindowEvents()
     {
         SDL_Event event;
         while (SDL_PollEvent(&event) != 0)
@@ -141,7 +155,7 @@ namespace Simulacra
                 break;
             case SDL_KEYDOWN:
                 {
-                    auto* data = (WindowPointerData*)SDL_GetWindowData(s_Window, "WindowData");
+                    auto* data = (WindowPointerData*)SDL_GetWindowData(s_PlatformWindow.Window, "WindowData");
                     EventType type = EventType::KEY_PRESSED_DOWN;
                     Event e = { "Key Down", type, static_cast<VKEY>(event.key.keysym.scancode) };
                     data->WindowCallbackfn(e);
@@ -149,7 +163,7 @@ namespace Simulacra
                 break;
             case SDL_KEYUP:
                 {
-                    auto* data = (WindowPointerData*)SDL_GetWindowData(s_Window, "WindowData");
+                    auto* data = (WindowPointerData*)SDL_GetWindowData(s_PlatformWindow.Window, "WindowData");
                     EventType type = EventType::KEY_PRESSED_UP;
                     Event e = { "Key Up", type, static_cast<VKEY>(event.key.keysym.scancode) };
                     data->WindowCallbackfn(e);
@@ -157,7 +171,7 @@ namespace Simulacra
                 break;
             case SDL_QUIT:
                 {
-                    auto* data = (WindowPointerData*)SDL_GetWindowData(s_Window, "WindowData");
+                    auto* data = (WindowPointerData*)SDL_GetWindowData(s_PlatformWindow.Window, "WindowData");
                     EventType type = EventType::WINDOW_CLOSE;
                     Event e = { "Quit", type,  static_cast<VKEY>(0) };
                     data->WindowCallbackfn(e);
@@ -167,42 +181,33 @@ namespace Simulacra
         }
     }
 
-    void SDLImGuiBeginRender()
+    void ImGuiBeginRender()
     {
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
     }
 
-    void SDLImGuiEndRender()
+    void ImGuiEndRender()
     {
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
-    void SDLUpdateWindow()
+    void UpdateWindow()
     {
-        SDL_GL_SwapWindow(s_Window);
+        SDL_GL_SwapWindow(s_PlatformWindow.Window);
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
-    void SDLGLMakeContextCurrent()
+    void GLMakeContextCurrent()
     {
-        s_GLContext = SDL_GL_GetCurrentContext();
-        if (!s_GLContext)
+        s_PlatformWindow.GLContext = SDL_GL_GetCurrentContext();
+        if (!s_PlatformWindow.GLContext)
         {
             ConsoleError("Failed to get the current context {}", SDL_GetError());
             return; 
         }
-        SDL_GL_MakeCurrent(s_Window, s_GLContext);
-    }
-
-    void DestroyPlatformWindow()
-    {
-        ImGui_ImplOpenGL3_Shutdown();
-        ImGui_ImplSDL2_Shutdown();
-        ImGui::DestroyContext();
-
-        SDL_DestroyWindow(s_Window);
+        SDL_GL_MakeCurrent(s_PlatformWindow.Window, s_PlatformWindow.GLContext);
     }
 }

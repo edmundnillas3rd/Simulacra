@@ -4,7 +4,7 @@ project(Simulacra)
 set(SOURCE_FILES 
     "src/Core/Application.cpp"
     "src/Core/Logger.cpp"
-    "src/Core/Window.cpp"
+    "src/Core/WindowManager.cpp"
     "src/Core/Threads.cpp"
 
     "src/Renderer/RendererAPI.cpp"

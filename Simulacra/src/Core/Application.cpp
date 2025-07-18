@@ -1,12 +1,13 @@
 #include "Application.h"
 
 #include "Logger.h"
-#include "Window.h"
+#include "WindowManager.h"
 #include "Threads.h"
 
 #include "../Renderer/RendererAPI.h"
 #include "../Platform/FileSystem.h"
 #include "../Platform/OpenGL/OpenGLShader.h"
+#include "../Platform/Window.h"
 
 namespace Simulacra
 {

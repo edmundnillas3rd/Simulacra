@@ -20,10 +20,4 @@ namespace Simulacra
     void StartWindowSubsystem(const WindowProps& props);
     void ShutdownWindowSubsystem();
 
-    void PollWindowEvents();
-    void UpdateWindow();
-    void MakeContextCurrent();
-
-    void ImGuiBeginRender();
-    void ImGuiEndRender();
 }
