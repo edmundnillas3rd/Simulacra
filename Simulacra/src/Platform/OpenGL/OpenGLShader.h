@@ -16,7 +16,7 @@ namespace Simulacra
     };
 
     Shader LoadShaders(const std::map<std::string, std::filesystem::path>& paths);
-    void ReloadShader(Shader& shader);
+    Shader ReloadShader(Shader& shader);
     void UseShader(const Shader& shader);
 
     void SetShaderIntUniform(const Shader& shader, const std::string& name, int value);

@@ -73,14 +73,14 @@ namespace Simulacra
         return shader;
     }
 
-    void ReloadShader(Shader& shader)
+    Shader ReloadShader(Shader& shader)
     {
         Shader reloadedShader = LoadShaders(shader.Filepaths);
 
         if (reloadedShader.ProgramID)
         {
             glDeleteProgram(shader.ProgramID);
-            shader = reloadedShader;
+            return reloadedShader;
         }
     }
 
