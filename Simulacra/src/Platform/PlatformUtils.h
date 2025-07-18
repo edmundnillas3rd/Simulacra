@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef _WIN32
+#ifdef SIMULACRA_WINDOWS
 
 #ifdef _DEBUG
 #define AddBreakpoint() DebugBreak()

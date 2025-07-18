@@ -21,11 +21,13 @@ find_package(SDL2   CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(glm    CONFIG REQUIRED)
 
+
 if (SDL2_FOUND)
     set(SOURCE_FILES 
         ${SOURCE_FILES}
         "src/Platform/SDL/SDLWindow.cpp" 
     )
+    list(APPEND SIMULACRA_DEFINITIONS SIMULACRA_SDL)
 else()
     message(ERROR "Platform not supported!")
 endif()
@@ -35,12 +37,14 @@ if (${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
         ${SOURCE_FILES}
         "src/Platform/Windows/WindowsFileSystem.cpp" 
     )
+    list(APPEND SIMULACRA_DEFINITIONS SIMULACRA_WINDOWS)
 endif()
 
 add_library(
     ${PROJECT_NAME} STATIC
     ${SOURCE_FILES}
 )
+
 
 set(LIBRARIES
     SDL2::SDL2
@@ -57,6 +61,7 @@ target_link_options(${PROJECT_NAME} PRIVATE /incremental /debug:fastlink)
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 target_compile_options(${PROJECT_NAME} PRIVATE /MP4)
+target_compile_definitions(${PROJECT_NAME} PRIVATE ${SIMULACRA_DEFINITIONS})
 
 target_precompile_headers(
     ${PROJECT_NAME}
