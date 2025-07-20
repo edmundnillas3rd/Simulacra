@@ -15,8 +15,6 @@ namespace Simulacra
 
         SIMULACRA_ASSERT(context != nullptr, "Failed to create opengl context");
 
-        SDL_GL_MakeCurrent(currentWindow, context);
-
         return context;
     }
 
