@@ -26,6 +26,7 @@ if (SDL2_FOUND)
     set(SOURCE_FILES 
         ${SOURCE_FILES}
         "src/Platform/SDL/SDLWindow.cpp" 
+        "src/Platform/SDL/SDLOpenGLContext.cpp" 
     )
     list(APPEND SIMULACRA_DEFINITIONS SIMULACRA_SDL)
 else()

@@ -8,4 +8,6 @@
 #define AddBreakpoint()
 #endif
 
+#define SIMULACRA_ASSERT(exp, msg) assert((void(msg), exp))
+
 #endif

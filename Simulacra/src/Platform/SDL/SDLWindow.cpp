@@ -14,6 +14,7 @@
 #include "../../Events/KeyEvents.h"
 #include "../../Events/MouseEvents.h"
 
+#include "../GraphicsContext.h"
 #include "../PlatformUtils.h"
 
 namespace Simulacra
@@ -59,12 +60,10 @@ namespace Simulacra
 
         s_WindowPointerData.WindowCallbackfn = eventCallbackfn;
 
-        s_PlatformWindow.GLContext = SDL_GL_CreateContext(s_PlatformWindow.Window);
-        SDL_GL_MakeCurrent(s_PlatformWindow.Window, s_PlatformWindow.GLContext);
-        SDL_GL_SetSwapInterval(1);
+        s_PlatformWindow.GLContext = CreateGraphicsContext(s_PlatformWindow.Window);
+        MakeContextCurrent(s_PlatformWindow.Window, s_PlatformWindow.GLContext);
 
-        if (!s_PlatformWindow.GLContext)
-            return;
+        SDL_GL_SetSwapInterval(1);
 
         gladLoadGLLoader(SDL_GL_GetProcAddress);
 
