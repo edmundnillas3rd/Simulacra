@@ -39,8 +39,8 @@ namespace Simulacra
 
         if (SDL_Init(SDL_INIT_VIDEO) < 0)
         {
-            ConsoleError("Failed to initialized SDL");
-            ConsoleError("SDL ERROR: {}", SDL_GetError());
+            SIMULACRA_ERROR("Failed to initialized SDL");
+            SIMULACRA_ERROR("SDL ERROR: {}", SDL_GetError());
             return;
         }
 
@@ -101,10 +101,10 @@ namespace Simulacra
 
             switch (severity)
             {
-                case GL_DEBUG_SEVERITY_HIGH:                            ConsoleError("{}Severity: High", msg); break;
-                case GL_DEBUG_SEVERITY_MEDIUM:                          ConsoleWarn("{}Severity: Medium", msg); break;
-                case GL_DEBUG_SEVERITY_LOW:                             ConsoleDebug("{}Severity: Low", msg); break;
-                case GL_DEBUG_SEVERITY_NOTIFICATION:                    ConsoleLog("{}Severity: Notification", msg); break;
+                case GL_DEBUG_SEVERITY_HIGH:                            SIMULACRA_ERROR("{}Severity: High", msg); break;
+                case GL_DEBUG_SEVERITY_MEDIUM:                          SIMULACRA_WARN("{}Severity: Medium", msg); break;
+                case GL_DEBUG_SEVERITY_LOW:                             SIMULACRA_DEBUG("{}Severity: Low", msg); break;
+                case GL_DEBUG_SEVERITY_NOTIFICATION:                    SIMULACRA_LOG("{}Severity: Notification", msg); break;
             }
 
         }, nullptr);
@@ -204,7 +204,7 @@ namespace Simulacra
         s_PlatformWindow.GLContext = SDL_GL_GetCurrentContext();
         if (!s_PlatformWindow.GLContext)
         {
-            ConsoleError("Failed to get the current context {}", SDL_GetError());
+            SIMULACRA_ERROR("Failed to get the current context {}", SDL_GetError());
             return; 
         }
         SDL_GL_MakeCurrent(s_PlatformWindow.Window, s_PlatformWindow.GLContext);

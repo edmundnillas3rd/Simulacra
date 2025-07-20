@@ -21,7 +21,7 @@ namespace Simulacra
         if (!path.empty())
             std::filesystem::current_path(path);
 
-        ConsoleLog("Current Working Directory: {}", std::filesystem::current_path().make_preferred().string());
+        SIMULACRA_LOG("Current Working Directory: {}", std::filesystem::current_path().make_preferred().string());
     }
 
     void ShutdownFileSubsystem()

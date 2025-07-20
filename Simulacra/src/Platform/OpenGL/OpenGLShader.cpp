@@ -66,7 +66,7 @@ namespace Simulacra
             int length;
             char msg[2048];
             glGetShaderInfoLog(shader, 2048, &length, msg);
-            ConsoleError("Failed to copmile shader: {}", msg);
+            SIMULACRA_ERROR("Failed to copmile shader: {}", msg);
             return 0;
         }
 

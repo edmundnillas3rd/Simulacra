@@ -23,7 +23,7 @@ namespace Simulacra
 
         if (Handle == INVALID_HANDLE_VALUE)
         {
-            ConsoleError("Message: {}", GetLastError());
+            SIMULACRA_ERROR("Message: {}", GetLastError());
             return {0};
         }
 
@@ -88,23 +88,23 @@ namespace Simulacra
                 }
                 else
                 {
-                    ConsoleError("GetOverlappedResults failed, Message: {}", GetLastError());
+                    SIMULACRA_ERROR("GetOverlappedResults failed, Message: {}", GetLastError());
                 }
             } break;
             case WAIT_OBJECT_0 + 1: {
                 keepRunning = false;
             } break;
             case WAIT_TIMEOUT: {
-                ConsoleLog("In Timeout");
+                SIMULACRA_LOG("In Timeout");
             } break;
             case WAIT_FAILED: {
-                ConsoleError("WAIT_FAILED Message: {}", GetLastError());
+                SIMULACRA_ERROR("WAIT_FAILED Message: {}", GetLastError());
             } break;
             case WAIT_ABANDONED: {
-                ConsoleError("WAIT_ABANDONED Message: {}", GetLastError());
+                SIMULACRA_ERROR("WAIT_ABANDONED Message: {}", GetLastError());
             } break;
             default: {
-                ConsoleLog("In default");
+                SIMULACRA_ERROR("In default");
             } break;
             }
         }
