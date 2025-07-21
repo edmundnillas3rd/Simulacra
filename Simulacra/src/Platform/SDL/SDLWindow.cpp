@@ -198,15 +198,4 @@ namespace Simulacra
         SDL_GL_SwapWindow(s_PlatformWindow.Window);
         glClear(GL_COLOR_BUFFER_BIT);
     }
-
-    void GLMakeContextCurrent()
-    {
-        s_PlatformWindow.GLContext = SDL_GL_GetCurrentContext();
-        if (!s_PlatformWindow.GLContext)
-        {
-            SIMULACRA_ERROR("Failed to get the current context {}", SDL_GetError());
-            return; 
-        }
-        SDL_GL_MakeCurrent(s_PlatformWindow.Window, s_PlatformWindow.GLContext);
-    }
 }
