@@ -11,14 +11,13 @@
 
 namespace Simulacra
 {
-    bool Application::Create(const ApplicationConfig& props)
+    bool Application::Create(const std::optional<Config>& config)
     {
-        const auto& [Title, Width, Height, WorkingDirectory] = props;
-        m_Props.Title                       = Title;
-        m_Props.Width                       = Width;
-        m_Props.Height                      = Height;
-        m_Props.WorkingDirectory            = WorkingDirectory;
-        m_Running                           = true;
+        if (!config.has_value())
+            return false;
+
+        m_Config    = config.value();
+        m_Running   = true;
 
         return true;
     }
@@ -48,8 +47,8 @@ namespace Simulacra
     {
         StartLoggerSubsystem();
         StartThreadsSubsystem();
-        StartWindowSubsystem({ m_Props.Title.c_str(), m_Props.Width, m_Props.Height, std::bind(&Application::WindowCallbackfn, this, std::placeholders::_1) });
-        StartFileSubsystem(m_Props.WorkingDirectory);
+        StartWindowSubsystem({ m_Config.Title.c_str(), m_Config.Width, m_Config.Height, std::bind(&Application::WindowCallbackfn, this, std::placeholders::_1) });
+        StartFileSubsystem(m_Config.WorkingDirectory);
         StartRendererSubsystem(RendererEngine::OPENGL);
     }
 

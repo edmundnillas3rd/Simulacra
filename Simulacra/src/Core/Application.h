@@ -10,7 +10,7 @@ namespace Simulacra
     class Application
     {
     public:
-        struct ApplicationConfig
+        struct Config
         {
             std::string                         Title;
 
@@ -23,7 +23,7 @@ namespace Simulacra
         Application() = default;
         virtual ~Application() = default;
 
-        bool Create(const ApplicationConfig& props);
+        bool Create(const std::optional<Config>& config);
         void Run();
 
         virtual void OnStart() {};
@@ -37,7 +37,7 @@ namespace Simulacra
         void WindowCallbackfn(Event event);
 
     private:
-        ApplicationConfig m_Props;
+        Config m_Config;
         bool m_Running;
     };
 }
