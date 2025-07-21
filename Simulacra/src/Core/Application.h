@@ -23,16 +23,16 @@ namespace Simulacra
         Application() = default;
         virtual ~Application() = default;
 
-        bool CreateApplication(const ApplicationConfig& props);
-        void RunApplication();
+        bool Create(const ApplicationConfig& props);
+        void Run();
 
         virtual void OnStart() {};
         virtual void OnUpdate(float delta) {};
         virtual void OnImGuiRender() {};
         virtual void OnEvent(Event event) {};
     private:
-        void StartApplicationSubsystems();
-        void ShutdownApplicationSubsystems();
+        void StartSubsystems();
+        void ShutdownSubsystems();
 
         void WindowCallbackfn(Event event);
 

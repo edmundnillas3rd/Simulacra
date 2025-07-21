@@ -11,7 +11,7 @@
 
 namespace Simulacra
 {
-    bool Application::CreateApplication(const ApplicationConfig& props)
+    bool Application::Create(const ApplicationConfig& props)
     {
         const auto& [Title, Width, Height, WorkingDirectory] = props;
         m_Props.Title                       = Title;
@@ -23,9 +23,9 @@ namespace Simulacra
         return true;
     }
 
-    void Application::RunApplication()
+    void Application::Run()
     {
-        StartApplicationSubsystems();
+        StartSubsystems();
 
         OnStart();
 
@@ -41,10 +41,10 @@ namespace Simulacra
             UpdateWindow();
         }
 
-        ShutdownApplicationSubsystems();
+        ShutdownSubsystems();
     }
 
-    void Application::StartApplicationSubsystems()
+    void Application::StartSubsystems()
     {
         StartLoggerSubsystem();
         StartThreadsSubsystem();
@@ -53,7 +53,7 @@ namespace Simulacra
         StartRendererSubsystem(RendererEngine::OPENGL);
     }
 
-    void Application::ShutdownApplicationSubsystems()
+    void Application::ShutdownSubsystems()
     {
         ShutdownRendererSubsystem();
         ShutdownFileSubsystem();
