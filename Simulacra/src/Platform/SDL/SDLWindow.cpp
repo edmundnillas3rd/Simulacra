@@ -1,5 +1,4 @@
 #include "SDLWindow.h"
-#include "../Window.h"
 
 #include <imgui.h>
 #include <imgui_impl_opengl3.h>
@@ -9,11 +8,11 @@
 #include <SDL2/SDL.h>
 
 #include "../../Core/Logger.h"
-#include "../../Core/WindowManager.h"
 
 #include "../../Events/KeyEvents.h"
 #include "../../Events/MouseEvents.h"
 
+#include "../Window.h"
 #include "../GraphicsContext.h"
 #include "../PlatformUtils.h"
 

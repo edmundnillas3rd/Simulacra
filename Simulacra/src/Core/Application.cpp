@@ -1,7 +1,6 @@
 #include "Application.h"
 
 #include "Logger.h"
-#include "WindowManager.h"
 #include "Threads.h"
 
 #include "../Renderer/RendererAPI.h"

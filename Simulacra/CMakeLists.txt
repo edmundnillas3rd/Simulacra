@@ -4,12 +4,12 @@ project(Simulacra)
 set(SOURCE_FILES 
     "src/Core/Application.cpp"
     "src/Core/Logger.cpp"
-    "src/Core/WindowManager.cpp"
     "src/Core/Threads.cpp"
 
     "src/Renderer/RendererAPI.cpp"
 
     "src/Platform/FileSystem.cpp" 
+    "src/Platform/Window.cpp"
     "src/Platform/OpenGL/OpenGLRenderer.cpp" 
     "src/Platform/OpenGL/OpenGLShader.cpp" 
     "src/Platform/OpenGL/OpenGLTexture.cpp" 
