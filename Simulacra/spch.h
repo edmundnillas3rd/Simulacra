@@ -8,6 +8,7 @@
 #include <memory>
 #include <functional>
 #include <thread>
+#include <optional>
 
 #include <algorithm>
 #include <map>
