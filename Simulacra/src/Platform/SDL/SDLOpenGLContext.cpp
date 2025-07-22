@@ -1,14 +1,11 @@
-#include "../GraphicsContext.h"
-#include <SDL2/SDL.h>
-#include <glad/glad.h>
+#include "SDLOpenGLContext.h"
 
 #include "../PlatformUtils.h"
-#include "../GraphicsContext.h"
 #include "spch.h"
 
 namespace Simulacra
 {
-    void* CreateGraphicsContext(void* window)
+    void* CreateGraphicsContext(SDL_Window* window)
     {
         SDL_Window* currentWindow = static_cast<SDL_Window*>(window);
         SDL_GLContext context = SDL_GL_CreateContext(currentWindow);
@@ -18,8 +15,8 @@ namespace Simulacra
         return context;
     }
 
-    void MakeContextCurrent(void* window, GraphicsContext context)
+    void MakeContextCurrent(SDL_Window* window, SDL_GLContext context)
     {
-        SDL_GL_MakeCurrent(static_cast<SDL_Window*>(window), context);
+        SDL_GL_MakeCurrent(window, context);
     }
 }
