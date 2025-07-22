@@ -13,10 +13,10 @@ namespace Simulacra
     {
         std::vector<spdlog::sink_ptr> s_Sinks;
         s_Sinks.emplace_back(std::make_shared<spdlog::sinks::stdout_color_sink_mt>());
-        s_Sinks.emplace_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>("SimulacraEngine.log", true));
+        // s_Sinks.emplace_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>("SimulacraEngine.log", true));
 
         s_Sinks[0]->set_pattern("%n %l %v");
-        s_Sinks[1]->set_pattern("%n %l %v");
+        // s_Sinks[1]->set_pattern("%n %l %v");
 
         s_EngineCoutLogger = std::make_shared<spdlog::logger>("SIMULACRA", std::begin(s_Sinks), std::end(s_Sinks));
         spdlog::register_logger(s_EngineCoutLogger);
