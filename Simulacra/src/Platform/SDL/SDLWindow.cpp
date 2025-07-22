@@ -38,8 +38,7 @@ namespace Simulacra
 
         if (SDL_Init(SDL_INIT_VIDEO) < 0)
         {
-            SIMULACRA_ERROR("Failed to initialized SDL");
-            SIMULACRA_ERROR("SDL ERROR: {}", SDL_GetError());
+            SIMULACRA_ERROR("Failed to initialized SDL: {}", SDL_GetError());
             return;
         }
 
