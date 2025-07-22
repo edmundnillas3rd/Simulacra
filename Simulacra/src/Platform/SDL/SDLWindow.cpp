@@ -21,13 +21,13 @@ namespace Simulacra
 {
     struct WindowPointerData
     {
-        WindowProps::WindowEventCallbackfn WindowCallbackfn;
+        WindowProps::WindowEventCallbackfn WindowCallbackfn = nullptr;
     };
 
     struct PlatformWindow
     {
-        SDL_Window* Window;
-        SDL_GLContext GLContext;
+        SDL_Window* Window = nullptr;
+        SDL_GLContext GLContext = nullptr;
     };
 
     static WindowPointerData s_WindowPointerData;
