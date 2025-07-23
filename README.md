@@ -1,6 +1,6 @@
 # Simulacra
 
-A in-house rendering engine for the playing around with ideas. Mostly used for game development, visualizing data, and algorithms.
+An in-house rendering engine for playing around with ideas. Mostly used for game development, visualizing data, and algorithms.
 
 ![Demo](Sandbox/assets/images/demo-1.jpg)
 
