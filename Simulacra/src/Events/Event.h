@@ -9,7 +9,7 @@ namespace Simulacra
 {
     enum class EventType : uint32_t
     {
-        WINDOW_CLOSE, WINDOW_RESIZE,
+        WINDOW_CLOSE, WINDOW_RESIZE, WINDOW_MINIMIZE,
         KEY_PRESSED_UP, KEY_PRESSED_DOWN,
         MOUSE_MOTION, MOUSE_PRESSED_DOWN, MOUSE_PRESSED_UP,
     };

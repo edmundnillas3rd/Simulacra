@@ -141,6 +141,14 @@ namespace Simulacra
             ImGui_ImplSDL2_ProcessEvent(&event);
             switch (event.type)
             {
+            case SDL_WINDOWEVENT:
+                {
+                    auto* data = (WindowPointerData*)SDL_GetWindowData(s_PlatformWindow.Window, "WindowData");
+                    EventType type = EventType::WINDOW_MINIMIZE;
+                    Event e = { "Minimize", type, static_cast<VKEY>(0) };
+                    data->WindowCallbackfn(e);
+                }
+                break;
             case SDL_MOUSEBUTTONDOWN:
                 {
 

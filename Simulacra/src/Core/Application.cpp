@@ -29,14 +29,18 @@ namespace Simulacra
 
         while (m_Running)
         {
-            PollWindowEvents();
-            OnUpdate(0.5f);
+            if (m_Minimize)
+            {
+                PollWindowEvents();
 
-            ImGuiBeginRender();
-                OnImGuiRender();
-            ImGuiEndRender();
+                OnUpdate(0.5f);
 
-            UpdateWindow();
+                ImGuiBeginRender();
+                    OnImGuiRender();
+                ImGuiEndRender();
+
+                UpdateWindow();
+            }
         }
 
         ShutdownSubsystems();
@@ -62,6 +66,8 @@ namespace Simulacra
 
     void Application::WindowCallbackfn(Event event)
     {
+        m_Minimize = event.Type == EventType::WINDOW_MINIMIZE;
+
         if (event.Type == EventType::WINDOW_CLOSE)
         {
             m_Running = false;
