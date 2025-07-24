@@ -29,7 +29,7 @@ namespace Simulacra
         spdlog::shutdown();
     }
 
-    std::shared_ptr<spdlog::logger>& GetCoreLogger()
+    const std::shared_ptr<spdlog::logger>& GetCoreLogger()
     {
         return s_EngineCoutLogger;
     }
