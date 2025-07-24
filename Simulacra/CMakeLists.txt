@@ -15,12 +15,11 @@ set(SOURCE_FILES
     "src/Platform/OpenGL/OpenGLTexture.cpp" 
 )
 
-add_subdirectory("vendor")
-
 find_package(SDL2   CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(glm    CONFIG REQUIRED)
 
+add_subdirectory("vendor")
 
 if (SDL2_FOUND)
     set(SOURCE_FILES 

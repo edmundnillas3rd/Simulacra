@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.26)
 project(ProjectDeps_Lib)
 
-find_package(SDL2 CONFIG REQUIRED)
-
 add_library(${PROJECT_NAME}
     "glad/src/glad.c"
     "stb/stb_image.cpp"
