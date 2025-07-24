@@ -7,6 +7,6 @@ namespace Simulacra
     void StartThreadsSubsystem();
     void ShutdownThreadsSubsystem();
 
-    void SubmitThread(std::thread threadFunction);
+    void SubmitThread(const std::function<void()>& threadFunction);
     void WaitAllThreads();
 }

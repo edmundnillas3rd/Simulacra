@@ -13,17 +13,19 @@ namespace Simulacra
         WaitAllThreads();
     }
 
-    void SubmitThread(std::thread threadFunction)
+    void SubmitThread(const std::function<void()>& threadFunction)
     {
-        s_WorkingThreads.emplace_back(std::move(threadFunction));
+        s_WorkingThreads.emplace_back(std::thread(threadFunction));
     }
 
     void WaitAllThreads()
     {
-        for (auto& t : s_WorkingThreads)
+        for (auto& thread : s_WorkingThreads)
         {
-            if (t.joinable())
-                t.join();
+            if (thread.joinable())
+                thread.join();
         }
+
+        s_WorkingThreads.clear();
     }
 }

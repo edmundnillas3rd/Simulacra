@@ -33,7 +33,7 @@ namespace Simulacra
     {
         ObserveData data = CreateWindowsFileHandle(path);
 
-        SubmitThread(std::thread(WatchWindowsDirectory, data, callback));
+        SubmitThread(std::bind(WatchWindowsDirectory, data, callback));
 
         s_FileSystemHandler.WatchData = data;
     }

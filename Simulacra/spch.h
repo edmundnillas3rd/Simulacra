@@ -8,6 +8,7 @@
 #include <memory>
 #include <functional>
 #include <thread>
+#include <mutex>
 #include <optional>
 
 #include <algorithm>
