@@ -1,5 +1,6 @@
 #include <Simulacra.h>
 #include <imgui.h>
+#include <glm/glm.hpp>
 
 class Game : public Simulacra::Application
 {
@@ -7,7 +8,16 @@ public:
     Game()
         : m_WindowFlags(0), m_Modified(false), m_Shaders({0})
     {
+        Simulacra::Application::Config config;
+        config.Title                                    = "Sandbox";
+        config.Width                                    = 1280;
+        config.Height                                   = 640;
+        config.WorkingDirectory                         = "../../..";
 
+        if (Create(config))
+        {
+            Run();
+        }
     }
 
     ~Game()
@@ -34,12 +44,13 @@ public:
     {
         if (m_Modified)
         {
-            Simulacra::ReloadShader(m_Shaders);
+            m_Shaders = Simulacra::ReloadShader(m_Shaders);
             m_Modified = false;
         }
 
         Simulacra::BeginRender(m_Shaders);
-            Simulacra::DrawVertices();
+            glm::mat4 t = glm::mat4(1.0f);
+            Simulacra::DrawVertices(t);
         Simulacra::EndRender();
     }
 
@@ -53,19 +64,6 @@ public:
             return;
         }
 
-        if (ImGui::BeginMenuBar())
-        {
-            if (ImGui::BeginMenu("File"))
-            {
-                if (ImGui::MenuItem("Open", "CTRL-O"))
-                {
-                    Simulacra::ConsoleLog("Open Menu Item was clicked");
-                }
-                ImGui::EndMenu();
-            }
-            ImGui::EndMenuBar();
-        }
-
 
         ImGui::End();
     }
@@ -74,7 +72,7 @@ public:
     {
         if (event.Type == Simulacra::EventType::KEY_PRESSED_UP && event.Key == Simulacra::VKEY::SCANCODE_F5)
         {
-            Simulacra::ReloadShader(m_Shaders);
+            m_Shaders = Simulacra::ReloadShader(m_Shaders);
         }
     }
 
@@ -82,20 +80,11 @@ private:
     bool m_Modified;
     ImGuiWindowFlags m_WindowFlags;
     Simulacra::Shader m_Shaders;
-
 };
 
 int main()
 {
     Game game;
-    Simulacra::Application::ApplicationConfig config;
-    config.Title                                    = "Sandbox";
-    config.Width                                    = 1280;
-    config.Height                                   = 640;
-    config.WorkingDirectory                         = "../../..";
-
-    if (game.CreateApplication(config));
-        game.RunApplication();
 
     return 0;
 }
