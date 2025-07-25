@@ -143,10 +143,26 @@ namespace Simulacra
             {
             case SDL_WINDOWEVENT:
                 {
-                    auto* data = (WindowPointerData*)SDL_GetWindowData(s_PlatformWindow.Window, "WindowData");
-                    EventType type = EventType::WINDOW_MINIMIZE;
-                    Event e = { "Minimize", type, static_cast<VKEY>(0) };
-                    data->WindowCallbackfn(e);
+
+                    switch (event.window.event)
+                    {
+                    case SDL_WINDOWEVENT_MINIMIZED:
+                        {
+                            auto* data = (WindowPointerData*)SDL_GetWindowData(s_PlatformWindow.Window, "WindowData");
+                            EventType type = EventType::WINDOW_MINIMIZE;
+                            Event e = { "Minimize", type, static_cast<VKEY>(0) };
+                            data->WindowCallbackfn(e);
+                        }
+                        break;
+                    case SDL_WINDOWEVENT_CLOSE:
+                        {
+                            auto* data = (WindowPointerData*)SDL_GetWindowData(s_PlatformWindow.Window, "WindowData");
+                            EventType type = EventType::WINDOW_INSTANCE_CLOSE;
+                            Event e = { "Window Instance Close", type, static_cast<VKEY>(0) };
+                            data->WindowCallbackfn(e);
+                        }
+                        break;
+                    }
                 }
                 break;
             case SDL_MOUSEBUTTONDOWN:
