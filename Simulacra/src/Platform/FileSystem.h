@@ -8,5 +8,4 @@ namespace Simulacra
     void ShutdownFileSubsystem();
 
     void WatchDirectory(std::filesystem::path path, const std::function<void(void)>& callback);
-    std::filesystem::path FormatFilepath(std::filesystem::path path);
 }

@@ -37,9 +37,4 @@ namespace Simulacra
 
         s_FileSystemHandler.WatchData = data;
     }
-
-    std::filesystem::path FormatFilepath(std::filesystem::path path)
-    {
-        return (std::filesystem::current_path() /  path).make_preferred();
-    }
 }

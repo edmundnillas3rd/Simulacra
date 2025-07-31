@@ -12,7 +12,7 @@ namespace Simulacra
         HANDLE Event;
 
         Handle = CreateFileW(
-            (wchar_t*)FormatFilepath(path).c_str(),
+            (wchar_t*)path.c_str(),
             FILE_LIST_DIRECTORY | GENERIC_READ,
             FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
             nullptr,

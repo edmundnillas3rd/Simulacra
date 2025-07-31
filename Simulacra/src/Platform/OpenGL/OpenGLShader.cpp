@@ -22,7 +22,7 @@ namespace Simulacra
         {
             shader.Filepaths[key] = value;
 
-            fileStream.open(FormatFilepath(value), std::ios::in | std::ios::binary);
+            fileStream.open(value, std::ios::in | std::ios::binary);
 
             shaderSS[key] << fileStream.rdbuf();
             shaderStr[key] = shaderSS[key].str();
