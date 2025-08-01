@@ -10,8 +10,10 @@ namespace Simulacra
     };
 
     PlatformFileHandle CreateWindowsFileHandle(const std::filesystem::path& path);
+
     void WatchWindowsDirectory(const PlatformFileHandle& data, const std::function<void(void)>& callback);
+
     void CloseWatchWindowsDirectory(const PlatformFileHandle& data);
 
-    void GetListFilesInDirectory();
+    std::vector<std::string> GetListFilesInDirectory(const std::filesystem::path& path);
 }

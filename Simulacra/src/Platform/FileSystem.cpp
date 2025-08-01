@@ -1,7 +1,5 @@
 #include "FileSystem.h"
 
-#include "Windows/WindowsFileSystem.h"
-
 #include "spch.h"
 
 #include "../Core/Logger.h"

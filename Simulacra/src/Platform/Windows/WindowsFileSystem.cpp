@@ -123,4 +123,42 @@ namespace Simulacra
     {
         SetEvent(data.Event);
     }
+
+    std::vector<std::string> GetListFilesInDirectory(const std::filesystem::path& path)
+    {
+        std::vector<std::string> files;
+
+        WIN32_FIND_DATA ffd;
+        HANDLE hFind = INVALID_HANDLE_VALUE;
+        DWORD dwError;
+
+        hFind = FindFirstFile((path / "*").string().c_str(), &ffd);
+        if (hFind == INVALID_HANDLE_VALUE)
+        {
+            SIMULACRA_ERROR("FindFirstFile");
+            return files;
+        }
+
+        do
+        {
+            if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+            {
+                files.push_back(ffd.cFileName);
+            }
+            else
+            {
+                files.push_back(ffd.cFileName);
+            }
+        }
+        while (FindNextFile(hFind, &ffd) != 0);
+
+        if (GetLastError() != ERROR_NO_MORE_FILES)
+        {
+            SIMULACRA_ERROR("No more files");
+        }
+
+        FindClose(hFind);
+
+        return files;
+    }
 }
