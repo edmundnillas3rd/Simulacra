@@ -11,7 +11,7 @@ namespace Simulacra
 {
     struct FileSystemAttr
     {
-        ObserveData WatchData;
+        PlatformFileHandle WatchData;
     };
 
     static FileSystemAttr s_FileSystemHandler; 
@@ -31,7 +31,7 @@ namespace Simulacra
 
     void WatchDirectory(std::filesystem::path path, const std::function<void(void)>& callback)
     {
-        ObserveData data = CreateWindowsFileHandle(path);
+        PlatformFileHandle data = CreateWindowsFileHandle(path);
 
         SubmitThread(std::bind(WatchWindowsDirectory, data, callback));
 

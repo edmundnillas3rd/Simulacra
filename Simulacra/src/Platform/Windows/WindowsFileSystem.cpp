@@ -5,9 +5,9 @@
 
 namespace Simulacra
 {
-    ObserveData CreateWindowsFileHandle(const std::filesystem::path& path)
+    PlatformFileHandle CreateWindowsFileHandle(const std::filesystem::path& path)
     {
-        ObserveData data;
+        PlatformFileHandle data;
         HANDLE Handle;
         HANDLE Event;
 
@@ -35,7 +35,7 @@ namespace Simulacra
         return data;
     }
 
-    void WatchWindowsDirectory(const ObserveData& data, const std::function<void(void)>& callback)
+    void WatchWindowsDirectory(const PlatformFileHandle& data, const std::function<void(void)>& callback)
     {
         DWORD bytesReturned = 0;
         OVERLAPPED Overlapped{0};
@@ -119,7 +119,7 @@ namespace Simulacra
         CloseHandle(Overlapped.hEvent);
     }
 
-    void CloseWatchWindowsDirectory(const ObserveData& data)
+    void CloseWatchWindowsDirectory(const PlatformFileHandle& data)
     {
         SetEvent(data.Event);
     }
