@@ -14,6 +14,4 @@ namespace Simulacra
     void WatchWindowsDirectory(const PlatformFileHandle& data, const std::function<void(void)>& callback);
 
     void CloseWatchWindowsDirectory(const PlatformFileHandle& data);
-
-    std::vector<std::string> GetListFilesInDirectory(const std::filesystem::path& path);
 }
