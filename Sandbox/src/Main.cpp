@@ -12,7 +12,7 @@ public:
         config.Title                                    = "Sandbox";
         config.Width                                    = 1280;
         config.Height                                   = 640;
-        config.WorkingDirectory                         = "../../..";
+        config.WorkingDirectory                         = "../../../Sandbox";
 
         if (Create(config))
         {
@@ -20,24 +20,21 @@ public:
         }
     }
 
-    ~Game()
+    virtual ~Game()
     {
 
     }
 
-public:
     virtual void OnStart() override
     {
         m_WindowFlags |= ImGuiWindowFlags_MenuBar;
 
         m_Shaders = Simulacra::LoadShaders({ 
-            { "VERTEX",     "Sandbox/assets/shaders/main.vert" },
-            { "FRAGMENT",   "Sandbox/assets/shaders/main.frag" }
+            { "VERTEX",     "assets/shaders/main.vert" },
+            { "FRAGMENT",   "assets/shaders/main.frag" }
         });
 
-        Simulacra::WatchDirectory("Sandbox/assets/shaders", [this](void) -> void {
-            m_Modified = true;
-        });
+        m_CurrentFileExplorerPath = std::filesystem::current_path();
     }
 
     virtual void OnUpdate(float delta) override
@@ -58,13 +55,26 @@ public:
     {
         ImGui::ShowDemoWindow();
 
-        if (!ImGui::Begin("Task Window", nullptr, m_WindowFlags))
+        if (ImGui::Begin("File Explorer", nullptr, m_WindowFlags))
         {
-            ImGui::End();
-            return;
+            if (ImGui::Button("<-") && std::filesystem::canonical(m_CurrentFileExplorerPath) != std::filesystem::current_path())
+            {
+                m_CurrentFileExplorerPath /= "..";
+            }
+
+            ImGui::BeginChild("file_explorer_tab", ImVec2(0, ImGui::GetFrameHeightWithSpacing() * 7 + 30), true, ImGuiWindowFlags_HorizontalScrollbar);
+            ImVec2 buttonSize(40, 40);
+            for (auto const& dirEntry : Simulacra::ListFilesInDirectory(m_CurrentFileExplorerPath))
+            {
+                ImGui::SameLine();
+
+                if (ImGui::Button(dirEntry.path().filename().string().c_str(), buttonSize) && std::filesystem::is_directory(dirEntry.path()))
+                {
+                    m_CurrentFileExplorerPath = dirEntry.path();
+                }
+            }
+            ImGui::EndChild();
         }
-
-
         ImGui::End();
     }
 
@@ -77,8 +87,12 @@ public:
     }
 
 private:
-    bool m_Modified;
+    std::filesystem::path m_CurrentFileExplorerPath;
+
     ImGuiWindowFlags m_WindowFlags;
+
+    bool m_Modified;
+
     Simulacra::Shader m_Shaders;
 };
 

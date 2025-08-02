@@ -5,6 +5,8 @@
 #include "../Core/Logger.h"
 #include "../Core/Threads.h"
 
+#include "Windows/WindowsFileSystem.h"
+
 namespace Simulacra
 {
     struct FileSystemAttr
@@ -34,5 +36,10 @@ namespace Simulacra
         SubmitThread(std::bind(WatchWindowsDirectory, data, callback));
 
         s_FileSystemHandler.WatchData = data;
+    }
+
+    std::filesystem::directory_iterator ListFilesInDirectory(const std::filesystem::path& path)
+    {
+        return std::filesystem::directory_iterator(path);
     }
 }
