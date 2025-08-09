@@ -31,11 +31,9 @@ namespace Simulacra
 
     void WatchDirectory(std::filesystem::path path, const std::function<void(void)>& callback)
     {
-        PlatformFileHandle data = CreateWindowsFileHandle(path);
+        s_FileSystemHandler.WatchData = CreateWindowsFileHandle(path);
 
-        SubmitThread(std::bind(WatchWindowsDirectory, data, callback));
-
-        s_FileSystemHandler.WatchData = data;
+        SubmitThread(std::bind(WatchWindowsDirectory, std::cref(s_FileSystemHandler.WatchData), callback));
     }
 
     std::filesystem::directory_iterator ListFilesInDirectory(const std::filesystem::path& path)
