@@ -66,7 +66,10 @@ namespace Simulacra
 
     void Application::WindowCallbackfn(Event event)
     {
-        m_Minimize = event.Type == EventType::WINDOW_MINIMIZE;
+        if (event.Type == EventType::WINDOW_MINIMIZE)
+        {
+            m_Minimize = true;
+        }
 
         if (event.Type == EventType::WINDOW_CLOSE)
         {
