@@ -39,6 +39,6 @@ namespace Simulacra
     private:
         Config m_Config;
         bool m_Running;
-        bool m_Minimize;
+        bool m_Minimize = false;
     };
 }

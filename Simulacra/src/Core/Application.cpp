@@ -29,7 +29,7 @@ namespace Simulacra
 
         while (m_Running)
         {
-            if (m_Minimize)
+            if (!m_Minimize)
             {
                 PollWindowEvents();
 
@@ -66,6 +66,8 @@ namespace Simulacra
 
     void Application::WindowCallbackfn(Event event)
     {
+        m_Minimize = false;
+
         if (event.Type == EventType::WINDOW_MINIMIZE)
         {
             m_Minimize = true;
