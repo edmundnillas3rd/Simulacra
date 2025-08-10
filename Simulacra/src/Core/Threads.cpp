@@ -13,9 +13,9 @@ namespace Simulacra
         WaitAllThreads();
     }
 
-    void SubmitThread(const std::function<void()>& threadFunction)
+    std::vector<std::thread>& GetWorkingThreads()
     {
-        s_WorkingThreads.emplace_back(std::thread(threadFunction));
+        return s_WorkingThreads;
     }
 
     void WaitAllThreads()

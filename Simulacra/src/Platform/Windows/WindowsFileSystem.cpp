@@ -35,7 +35,7 @@ namespace Simulacra
         return data;
     }
 
-    void WatchWindowsDirectory(const PlatformFileHandle& data, const std::function<void(void)>& callback)
+    void WatchWindowsDirectory(ProtectedWatchResource& resource, const std::function<void(void)>& callback)
     {
         DWORD bytesReturned = 0;
         OVERLAPPED Overlapped{0};
@@ -45,12 +45,12 @@ namespace Simulacra
 
         Overlapped.hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 
-        HANDLE h[2] = { Overlapped.hEvent, data.Event };
+        HANDLE h[2] = { Overlapped.hEvent, resource.Handle.Event };
 
         do
         {
             pending = ReadDirectoryChangesW(
-                data.Handle,
+                resource.Handle.Handle,
                 &Buffer,
                 sizeof(Buffer),
                 TRUE,
@@ -64,7 +64,7 @@ namespace Simulacra
             switch (WaitForMultipleObjects(2, h, FALSE, INFINITE))
             {
             case WAIT_OBJECT_0: {
-                if (GetOverlappedResult(data.Handle, &Overlapped, &bytesReturned, TRUE))
+                if (GetOverlappedResult(resource.Handle.Handle, &Overlapped, &bytesReturned, TRUE))
                 {
                     pending = false;
 
@@ -76,6 +76,7 @@ namespace Simulacra
                     {
                         if (info->Action != 0)
                         {
+                            std::scoped_lock<std::mutex> lock{*resource.Mutex};
                             callback();
                         }
 
@@ -112,8 +113,8 @@ namespace Simulacra
 
         if (pending)
         {
-            CancelIo(data.Handle);
-            GetOverlappedResult(data.Handle, &Overlapped, &bytesReturned, TRUE);
+            CancelIo(resource.Handle.Handle);
+            GetOverlappedResult(resource.Handle.Handle, &Overlapped, &bytesReturned, TRUE);
         }
 
         CloseHandle(Overlapped.hEvent);

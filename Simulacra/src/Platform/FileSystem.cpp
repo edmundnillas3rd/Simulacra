@@ -11,7 +11,7 @@ namespace Simulacra
 {
     struct FileSystemAttr
     {
-        PlatformFileHandle WatchData;
+        std::vector<ProtectedWatchResource> WatchData;
     };
 
     static FileSystemAttr s_FileSystemHandler; 
@@ -26,14 +26,14 @@ namespace Simulacra
 
     void ShutdownFileSubsystem()
     {
-        CloseWatchWindowsDirectory(s_FileSystemHandler.WatchData);
+        for (auto& fh : s_FileSystemHandler.WatchData)
+            CloseWatchWindowsDirectory(fh.Handle);
     }
 
     void WatchDirectory(std::filesystem::path path, const std::function<void(void)>& callback)
     {
-        s_FileSystemHandler.WatchData = CreateWindowsFileHandle(path);
-
-        SubmitThread(std::bind(WatchWindowsDirectory, std::cref(s_FileSystemHandler.WatchData), callback));
+        s_FileSystemHandler.WatchData.emplace_back(ProtectedWatchResource(CreateWindowsFileHandle(path)));
+        SubmitThread(WatchWindowsDirectory, std::ref(s_FileSystemHandler.WatchData.back()), callback);
     }
 
     std::filesystem::directory_iterator ListFilesInDirectory(const std::filesystem::path& path)
