@@ -5,7 +5,7 @@ from conan.errors import ConanInvalidConfiguration
 from conan.tools.cmake import cmake_layout
 from conan.tools.files import copy
 
-class CompressorRecipe(ConanFile):
+class SimulacraDepsRecipe(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "CMakeToolchain", "CMakeDeps"
 
