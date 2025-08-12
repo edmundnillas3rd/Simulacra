@@ -4,7 +4,7 @@
 
 #ifdef _DEBUG
 #define AddBreakpoint() DebugBreak()
-#elif
+#else
 #define AddBreakpoint()
 #endif
 
