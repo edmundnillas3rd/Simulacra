@@ -11,6 +11,7 @@
 
 # Conan Files
 CMakeUserPresets.json
+**/*_bindings/
 
 # Misc. Files
 imgui.ini

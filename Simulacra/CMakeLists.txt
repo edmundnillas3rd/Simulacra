@@ -15,6 +15,7 @@ set(SOURCE_FILES
     "src/Platform/OpenGL/OpenGLTexture.cpp" 
 )
 
+find_package(imgui  CONFIG REQUIRED)
 find_package(SDL2   CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(glm    CONFIG REQUIRED)
@@ -47,6 +48,7 @@ add_library(
 
 
 set(LIBRARIES
+    imgui::imgui
     SDL2::SDL2
     SDL2::SDL2main
     spdlog::spdlog
