@@ -3,16 +3,25 @@ project(Simulacra)
 
 set(SOURCE_FILES 
     "src/Core/Application.cpp"
+    "src/Core/Application.h"
     "src/Core/Logger.cpp"
+    "src/Core/Logger.h"
     "src/Core/Threads.cpp"
+    "src/Core/Threads.h"
 
     "src/Renderer/RendererAPI.cpp"
+    "src/Renderer/RendererAPI.h"
 
     "src/Platform/FileSystem.cpp" 
+    "src/Platform/FileSystem.h" 
     "src/Platform/Window.cpp"
+    "src/Platform/Window.h"
     "src/Platform/OpenGL/OpenGLRenderer.cpp" 
+    "src/Platform/OpenGL/OpenGLRenderer.h" 
     "src/Platform/OpenGL/OpenGLShader.cpp" 
+    "src/Platform/OpenGL/OpenGLShader.h" 
     "src/Platform/OpenGL/OpenGLTexture.cpp" 
+    "src/Platform/OpenGL/OpenGLTexture.h" 
 )
 
 find_package(imgui  CONFIG REQUIRED)
@@ -46,7 +55,6 @@ add_library(
     ${SOURCE_FILES}
 )
 
-
 set(LIBRARIES
     imgui::imgui
     SDL2::SDL2
@@ -59,7 +67,7 @@ set(LIBRARIES
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LIBRARIES})
-target_link_options(${PROJECT_NAME} PRIVATE /incremental /debug:fastlink)
+target_link_options(${PROJECT_NAME} PRIVATE "$<$<CONDIG:RELEASE>:/incremental:NO,/incremental /debug:fastlink)>")
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 target_compile_options(${PROJECT_NAME} PRIVATE /MP4)
