@@ -29,9 +29,10 @@ namespace Simulacra
 
         while (m_Running)
         {
+            PollWindowEvents();
+
             if (!m_Minimize)
             {
-                PollWindowEvents();
 
                 OnUpdate(0.5f);
 
@@ -39,8 +40,9 @@ namespace Simulacra
                     OnImGuiRender();
                 ImGuiEndRender();
 
-                UpdateWindow();
             }
+
+            UpdateWindow();
         }
 
         ShutdownSubsystems();
