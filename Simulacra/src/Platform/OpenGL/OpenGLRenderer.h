@@ -1,5 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
+
+#include "OpenGLTexture.h"
 #include "OpenGLShader.h"
 
 namespace Simulacra
@@ -13,5 +15,5 @@ namespace Simulacra
     void EndRender();
 
     void DrawVertices(const glm::mat4& Transform);
-    void DrawElements();
+    void DrawVertices(const Texture& texture, const glm::mat4& Transform);
 }

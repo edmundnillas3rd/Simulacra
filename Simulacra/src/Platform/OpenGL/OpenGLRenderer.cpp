@@ -10,6 +10,8 @@ namespace Simulacra
     struct Sprite
     {
         glm::vec3 Position;
+        glm::vec2 TexCoords;
+        float TexIndex;
     };
 
     struct GLRenderer
@@ -22,6 +24,8 @@ namespace Simulacra
         static constexpr uint32_t MAX_VERTICES = MAX_QUADS * 4;
         static constexpr uint32_t MAX_INDICES = MAX_QUADS * 6;
         static constexpr uint32_t MAX_TEXTURE_SLOTS = 16;
+
+        static constexpr uint32_t MAX_TEXTURE_SLOTST = 16;
 
         uint32_t QuadCount;
         std::array<glm::vec4, 4> QuadPositions;
@@ -69,6 +73,10 @@ namespace Simulacra
 
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Sprite), (void*)offsetof(Sprite, Position));
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Sprite), (void*)offsetof(Sprite, TexCoords));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(Sprite), (void*)offsetof(Sprite, TexIndex));
 
         s_Renderer.QuadPositions = {
             glm::vec4( 0.5f,  0.5f, 0.0f, 1.0f),
@@ -76,7 +84,7 @@ namespace Simulacra
             glm::vec4(-0.5f, -0.5f, 0.0f, 1.0f),
             glm::vec4(-0.5f,  0.5f, 0.0f, 1.0f)
         };
-
+        // SetShaderIntUniform(s_Renderer.SceneShader, "textureSlot0", 0);
     }
 
     void DestroyOpenGLRenderer()
@@ -115,9 +123,45 @@ namespace Simulacra
 
     void DrawVertices(const glm::mat4& Transform)
     {
+        const glm::vec2 texCoords[4] = {
+            { 1.0f, 1.0f },
+            { 1.0f, 0.0f },
+            { 0.0f, 0.0f },
+            { 0.0f, 1.0f },
+        };
+
         for (size_t i = 0; i < 4; i++)
         {
             s_Renderer.Quads[s_Renderer.QuadCount + i].Position = Transform * s_Renderer.QuadPositions[i];
+            s_Renderer.Quads[s_Renderer.QuadCount + i].TexCoords = texCoords[i];
+        }
+
+        s_Renderer.QuadCount += 4;
+        s_Renderer.QuadIndicesCount += 6;
+    }
+
+    void DrawVertices(const Texture &texture, const glm::mat4 &Transform)
+    {
+        float texIndex = 0.0f;
+
+        if (texIndex >= GLRenderer::MAX_TEXTURE_SLOTS)
+        {
+            texIndex = 0.0f;
+        }
+
+
+        const glm::vec2 texCoords[4] = {
+            { 1.0f, 1.0f },
+            { 1.0f, 0.0f },
+            { 0.0f, 0.0f },
+            { 0.0f, 1.0f },
+        };
+
+        for (size_t i = 0; i < 4; i++)
+        {
+            s_Renderer.Quads[s_Renderer.QuadCount + i].Position = Transform * s_Renderer.QuadPositions[i];
+            s_Renderer.Quads[s_Renderer.QuadCount + i].TexCoords = texCoords[i];
+            s_Renderer.Quads[s_Renderer.QuadCount + i].TexIndex = texIndex;
         }
 
         s_Renderer.QuadCount += 4;
