@@ -1,17 +1,15 @@
 #include "WindowsFileSystem.h"
 
 #include "../../Core/Logger.h"
+#include "../../Core/Threads.h"
 #include "../FileSystem.h"
 
 namespace Simulacra
 {
-    PlatformFileHandle CreateWindowsFileHandle(const std::filesystem::path& path)
+    FileWatch::FileWatch(const std::filesystem::path& path, const std::function<void()>& func)
+        : m_Callback(func)
     {
-        PlatformFileHandle data;
-        HANDLE Handle;
-        HANDLE Event;
-
-        Handle = CreateFileW(
+        m_File = CreateFileW(
             (wchar_t*)path.c_str(),
             FILE_LIST_DIRECTORY | GENERIC_READ,
             FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
@@ -21,21 +19,21 @@ namespace Simulacra
             nullptr
         );
 
-        if (Handle == INVALID_HANDLE_VALUE)
+        if (m_File == INVALID_HANDLE_VALUE)
         {
             SIMULACRA_ERROR("Message: {}", GetLastError());
-            return {0};
         }
 
-        Event = CreateEvent(nullptr, TRUE, FALSE, nullptr);
-
-        data.Event = Event;
-        data.Handle = Handle;
-
-        return data;
+        m_Event = CreateEvent(nullptr, TRUE, FALSE, nullptr);
+        SubmitThread(&FileWatch::WatchWindowsDirectory, this);
     }
 
-    void WatchWindowsDirectory(ProtectedWatchResource& resource, const std::function<void(void)>& callback)
+    FileWatch::~FileWatch()
+    {
+        SetEvent(m_Event);
+    }
+
+    void FileWatch::WatchWindowsDirectory()
     {
         DWORD bytesReturned = 0;
         OVERLAPPED Overlapped{0};
@@ -45,12 +43,12 @@ namespace Simulacra
 
         Overlapped.hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 
-        HANDLE h[2] = { Overlapped.hEvent, resource.Handle.Event };
+        HANDLE h[2] = { Overlapped.hEvent, m_Event };
 
         do
         {
             pending = ReadDirectoryChangesW(
-                resource.Handle.Handle,
+                m_File,
                 &Buffer,
                 sizeof(Buffer),
                 TRUE,
@@ -64,7 +62,7 @@ namespace Simulacra
             switch (WaitForMultipleObjects(2, h, FALSE, INFINITE))
             {
             case WAIT_OBJECT_0: {
-                if (GetOverlappedResult(resource.Handle.Handle, &Overlapped, &bytesReturned, TRUE))
+                if (GetOverlappedResult(m_File, &Overlapped, &bytesReturned, TRUE))
                 {
                     pending = false;
 
@@ -76,8 +74,8 @@ namespace Simulacra
                     {
                         if (info->Action != 0)
                         {
-                            std::scoped_lock<std::mutex> lock{*resource.Mutex};
-                            callback();
+                            std::scoped_lock<std::mutex> lock{m_Mutex};
+                            m_Callback();
                         }
 
                         if (info->NextEntryOffset == 0)
@@ -113,15 +111,10 @@ namespace Simulacra
 
         if (pending)
         {
-            CancelIo(resource.Handle.Handle);
-            GetOverlappedResult(resource.Handle.Handle, &Overlapped, &bytesReturned, TRUE);
+            CancelIo(m_File);
+            GetOverlappedResult(m_File, &Overlapped, &bytesReturned, TRUE);
         }
 
         CloseHandle(Overlapped.hEvent);
-    }
-
-    void CloseWatchWindowsDirectory(const PlatformFileHandle& data)
-    {
-        SetEvent(data.Event);
     }
 }

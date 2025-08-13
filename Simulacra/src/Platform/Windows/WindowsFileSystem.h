@@ -3,27 +3,19 @@
 
 namespace Simulacra
 {
-    struct PlatformFileHandle
+    class FileWatch
     {
-        HANDLE Handle;
-        HANDLE Event;
+    public:
+        explicit FileWatch(const std::filesystem::path& path, const std::function<void()>& func);
+        ~FileWatch();
+    private:
+        void WatchWindowsDirectory();
+
+        HANDLE m_File;
+        HANDLE m_Event;
+        std::mutex m_Mutex;
+
+        std::function<void()> m_Callback;
     };
 
-    struct ProtectedWatchResource
-    {
-        explicit ProtectedWatchResource(PlatformFileHandle platformFileHandle)
-            : Handle(platformFileHandle) 
-        {
-            Mutex = std::make_unique<std::mutex>();
-        }
-        
-        PlatformFileHandle Handle;
-        std::unique_ptr<std::mutex> Mutex;
-    };
-
-    PlatformFileHandle CreateWindowsFileHandle(const std::filesystem::path& path);
-
-    void WatchWindowsDirectory(ProtectedWatchResource& resource, const std::function<void(void)>& callback);
-
-    void CloseWatchWindowsDirectory(const PlatformFileHandle& data);
 }
